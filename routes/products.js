@@ -1,13 +1,12 @@
-product=require("../presenters/productPresenter.js");
-
 module.exports = function(app){
+	console.log("product.js")
 
-	app.get('/users', function(req, res){
-		a=product.giveProduct();
-		res.send(a);
+	app.get('/user', function(req, res){
+		res.send("user");
 	});
 
-	app.get('/users/:nick', function(req, res){
-		res.send('Hello @'+req.params.nick);
-	});	
+	app.get('/user/:nick', function(req, res){
+		res.send('user/nick');
+	});
+
 }

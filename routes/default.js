@@ -1,7 +1,13 @@
 module.exports = function(app){
 
-	app.get('/', function(req, res){
-		res.send('THIS IS INDEX YO');
+	console.log("default.js")
+
+	app.get('/test', function(req, res){
+		res.send("test");
+	});
+
+	app.get('/test/:nick', function(req, res){
+		res.send('test/te');
 	});
 
 }
