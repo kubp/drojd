@@ -6,8 +6,4 @@ module.exports = function(app){
 		res.send("test");
 	});
 
-	app.get('/test/:nick', function(req, res){
-		res.send('test/te');
-	});
-
 }

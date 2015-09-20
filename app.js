@@ -8,10 +8,10 @@ var app = express();
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var bodyParser = require('body-parser');
-var auth = require('./lib/Authenticator');
-var webalize = require('./lib/webalize');
-var mongoose = require('mongoose');
 
+var webalize = require('./lib/webalize');
+mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/kktech2');
 loader = require("./core/Loader/Loader.js");
 
 
@@ -47,6 +47,7 @@ app.use(function(req, res, next) {
  */
 var router = loader.load("router");
 router.load(app);
+
 
 
 
