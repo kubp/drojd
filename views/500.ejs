@@ -1,0 +1,61 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Internal Server Error - 500</title>
+    <meta name="robots" content="noindex, nofollow">
+<style>
+    html,body{
+        text-align: center;
+        font-family: Arial;
+        height: 90%;
+    }
+    h1{
+        font-size: 40px;
+        color: rgb(40, 40, 40);
+
+    }
+    p{
+        color: rgb(148, 148, 148);
+    }
+    span{
+        color: rgb(190, 161, 161);
+        font-size: 14px;
+    }
+    .main {
+        height: 100%;
+        width: 100%;
+        display: table;
+    }
+    .wrapper {
+        display: table-cell;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    pre{
+        text-align: left;
+    }
+
+</style>
+
+</head>
+
+<body>
+<div class = "main">
+<div class = "wrapper">
+
+<h1>Internal Server Error</h1>
+<p>We're sorry, but something went wrong</p>
+<span>500</span>
+<pre>
+<%= err%>
+
+</pre>
+
+
+</div>
+</div>
+</body>
+</html>

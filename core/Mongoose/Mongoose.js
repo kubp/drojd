@@ -8,6 +8,7 @@ function mongoose() {
     string=loader.load("String");
 
 
+
     /**
      * @param req
      * @param arg
@@ -23,28 +24,42 @@ function mongoose() {
 
             if(typeof req.params[arg[i]] !== 'undefined'){
                 if(arg.length==i+1){
-                    data=data + '"'+arg[i]+'"'+ ':"'+req.params[arg[i]]+'"';
+                    data=data + '"'+arg[i]+'"'+ ':"'+string.escapeHtml(req.params[arg[i]])+'"';
                 }else{
-                    data=data + '"'+arg[i]+'"'+ ':"'+req.params[arg[i]]+'",';
+                    data=data + '"'+arg[i]+'"'+ ':"'+string.escapeHtml(req.params[arg[i]])+'",';
                 }
 
 
             }else if(typeof req.query[arg[i]] !=='undefined'){
 
                 if(arg.length==i+1){
-                    data=data + '"'+arg[i]+'"'+ ':"'+req.query[arg[i]]+'"';
+                    data=data + '"'+arg[i]+'"'+ ':"'+string.escapeHtml(req.query[arg[i]])+'"';
                 }else{
-                    data=data + '"'+arg[i]+'"'+ ':"'+req.query[arg[i]]+'",';
+                    data=data + '"'+arg[i]+'"'+ ':"'+string.escapeHtml(req.query[arg[i]])+'",';
+                }
+
+
+            }else if(typeof req.body[arg[i]] !=='undefined'){
+
+                if(arg.length==i+1){
+                    data=data + '"'+arg[i]+'"'+ ':"'+string.escapeHtml(req.body[arg[i]])+'"';
+                }else{
+                    data=data + '"'+arg[i]+'"'+ ':"'+string.escapeHtml(req.body[arg[i]])+'",';
                 }
 
 
             }else{
-
+                if(arg.length==i+1){
+                    data=data + '"'+arg[i]+'"'+ ':""';
+                }else{
+                    data=data + '"'+arg[i]+'"'+ ':"",';
+                }
             }
 
 
         }
         var data=data+'}';
+        //console.log(data)
         return JSON.parse(data);
 
     }

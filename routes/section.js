@@ -16,9 +16,26 @@ module.exports = function(app){
 	});
 
 
-	app.post('/page/:name', function(req, res){
+	app.post('/page/:url', function(req, res){
 
-		section.add(req,{})
+		//console.log(req.body.title);
+		section.add(req,["url","title","description","headline","page"]);
+		res.json({status:"ok"});
+
+	});
+
+	app.put('/page/:url', function(req, res){
+
+		//console.log(req.body.title);
+		section.update(req,["url","title","description","headline","page"]);
+		res.json({status:"ok"});
+
+	});
+
+	app.delete('/page/:url', function(req, res){
+
+		//console.log(req.body.title);
+		section.delete(req,["url","title","description","headline","page"]);
 		res.json({status:"ok"});
 
 	});
