@@ -1,29 +1,36 @@
 module.exports = {
-    init: function(req) {
-
-        session=req.session;
-
-    },
-    login: function(name, pass) {
-
-        db.users.find({name:name, pass:pass}, function (err, docs) {
-            console.log(docs[0]['_id']);
-            //console.log(this.session);
-            this.session.user="asdasd";
-            //this.session.user=docs[0]['_id'];
-            if(docs[0]!==undefined){
-                //this.session.user=docs[0]['_id'];  //docs[0]['_id']
-        }else{
-            console.log("bad password or username");
-        }
+    
+    login: function(req, name, pass) {
+        //session=req.session;
+       
+    var SectionSchema = new mongoose.Schema({
+            mail: String,
+            pass: String,
+            level: String,
+            
+            updated_at: {type: Date, default: Date.now}
         });
 
+     
 
+
+    var SectionModel = mongoose.model('user', SectionSchema);
+
+
+        SectionModel.find({}, function (err, user) {
+            console.log(user)
+        });
+    
+
+
+
+
+        req.session.user="asdasd";
 
     },
-    auth: function(){
-        //console.log(this.req.session.user);
-        if(this.req.session.user === undefined /*and this.req.session.user*/){
+    auth: function(req){
+        console.log(req.session.user);
+        if(req.session.user === undefined /*and this.req.session.user*/){
             return false;
         }else{
             return true;
