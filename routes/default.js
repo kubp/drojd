@@ -4,18 +4,29 @@ module.exports = function(app){
 
 
 
-	app.get('/test', function(req, res){
-		//res.redirect("/");
-		//require("asd");
-		auth.auth(req);
-		res.send("ads");
+
+	app.get('/api/login', function(req, res){
+
+		auth.login(req.body.mail,req.body.pass, function(isAuthenticate){
+			if(isAuthenticate){
+				req.session.logged=true;
+				res.json({message:'logged in'})
+			}else{
+				res.send({message:'error'});
+			}
+
+		});
+
+
 	});
 
-	app.get('/login', function(req, res){
-		//res.redirect("/");
-		//require("asd");
-		auth.login(req);
-		res.send("ads");
+
+	app.get('/test', function(req, res){
+		auth.auth(req,res)
+
+		res.send("test");
 	});
+
+
 
 }

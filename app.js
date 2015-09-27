@@ -29,13 +29,10 @@ app.use(compress());
 app.use(session({
     secret: '9AvHc8ZO52SQAA6KbFDqwP0kHG7w3iQvRqn8C00y',
     store: new MongoStore({url:'mongodb://127.0.0.1:27017/kktech2'}),
-    maxAge: 6000000,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-
-
 
 
 
@@ -69,32 +66,6 @@ app.use(function(req, res, next) {
  */
 var router = loader.load("router");
 router.load(app);
-
-
-/*
-
-app.use(session({
-    secret: '9AvHc8ZO52SQAA6KbFDqwP0kHG7w3iQvRqn8C00y',
-    store: new MongoStore({url:'mongodb://127.0.0.1:27017/kktech2'}),
-    maxAge: 6000000,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-*/
-
-
-
-
-app.get('/', function(req, res){
-   // req.session.user ="asdasddas";
-    res.send("sad");
-});
-
-
-
-
-
 
 
 

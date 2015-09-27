@@ -1,39 +1,39 @@
 module.exports = {
-    
-    login: function(req, name, pass) {
-        //session=req.session;
-       
-    var SectionSchema = new mongoose.Schema({
-            mail: String,
-            pass: String,
-            level: String,
-            
-            updated_at: {type: Date, default: Date.now}
-        });
 
-     
+    /**
+     * Login function
+     * @param mail
+     * @param pass
+     * @param callback
+     */
+    login: function(mail,pass,callback) {
+        user = require("./../../src/User");
 
+        user = new user();
 
-    var SectionModel = mongoose.model('user', SectionSchema);
+        var promise = user.loadPromise(mail,pass);
 
+        promise.then(function(user){
 
-        SectionModel.find({}, function (err, user) {
-            console.log(user)
-        });
-    
+            if(user.length==1){
+                callback(true);
+            }else{
+                callback(false);
+            }
+        })
 
-
-
-
-        req.session.user="asdasd";
 
     },
-    auth: function(req){
-        console.log(req.session.user);
-        if(req.session.user === undefined /*and this.req.session.user*/){
-            return false;
-        }else{
-            return true;
+
+    /**
+     *
+     * @param req session
+     * @param res redirect
+     */
+    auth: function(req,res){
+
+        if(!req.session.logged){
+            res.redirect("/api/login");
         }
 
     }
