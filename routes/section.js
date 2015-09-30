@@ -8,7 +8,6 @@ module.exports = function(app){
 
 	app.get('/page/:url', function(req, res){
 
-
 		section.load(req,["url"], function(err, pages){
 			res.json(pages);
 		});
@@ -18,7 +17,6 @@ module.exports = function(app){
 
 	app.post('/page/:url', function(req, res){
 
-		//console.log(req.body.title);
 		section.add(req,["url","title","description","headline","page"]);
 		res.json({status:"ok"});
 
@@ -26,7 +24,6 @@ module.exports = function(app){
 
 	app.put('/page/:url', function(req, res){
 
-		//console.log(req.body.title);
 		section.update(req,["url","title","description","headline","page"]);
 		res.json({status:"ok"});
 
@@ -34,7 +31,6 @@ module.exports = function(app){
 
 	app.delete('/page/:url', function(req, res){
 
-		//console.log(req.body.title);
 		section.delete(req,["url","title","description","headline","page"]);
 		res.json({status:"ok"});
 

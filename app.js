@@ -46,11 +46,6 @@ app.use(session({
 
 
 
-
-//app.set('env', 'dev')
-
-
-
 /*
  * Set view engine to EJS and pretty spaces in JSON API
  */
