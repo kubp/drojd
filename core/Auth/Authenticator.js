@@ -33,7 +33,7 @@ module.exports = {
     auth: function(req,res){
 
         if(!req.session.logged){
-            res.redirect("/api/login");
+            res.send("/api/login");
         }
 
     }
