@@ -17,6 +17,13 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var winston = require('winston');
+
+
+winston.add(winston.transports.File, { filename: 'logs/error.log' });
+winston.remove(winston.transports.Console);
+
+
 
 /*
  * Static files
@@ -29,13 +36,10 @@ app.use(compress());
 app.use(session({
     secret: '9AvHc8ZO52SQAA6KbFDqwP0kHG7w3iQvRqn8C00y',
     store: new MongoStore({url:'mongodb://127.0.0.1:27017/kktech2'}),
-    maxAge: 6000000,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-
-
 
 
 
@@ -71,32 +75,6 @@ var router = loader.load("router");
 router.load(app);
 
 
-/*
-
-app.use(session({
-    secret: '9AvHc8ZO52SQAA6KbFDqwP0kHG7w3iQvRqn8C00y',
-    store: new MongoStore({url:'mongodb://127.0.0.1:27017/kktech2'}),
-    maxAge: 6000000,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-*/
-
-
-
-
-app.get('/', function(req, res){
-   // req.session.user ="asdasddas";
-    res.send("sad");
-});
-
-
-
-
-
-
-
 
 
 
@@ -112,7 +90,14 @@ app.use(function(req, res, next) {
    // console.error(err.stack);
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    console.log('\x1b[31m', '404','\x1b[32m', fullUrl,'\x1b[0m');
+
+
+    if(app.get('env')=='production') {
+        winston.info("404 - " + fullUrl);
+    }else{
+        console.log('\x1b[31m', '404','\x1b[32m', fullUrl,'\x1b[0m');
+    }
+
 
     res.status(404);
     res.render("404");
@@ -124,17 +109,21 @@ app.use(function(err, req, res, next) {
     //console.error(err.stack);
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    console.log('\x1b[31m', '500','\x1b[32m', fullUrl,'\x1b[0m');
 
-    var err = err.stack;
+
+    var errweb = err.stack;
 
     if(app.get('env')=='production'){
-        err="";
+        errweb="";
+        winston.info(err.stack, { url: fullUrl });
+    }else{
+        console.log('\x1b[31m', err.stack,'\x1b[32m', fullUrl,'\x1b[0m');
     }
 
 
+
     res.status(500);
-    res.render("500",{err:err});
+    res.render("500",{err:errweb});
 
 });
 
