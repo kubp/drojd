@@ -1,96 +1,120 @@
-function Section() {
-
-    var mongo = loader.load("mongoose")
-    var mongo = new mongo();
-
-    this.schema = function () {
-        var SectionSchema = new mongoose.Schema({
-            url: String,
-            title: String,
-            description: String,
-            headline: String,
-            page: String,
-            updated_at: {type: Date, default: Date.now}
-        });
-
-        return SectionSchema;
-
-    }
 
 
-    var SectionModel = mongoose.model('section', this.schema());
+var handler =function(){
 
-
-    /**
-     *
-     * @param req
-     * @param condition
-     * @param callback
-     */
-    this.load = function (req, condition, callback) {
-
-        var params = mongo.get(req, condition);
-
-        SectionModel.find(params, function (err, user) {
-            callback(null, user)
-        });
-    }
-
-
-    /**
-     *
-     * @param req
-     * @param condition
-     */
-    this.add = function (req, condition) {
-        var params = mongo.get(req, condition);
-
-        var todo = new SectionModel(params);
-
-        todo.save(function (err) {
-            console.log(err)
-        });
-
-    }
-
-    /**
-     *
-     * @param req
-     * @param condition
-     */
-    this.update = function (req, condition) {
-        var params = mongo.get(req, condition);
-
-        var todo = new SectionModel(params);
-
-        SectionModel.findOneAndUpdate({url:"hlavni"}, {title:"title"}, {upsert:true}, function(err, doc){
-            if (err) return res.send(500, { error: err });
-            console.log("succesfully saved");
-        });
-
-    }
-
-    /**
-     *
-     * @param req
-     * @param condition
-     */
-    this.delete = function (req, condition) {
-        var params = mongo.get(req, condition);
-
-        var todo = new SectionModel(params);
-
-        SectionModel.findOneAndRemove({url:"hlavni"}, function(err, doc){
-            if (err) return res.send(500, { error: err });
-            console.log("succesfully removed");
-        });
-
-    }
-
-
-
+    this.getSection = load;
+    this.getAllSection = loadAll;
+    this.sectionRemove = remove;
+    this.sectionUpdate = update;
+    this.setSection = add;
 
 }
 
-module.exports = Section;
+
+
+
+function schema(){
+    var SectionSchema = new mongoose.Schema({
+        url: String,
+        title: String,
+        description: String,
+        headline: String,
+        page: String,
+        updated_at: {type: Date, default: Date.now}
+    });
+
+    return SectionSchema;
+}
+
+var SectionModel = mongoose.model('section', schema());
+
+
+//req.params
+//req.query
+//req.body
+
+/**
+ *
+ * @param req
+ * @param condition
+ * @param callback
+ */
+function load(req, res) {
+
+    SectionModel.find({url:req.params.url}, function (err, user) {
+        res.json(user[0]);
+    });
+}
+
+function loadAll(req, res) {
+
+    SectionModel.find({}, function (err, user) {
+        res.json(user);
+    });
+}
+
+
+function add(req, res) {
+
+    var todo = new SectionModel({url:req.params.url, title:req.body.title,description:req.body.description});
+
+    todo.save(function (err) {
+        console.log(err)
+        res.json({status:"ok"})
+    });
+
+}
+
+
+
+function remove(req,res) {
+
+
+    SectionModel.findOneAndRemove({url:req.params.url}, function(err, doc){
+        if (err) return res.send(500, { error: err });
+        res.json({status:"ok"});
+    });
+}
+
+
+function update(req,res) {
+    SectionModel.findOneAndUpdate({url: req.params.url}, {
+        url: req.body.url,
+        title: req.body.title,
+        description: req.body.description
+    }, {upsert: true}, function (err, doc) {
+        if (err) return res.send(500, {error: err});
+        console.log("succesfully saved");
+        res.json({status:"ok"})
+    });
+}
+
+
+
+
+
+
+
+
+
+
+function remove(req,res) {
+
+
+    SectionModel.findOneAndRemove({url:req.params.url}, function(err, doc){
+        if (err) return res.send(500, { error: err });
+        res.json({status:"ok"});
+    });
+}
+
+
+
+
+
+
+
+
+
+
+module.exports = handler;
 

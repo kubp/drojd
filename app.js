@@ -11,7 +11,7 @@ var MongoStore = require('connect-mongo')(session);
 var webalize = require('./lib/webalize');
 mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/kktech2');
-loader = require("./core/Loader/Loader.js");
+//loader = require("./core/Loader/Loader.js");
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
@@ -66,10 +66,9 @@ app.use(function(req, res, next) {
  * Initializing router
  * @type {*|exports|module.exports}
  */
-var router = loader.load("router");
-router.load(app);
 
-
+var routes = require("./router.js");
+router = new routes(app);
 
 
 
@@ -80,19 +79,15 @@ router.load(app);
  *
  */
 
-
 app.use(function(req, res, next) {
-   // console.error(err.stack);
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-
 
     if(app.get('env')=='production') {
         winston.info("404 - " + fullUrl);
     }else{
         console.log('\x1b[31m', '404','\x1b[32m', fullUrl,'\x1b[0m');
     }
-
 
     res.status(404);
     res.render("404");
@@ -101,10 +96,8 @@ app.use(function(req, res, next) {
 
 
 app.use(function(err, req, res, next) {
-    //console.error(err.stack);
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-
 
     var errweb = err.stack;
 
@@ -114,7 +107,6 @@ app.use(function(err, req, res, next) {
     }else{
         console.log('\x1b[31m', err.stack,'\x1b[32m', fullUrl,'\x1b[0m');
     }
-
 
 
     res.status(500);

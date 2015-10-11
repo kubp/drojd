@@ -2,26 +2,26 @@
 
 module.exports = function(app){
 
-    test = require("./test");
+    Section = require("./src/Section.js");
+    User = require("./src/User.js");
 
 
     var handlers = {
-        section: new test()
+        section: new Section(),
+        user: new User()
     }
 
 
+    //todo: Security!
 
-    /**
-     * @api {get} /user/:id Request User information
-     * @apiName GetUser
-     * @apiGroup User
-     *
-     * @apiParam {Number} id Users unique ID.
-     *
-     * @apiSuccess {String} firstname Firstname of the User.
-     * @apiSuccess {String} lastname  Lastname of the User.
-     */
-    app.get('/', handlers.section.testHandler);
+    app.get('/api/section/all', handlers.section.getAllSection);
 
-//https://github.com/vgheri/ShopWithMe/
+    app.get('/api/section/:url', handlers.section.getSection);
+
+    app.post('/api/section/:url', handlers.section.setSection);
+
+    app.delete('/api/section/:url', handlers.section.sectionRemove);
+
+    app.put('/api/section/:url', handlers.section.sectionUpdate);
+
 }
