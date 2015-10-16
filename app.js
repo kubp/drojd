@@ -113,4 +113,9 @@ app.use(function(err, req, res, next) {
 var port = process.env.PORT || 8080;
 
 app.listen( port );
-console.log('Listening on port '+ port +" -"+ '\x1b[31m', app.get("env"),'\x1b[0m');
+
+if(app.get('env')=='production'){
+    console.log('Listening on port '+ port +" -"+ '\x1b[31m', app.get("env"),'\x1b[0m');
+}else{
+    console.log('Listening on port '+ port +" -"+ '\x1b[32m', app.get("env"),'\x1b[0m');
+}

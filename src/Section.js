@@ -29,10 +29,6 @@ function schema(){
 var SectionModel = mongoose.model('section', schema());
 
 
-//req.params
-//req.query
-//req.body
-
 /**
  *
  * @param req
@@ -47,7 +43,7 @@ function load(req, res) {
 }
 
 function loadAll(req, res) {
-
+        require("asd");
     SectionModel.find({}, function (err, user) {
         res.json(user);
     });
@@ -71,7 +67,7 @@ function remove(req,res) {
 
 
     SectionModel.findOneAndRemove({url:req.params.url}, function(err, doc){
-        if (err) return res.send(500, { error: err });
+        if (err) return res.send(500, { err: err });
         res.json({status:"ok"});
     });
 }
