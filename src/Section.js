@@ -59,7 +59,7 @@ function add(req, res) {
     var todo = new SectionModel({url:req.params.url, title:req.body.title,description:req.body.description});
 
     todo.save(function (err) {
-        console.log(err)
+
         res.json({status:"ok"})
     });
 
@@ -83,29 +83,13 @@ function update(req,res) {
         title: req.body.title,
         description: req.body.description
     }, {upsert: true}, function (err, doc) {
-        if (err) return res.send(500, {error: err});
-        console.log("succesfully saved");
+        if (err) return res.json({status:"not ok"})
+
         res.json({status:"ok"})
     });
 }
 
 
-
-
-
-
-
-
-
-
-function remove(req,res) {
-
-
-    SectionModel.findOneAndRemove({url:req.params.url}, function(err, doc){
-        if (err) return res.send(500, { error: err });
-        res.json({status:"ok"});
-    });
-}
 
 
 

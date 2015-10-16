@@ -50,3 +50,12 @@ this.delete = function (req, condition) {
 }
 
 
+/*
+ app.use(session({
+ secret: '9AvHc8ZO52SQAA6KbFDqwP0kHG7w3iQvRqn8C00y',
+ store: new MongoStore({url:'mongodb://127.0.0.1:27017/kktech2'}),
+ resave: false,
+ saveUninitialized: true,
+ cookie: { secure: false }
+ }));
+ */

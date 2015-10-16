@@ -8,10 +8,14 @@ var app = express();
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
-var webalize = require('./lib/webalize');
+config = require("./config");
+
+
 mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/kktech2');
-//loader = require("./core/Loader/Loader.js");
+
+
+
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
@@ -33,22 +37,12 @@ app.use(compress());
 
 
 
-app.use(session({
-    secret: '9AvHc8ZO52SQAA6KbFDqwP0kHG7w3iQvRqn8C00y',
-    store: new MongoStore({url:'mongodb://127.0.0.1:27017/kktech2'}),
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
 
 
 
-
-
-
-/*
- * Set view engine to EJS and pretty spaces in JSON API
- */
+    /*
+     * Set view engine to EJS and pretty spaces in JSON API
+     */
 app.set('view engine', 'ejs');
 app.set('json spaces', 40);
 
@@ -57,6 +51,7 @@ app.set('json spaces', 40);
 //Remove Express.js header
 app.use(function(req, res, next) {
     res.removeHeader("X-Powered-By");
+    res.header('Access-Control-Allow-Origin', '*');
     next();
 });
 
