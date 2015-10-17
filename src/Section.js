@@ -43,7 +43,6 @@ function load(req, res) {
 }
 
 function loadAll(req, res) {
-        require("asd");
     SectionModel.find({}, function (err, user) {
         res.json(user);
     });

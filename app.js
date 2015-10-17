@@ -12,7 +12,13 @@ config = require("./config");
 
 
 mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/kktech2');
+
+if(app.get('env')=='production'){
+    mongoose.connect(config.db.production);
+}else{
+    mongoose.connect(config.db.development);
+}
+
 
 
 
