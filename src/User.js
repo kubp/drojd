@@ -26,7 +26,7 @@ var UserModel = mongoose.model('user', schema());
 
 
 function login(req, res) {
-    var hash = crypto.createHmac('sha512', "f1749991244c2106cdfe6b85ddf3582e915edb553a1af7d")
+    var hash = crypto.createHmac('sha512', config.secret)
     hash.update(req.body.pass)
     var hashPassword = hash.digest('hex')
 
@@ -54,7 +54,7 @@ function auth(req, res, next) {
 
 
 function save(req,res){
-    var hash = crypto.createHmac('sha512', "f1749991244c2106cdfe6b85ddf3582e915edb553a1af7d")
+    var hash = crypto.createHmac('sha512', config.secret)
     hash.update(req.body.pass)
     var hashPassword = hash.digest('hex')
 

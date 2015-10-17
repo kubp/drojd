@@ -32,7 +32,7 @@ var UserModel = mongoose.model('user', schema());
  * @param res
  */
 function login(req, res) {
-    var hash = crypto.createHmac('sha512', "f1749991244c2106cdfe6b85ddf3582e915edb553a1af7d")
+    var hash = crypto.createHmac('sha512', config.secret)
 
     if(typeof req.query.pass === "undefined"){
         req.query.pass="";
@@ -44,7 +44,7 @@ function login(req, res) {
     UserModel.find({mail:req.params.mail,pass:hashPassword}, function (err, user) {
         if(user.length==1){
 
-            var token = jwt.sign({ user: 'test'}, 'kocicka',{expiresIn: 60*60});
+            var token = jwt.sign({ user: 'test'}, config.secret,{expiresIn: config.jwtexpires});
             res.json({status:"succes",apikey:token});
 
         }else{
@@ -65,7 +65,7 @@ function login(req, res) {
 function auth(req, res, next) {
     var token = req.params.apikey || req.body.apikey || req.query.apikey || req.headers['x-access-token'];
 
-    jwt.verify(token, "kocicka", function(err, decoded) {
+    jwt.verify(token, config.secret, function(err, decoded) {
 
         if(err){
             res.json({message:"Problem occurred. Exterminate Exterminate"})
@@ -84,7 +84,7 @@ function auth(req, res, next) {
  * @param res
  */
 function save(req,res){
-    var hash = crypto.createHmac('sha512', "f1749991244c2106cdfe6b85ddf3582e915edb553a1af7d")
+    var hash = crypto.createHmac('sha512', config.secret)
     hash.update(req.body.pass)
     var hashPassword = hash.digest('hex')
 
