@@ -9,7 +9,7 @@ var handler =function(){
     this.auth = auth;
     this.setUser=save;
 
-}
+};
 
 
 function schema(){
@@ -32,13 +32,13 @@ var UserModel = mongoose.model('user', schema());
  * @param res
  */
 function login(req, res) {
-    var hash = crypto.createHmac('sha512', config.secret)
+    var hash = crypto.createHmac('sha512', config.secret);
 
     if(typeof req.query.pass === "undefined"){
         req.query.pass="";
     }
-    hash.update(req.query.pass)
-    var hashPassword = hash.digest('hex')
+    hash.update(req.query.pass);
+    var hashPassword = hash.digest('hex');
 
 
     UserModel.find({mail:req.params.mail,pass:hashPassword}, function (err, user) {
@@ -68,7 +68,7 @@ function auth(req, res, next) {
     jwt.verify(token, config.secret, function(err, decoded) {
 
         if(err){
-            res.json({message:"Problem occurred. Exterminate Exterminate"})
+            res.json({message : "you don't have permission to access"})
 
         }else{
             return next();
@@ -84,14 +84,14 @@ function auth(req, res, next) {
  * @param res
  */
 function save(req,res){
-    var hash = crypto.createHmac('sha512', config.secret)
-    hash.update(req.body.pass)
-    var hashPassword = hash.digest('hex')
+    var hash = crypto.createHmac('sha512', config.secret);
+    hash.update(req.body.pass);
+    var hashPassword = hash.digest('hex');
 
     var todo = new UserModel({mail:req.params.mail,pass:hashPassword });
 
     todo.save(function (err) {
-        console.log(err)
+        console.log(err);
         res.json({status:"ok"});
     });
 }

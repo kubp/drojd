@@ -2,27 +2,27 @@
 
 module.exports = function(app){
 
-    Section = require("./src/Section.js");
+    Page = require("./src/Page.js");
     User = require("./core/Auth/Authenticator");
 
 
     var handlers = {
-        section: new Section(),
+        page: new Page(),
         user: new User()
-    }
+        };
 
 
     //todo: Security!
 
-    app.get('/api/section/all', handlers.section.getAllSection);
+    app.get('/api/page/all', handlers.page.getAllPages);
 
-    app.get('/api/section/:url', handlers.user.auth ,handlers.section.getSection);
+    app.get('/api/page/:url', handlers.user.auth ,handlers.page.getPage);
 
-    app.post('/api/section/:url', handlers.section.setSection);
+    app.post('/api/page/:url', handlers.page.setPage);
 
-    app.delete('/api/section/:url', handlers.section.sectionRemove);
+    app.delete('/api/page/:url', handlers.page.removePage);
 
-    app.put('/api/section/:url', handlers.section.sectionUpdate);
+    app.put('/api/page/:url', handlers.page.updatePage);
 
 
     app.get('/api/login/:mail', handlers.user.login);

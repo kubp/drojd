@@ -1,16 +1,12 @@
-
-
 var handler =function(){
 
-    this.getSection = load;
-    this.getAllSection = loadAll;
-    this.sectionRemove = remove;
-    this.sectionUpdate = update;
-    this.setSection = add;
+    this.getPage = load;
+    this.getAllPages = loadAll;
+    this.removePage = remove;
+    this.updatePage = update;
+    this.setPage = add;
 
-}
-
-
+};
 
 
 function schema(){
@@ -30,10 +26,8 @@ var SectionModel = mongoose.model('section', schema());
 
 
 /**
- *
+ * page
  * @param req
- * @param condition
- * @param callback
  */
 function load(req, res) {
 
@@ -41,6 +35,12 @@ function load(req, res) {
         res.json(user[0]);
     });
 }
+
+/**
+ * Pages
+ * @param req
+ * @param res
+ */
 
 function loadAll(req, res) {
     SectionModel.find({}, function (err, user) {
@@ -61,9 +61,7 @@ function add(req, res) {
 }
 
 
-
 function remove(req,res) {
-
 
     SectionModel.findOneAndRemove({url:req.params.url}, function(err, doc){
         if (err) return res.send(500, { err: err });
@@ -83,14 +81,6 @@ function update(req,res) {
         res.json({status:"ok"})
     });
 }
-
-
-
-
-
-
-
-
 
 
 

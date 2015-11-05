@@ -5,8 +5,8 @@ var express = require('express');
 var Cookies = require("cookies");
 var compress = require('compression'); //GZIP
 var app = express();
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+//var session = require('express-session');
+//var MongoStore = require('connect-mongo')(session);
 
 config = require("./config");
 
@@ -45,10 +45,9 @@ app.use(compress());
 
 
 
-
-    /*
-     * Set view engine to EJS and pretty spaces in JSON API
-     */
+/*
+ * Set view engine to EJS and pretty spaces in JSON API
+ */
 app.set('view engine', 'ejs');
 app.set('json spaces', 40);
 
