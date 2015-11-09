@@ -7,7 +7,7 @@ var handler =function(){
 
     this.login = login;
     this.auth = auth;
-    this.setUser=save;
+    this.verifyUser=verify;
 
 };
 
@@ -44,11 +44,11 @@ function login(req, res) {
     UserModel.find({mail:req.params.mail,pass:hashPassword}, function (err, user) {
         if(user.length==1){
 
-            var token = jwt.sign({ user: 'test'}, config.secret,{expiresIn: config.jwtexpires});
-            res.json({status:"succes",apikey:token});
+            var token = jwt.sign({ user: user[0].mail}, config.secret,{expiresIn: config.jwtexpires});
+            res.status(200).json({status: 200, message: "Authorized", apikey:token});
 
         }else{
-            res.json({status:"error"});
+            res.status(401).json({status: 401, message: "Unauthorized"});
         }
 
     });
@@ -68,7 +68,7 @@ function auth(req, res, next) {
     jwt.verify(token, config.secret, function(err, decoded) {
 
         if(err){
-            res.json({message : "you don't have permission to access"})
+            res.status(401).json({status: 401, message: "Unauthorized"});
 
         }else{
             return next();
@@ -78,22 +78,11 @@ function auth(req, res, next) {
 
 }
 
-/**
- *
- * @param req
- * @param res
- */
-function save(req,res){
-    var hash = crypto.createHmac('sha512', config.secret);
-    hash.update(req.body.pass);
-    var hashPassword = hash.digest('hex');
 
-    var todo = new UserModel({mail:req.params.mail,pass:hashPassword });
+function verify(req,res){
 
-    todo.save(function (err) {
-        console.log(err);
-        res.json({status:"ok"});
-    });
+    res.status(200).json({status: 200, message: "Authorized"});
+
 }
 
 

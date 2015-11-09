@@ -2,9 +2,12 @@
 var crypto = require('crypto');
 var handler =function(){
 
-    this.login = login;
-    this.auth = auth;
-    this.setUser=save;
+
+    this.setUser=add;
+    this.getUser=load;
+    this.getAllUsers=loadAll;
+    this.deleteUser =remove;
+    this.updateUser=update;
 
 }
 
@@ -22,47 +25,60 @@ function schema(){
     return UserSchema;
 }
 
-var UserModel = mongoose.model('user', schema());
+try {
+    var UserModel = mongoose.model('user', schema());
+}catch (e){
+    var UserModel = mongoose.model('user');
+}
 
 
-function login(req, res) {
-    var hash = crypto.createHmac('sha512', config.secret)
-    hash.update(req.body.pass)
-    var hashPassword = hash.digest('hex')
 
-    UserModel.find({mail:req.params.mail,pass:hashPassword}, function (err, user) {
-        if(user.length==1){
-            req.session.logged="logged";
-            res.json({status:"succes"});
 
-        }else{
-            res.json({status:"error"});
-        }
+function load(req, res) {
 
+    UserModel.find({url:req.params.url}, function (err, user) {
+        res.json(user[0]);
     });
 }
 
-function auth(req, res, next) {
 
-    if(req.session.logged=="logged"){
-        return next();
-    }else{
-        res.json({status:"not allowed"});
-    }
+function loadAll(req, res) {
+    SectionModel.find({}, function (err, user) {
+        res.json(user);
+    });
+}
+
+
+function add(req, res) {
+
+    var todo = new UserModel({url:req.params.url, title:req.body.title,description:req.body.description});
+
+    todo.save(function (err) {
+
+        res.json({status:"ok"})
+    });
 
 }
 
 
-function save(req,res){
-    var hash = crypto.createHmac('sha512', config.secret)
-    hash.update(req.body.pass)
-    var hashPassword = hash.digest('hex')
+function remove(req,res) {
 
-    var todo = new UserModel({mail:req.params.mail,pass:hashPassword });
-
-    todo.save(function (err) {
-        console.log(err)
+    UserModel.findOneAndRemove({url:req.params.url}, function(err, doc){
+        if (err) return res.send(500, { err: err });
         res.json({status:"ok"});
+    });
+}
+
+
+function update(req,res) {
+    UserModel.findOneAndUpdate({url: req.params.url}, {
+        url: req.body.url,
+        title: req.body.title,
+        description: req.body.description
+    }, {upsert: true}, function (err, doc) {
+        if (err) return res.json({status:"not ok"})
+
+        res.json({status:"ok"})
     });
 }
 
