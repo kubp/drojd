@@ -1,28 +1,35 @@
-var handler =function(){
+var handler = function() {
 
-    this.getPage = load;
-    this.getAllPages = loadAll;
-    this.removePage = remove;
-    this.updatePage = update;
-    this.setPage = add;
+  this.getPage = load;
+  this.getAllPages = loadAll;
+  this.removePage = remove;
+  this.updatePage = update;
+  this.setPage = add;
 
 };
 
 
-function schema(){
-    var SectionSchema = new mongoose.Schema({
-        url: String,
-        title: String,
-        description: String,
-        headline: String,
-        page: String,
-        updated_at: {type: Date, default: Date.now}
-    });
+function schema() {
+  var PageSchema = new mongoose.Schema({
+    url: String,
+    title: String,
+    description: String,
+    headline: String,
+    content: String,
+    type: String,
+    image: String,
+    sections: [String],
+    allow: String,
+    updated_at: {
+      type: Date,
+      default: Date.now
+    }
+  });
 
-    return SectionSchema;
+  return PageSchema;
 }
 
-var SectionModel = mongoose.model('section', schema());
+var PageModel = mongoose.model('page', schema());
 
 
 /**
@@ -31,9 +38,18 @@ var SectionModel = mongoose.model('section', schema());
  */
 function load(req, res) {
 
-    SectionModel.find({url:req.params.url}, function (err, user) {
-        res.json(user[0]);
-    });
+  PageModel.find({
+    url: req.query.url
+  }, function(err, page) {
+    
+    if(page.length == 0){
+      res.json({status:"not found"});
+    }else{
+      res.json(page[0]);
+    }
+    
+
+  });
 }
 
 /**
@@ -43,47 +59,68 @@ function load(req, res) {
  */
 
 function loadAll(req, res) {
-    SectionModel.find({}, function (err, user) {
-        res.json(user);
-    });
+  PageModel.find({}, function(err, page) {
+    res.json(page);
+  });
 }
-
 
 function add(req, res) {
 
-    var todo = new SectionModel({url:req.params.url, title:req.body.title,description:req.body.description});
+  var page = new PageModel({
+    url: req.query.url,
+    title: req.body.title,
+    description: req.body.description,
+    headline: req.body.headline,
+    content: req.body.content,
+    type:req.body.type,
+    section: req.body.section,
+    image:req.body.image
+});
 
-    todo.save(function (err) {
-
-        res.json({status:"ok"})
-    });
+  page.save(function(err) {
+    res.json({status: "ok"})
+  });
 
 }
 
 
-function remove(req,res) {
+function remove(req, res) {
 
-    SectionModel.findOneAndRemove({url:req.params.url}, function(err, doc){
-        if (err) return res.send(500, { err: err });
-        res.json({status:"ok"});
+  PageModel.findOneAndRemove({
+    url: req.query.url
+  }, function(err, doc) {
+   
+    if (err) return res.send(500, {
+      err: err
     });
+    res.json({ status: "ok" });
+  });
 }
 
 
-function update(req,res) {
-    SectionModel.findOneAndUpdate({url: req.params.url}, {
-        url: req.body.url,
-        title: req.body.title,
-        description: req.body.description
-    }, {upsert: true}, function (err, doc) {
-        if (err) return res.json({status:"not ok"})
+function update(req, res) {
+ 
+ PageModel.findOneAndUpdate({ url: req.query.url }, {
+    url: req.body.url,
+    title: req.body.title,
+    description: req.body.description,
+    headline: req.body.headline,
+    content: req.body.content,
+    section: req.body.section,
+    type:req.body.type,
+    image:req.body.image
+ }, 
 
-        res.json({status:"ok"})
-    });
+ {
+    upsert: true
+ }, 
+
+  function(err, doc) {
+    if (err) return res.json({ status: "not ok" })
+    res.json({ status: "ok" })
+  });
 }
-
 
 
 
 module.exports = handler;
-
