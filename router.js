@@ -29,10 +29,11 @@ module.exports = function(app) {
   app.post('/api/user/', handlers.user.setUser);
 
 
+  app.get('/api/section/', handlers.page.getPageSection);
 /**
  * Section routes
  */
-
+/*
   app.get('/api/section/all', handlers.section.getAllSections);
 
   app.get('/api/section/', handlers.section.getSection);
@@ -43,7 +44,7 @@ module.exports = function(app) {
 
   app.put('/api/section/', handlers.section.updateSection);
 
-
+*/
 
 /**
  * Security

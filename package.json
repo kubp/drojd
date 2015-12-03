@@ -15,6 +15,8 @@
     "jsonwebtoken": "^5.4.0",
     "mocha": "^2.3.3",
     "mongoose": "^4.1.3",
+    "nodemailer": "^1.10.0",
+    "nodemailer-smtp-transport": "^1.0.4",
     "should": "^7.1.0",
     "supertest": "^1.1.0",
     "winston": "^1.0.2"

@@ -4,8 +4,9 @@
 var express = require('express');
 var Cookies = require("cookies");
 var compress = require('compression'); //GZIP
+var mailer = require("./core/Mailer/Mail");
 var app = express();
-
+new mailer();
 config = require("./config");
 mongoose = require('mongoose');
 
@@ -83,8 +84,7 @@ app.use(function(req, res, next) {
     console.log('\x1b[31m', '404', '\x1b[32m', fullUrl, '\x1b[0m');
   }
 
-  res.status(404);
-  res.render("404");
+  res.status(404).json({status: 404, message: "Not Found"});
 
 });
 
@@ -106,9 +106,7 @@ app.use(function(err, req, res, next) {
   }
 
 
-  res.status(500);
-  res.render("500", { err: errweb });
-
+  res.status(500).json({status: 500, message: "Internal server error", error: errweb});
 });
 
 
@@ -119,5 +117,5 @@ app.listen(port);
 if (app.get('env') == 'production') {
   console.log('Listening on port ' + port + " -" + '\x1b[31m', app.get("env"), '\x1b[0m');
 } else {
-  console.log('Listening on port ' + port + " -" + '\x1b[32m', app.get("env"), '\x1b[0m');
+  //console.log('Listening on port ' + port + " -" + '\x1b[32m', app.get("env"), '\x1b[0m');
 }

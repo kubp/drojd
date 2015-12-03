@@ -5,7 +5,7 @@ var handler = function() {
   this.removePage = remove;
   this.updatePage = update;
   this.setPage = add;
-
+  this.getPageSection = section;
 };
 
 
@@ -73,8 +73,9 @@ function add(req, res) {
     headline: req.body.headline,
     content: req.body.content,
     type:req.body.type,
-    section: req.body.section,
-    image:req.body.image
+    sections: req.body.sections,
+    image:req.body.image,
+    allow:req.body.allow
 });
 
   page.save(function(err) {
@@ -121,6 +122,18 @@ function update(req, res) {
   });
 }
 
+
+function section(req,res){
+  PageModel.find({ sections: req.query.section}, function(err, page) {
+    
+    if(page.length == 0){
+      res.json({status:"not found"});
+    }else{
+      res.json(page);
+    }
+    });
+
+}
 
 
 module.exports = handler;
