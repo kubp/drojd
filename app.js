@@ -4,11 +4,12 @@
 var express = require('express');
 var Cookies = require("cookies");
 var compress = require('compression'); //GZIP
-var mailer = require("./core/Mailer/Mail");
+var cors = require('cors')
 var app = express();
-new mailer();
+
 config = require("./config");
-mongoose = require('mongoose');
+mongoose = require('mongoose')
+
 
 
 if (app.get('env') == 'production') {
@@ -48,6 +49,10 @@ app.use(compress());
 app.set('view engine', 'ejs');
 app.set('json spaces', 40);
 
+/*
+ *  PUT, DELETE, POST
+ */
+app.options('*', cors());
 
 
 //Remove Express.js header
@@ -55,6 +60,7 @@ app.use(function(req, res, next) {
   res.removeHeader("X-Powered-By");
   res.header('Access-Control-Allow-Origin', '*');
   next();
+
 });
 
 
@@ -110,12 +116,12 @@ app.use(function(err, req, res, next) {
 });
 
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8090;
 
 app.listen(port);
 
 if (app.get('env') == 'production') {
   console.log('Listening on port ' + port + " -" + '\x1b[31m', app.get("env"), '\x1b[0m');
 } else {
-  //console.log('Listening on port ' + port + " -" + '\x1b[32m', app.get("env"), '\x1b[0m');
+  console.log('Listening on port ' + port + " -" + '\x1b[32m', app.get("env"), '\x1b[0m');
 }
