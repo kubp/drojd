@@ -5,7 +5,7 @@ var handler = function() {
   this.removePage = remove;
   this.updatePage = update;
   this.setPage = add;
-  this.getPageSection = section;
+  this.searchPage = search;
 };
 
 
@@ -39,9 +39,13 @@ var PageModel = mongoose.model('page', schema());
 function load(req, res) {
 
   PageModel.find({
-    url: req.query.url
+    _id: req.params.id
   }, function(err, page) {
     
+    if (err){ 
+      return res.json({error: "ID doesn't exist"})
+    }
+
     if(page.length == 0){
       res.json({status:"not found"});
     }else{
@@ -67,7 +71,7 @@ function loadAll(req, res) {
 function add(req, res) {
 
   var page = new PageModel({
-    url: req.query.url,
+    url: req.body.url,
     title: req.body.title,
     description: req.body.description,
     headline: req.body.headline,
@@ -88,30 +92,30 @@ function add(req, res) {
 function remove(req, res) {
 
   PageModel.findOneAndRemove({
-    url: req.query.url
+    _id: req.params.id
   }, function(err, doc) {
    
-    if (err) return res.send(500, {
-      err: err
-    });
+    if (err){ 
+      return res.json({error: "ID doesn't exist"})
+    }
+    
     res.json({ status: "ok" });
   });
 }
 
 
 function update(req, res) {
- 
- PageModel.findOneAndUpdate({ url: req.query.url }, {
-    url: req.body.url,
-    title: req.body.title,
-    description: req.body.description,
-    headline: req.body.headline,
-    content: req.body.content,
-    section: req.body.section,
-    type:req.body.type,
-    image:req.body.image
- }, 
+  var content = {};
+  req.body.url ? content.url = req.body.url : null
+  req.body.title ? content.title = req.body.title : null
+  req.body.description ? content.description = req.body.description : null
+  req.body.headline ? content.headline = req.body.headline : null
+  req.body.content ? content.content = req.body.content : null
+  req.body.type ? content.type = req.body.type : null
+  req.body.image ? content.image = req.body.image : null
 
+  
+ PageModel.findOneAndUpdate({ _id: req.params.id }, content, 
  {
     upsert: true
  }, 
@@ -123,16 +127,24 @@ function update(req, res) {
 }
 
 
-function section(req,res){
-  PageModel.find({ sections: req.query.section}, function(err, page) {
-    
-    if(page.length == 0){
-      res.json({status:"not found"});
-    }else{
-      res.json(page);
-    }
-    });
+function search(req, res) {
+  var search = req.query.q.split(":");
+  var query = search[0];
+  var type = search[1];
 
+PageModel.find({
+    [type]: [query]
+  }, function(err, page) {
+    
+    if (err){ 
+      return res.json({error: "ID doesn't exist"})
+    }
+
+    res.json({results: page.length, items:page});
+
+  });
+
+  
 }
 
 

@@ -47,7 +47,7 @@ app.use(compress());
  * Set view engine to EJS and pretty spaces in JSON API
  */
 app.set('view engine', 'ejs');
-app.set('json spaces', 40);
+app.set('json spaces', 2);
 
 /*
  *  PUT, DELETE, POST

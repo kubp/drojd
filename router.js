@@ -18,18 +18,18 @@ module.exports = function(app) {
  */
   app.get('/api/page/all', handlers.page.getAllPages);
 
-  app.get('/api/page/', handlers.page.getPage);
+  app.get('/api/page/search/', handlers.page.searchPage);
+
+  app.get('/api/page/:id', handlers.page.getPage);
 
   app.post('/api/page/', handlers.page.setPage);
 
-  app.delete('/api/page/', handlers.page.removePage);
+  app.delete('/api/page/:id', handlers.page.removePage);
 
-  app.put('/api/page/', handlers.page.updatePage);
+  app.put('/api/page/:id', handlers.page.updatePage);
 
   app.post('/api/user/', handlers.user.setUser);
 
-
-  app.get('/api/section/', handlers.page.getPageSection);
 /**
  * Section routes
  */
