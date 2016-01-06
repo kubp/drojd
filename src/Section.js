@@ -1,105 +1,111 @@
+var Section = require("./models/SectionSchema")
+var Page = require("./models/PageSchema")
+
 var handler = function() {
 
-  this.getSection= load;
-  this.getAllSections = loadAll;
-  this.removeSection = remove;
-  this.updateSection = update;
-  this.setSection = add;
+  this.get = load;
+  this.getAll = loadAll;
+  this.remove = remove;
+  this.update = update;
+  this.set = add;
 
 };
 
 
-function schema() {
-  var SectionSchema = new mongoose.Schema({
-    name: String,
-    description: String,
-    title: String,
-    updated_at: {
-      type: Date,
-      default: Date.now
+
+function loadAll(req, res) {
+  if(typeof req.query.q === "undefined"){
+      var q = {};
+    }else{
+      var search = req.query.q.split(":");
+      var query = search[0];
+      var type = search[1];
+      var q = { [type]: [query]};
     }
+
+
+  Section.find(q).select('-__v').lean().populate('page').exec(function(err, page) {
+
+    if (err) {
+      return res.json({
+        error: "ID doesn't exist"
+      })
+    }
+
+    res.json({
+      results: page.length,
+      items: page
+    });
+
   });
-
-  return SectionSchema;
 }
-
-var SectionModel = mongoose.model('section', schema());
-
-
-
 
 
 function load(req, res) {
+  Section.find({
+    _id: req.params.id
+  }).select('-__v').lean().populate('page').exec(function(err, page) {
 
-  SectionModel.find({
-    name: req.query.name
-  }, function(err, page) {
-    
-    if(page.length == 0){
-      res.json({status:"not found"});
-    }else{
-      res.json(page[0]);
+    if (err) {
+      return res.json({
+        error: "ID doesn't exist"
+      })
     }
-    
+
+    res.json({
+      results: page.length,
+      items: page
+    });
 
   });
-}
-
-
-function loadAll(req, res) {
-  SectionModel.find({}, function(err, page) {
-    res.json(page);
-  });
-}
-
-
-function add(req, res) {
-
-  var page = new SectionModel({
-    name: req.query.name,
-    description: req.body.description,
-    title: req.body.title,
-});
-
-  page.save(function(err) {
-    res.json({status: "ok"})
-  });
-
 }
 
 
 function remove(req, res) {
-
-  SectionModel.findOneAndRemove({
-    url: req.query.url
+  Section.findOneAndRemove({
+    _id: req.params.id
   }, function(err, doc) {
-   
-    if (err) return res.send(500, {
-      err: err
+
+    if (err) {
+      return res.json({
+        error: "ID doesn't exist"
+      })
+    }
+
+    res.json({
+      status: "ok"
     });
-    res.json({ status: "ok" });
   });
 }
 
 
 function update(req, res) {
- 
-  SectionModel.findOneAndUpdate({name: req.query.name}, 
-  {
-     name: req.body.name,
-    description: req.body.description,
-    title: req.body.title,
- }, 
+  var content = {};
+  req.body.url ? content.url = req.body.url : null;
+  req.body.section ? content.section = req.body.section : null;
+  req.body.visible ? content.visible = req.body.visible : null;
+  req.body.page ? content.page = req.body.section : null;
 
- {
-    upsert: true
- }, 
+  PageModel.findOneAndUpdate({
+      _id: req.params.id
+    }, content, {
+      upsert: true
+    },
 
-  function(err, doc) {
-    if (err) return res.json({ status: "not ok" })
-    res.json({ status: "ok" })
-  });
+    function(err, doc) {
+      if (err) return res.json({
+        status: "not ok"
+      })
+      res.json({
+        status: "ok"
+      })
+    });
 }
+
+function add(req, res) {
+  res.send("add")
+}
+
 
 
 

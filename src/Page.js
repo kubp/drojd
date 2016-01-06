@@ -1,151 +1,115 @@
+var Section = require("./models/SectionSchema")
+var Page = require("./models/PageSchema")
+
 var handler = function() {
 
-  this.getPage = load;
-  this.getAllPages = loadAll;
-  this.removePage = remove;
-  this.updatePage = update;
-  this.setPage = add;
-  this.searchPage = search;
+  this.get = load;
+  this.getAll = loadAll;
+  this.remove = remove;
+  this.update = update;
+  this.set = add;
+  this.search = search;
+
 };
 
 
-function schema() {
-  var PageSchema = new mongoose.Schema({
-    url: String,
-    title: String,
-    description: String,
-    headline: String,
-    content: String,
-    type: String,
-    image: String,
-    sections: [String],
-    allow: String,
-    updated_at: {
-      type: Date,
-      default: Date.now
-    }
-  });
-
-  return PageSchema;
-}
-
-var PageModel = mongoose.model('page', schema());
-
-
-/**
- * page
- * @param req
- */
-function load(req, res) {
-
-  PageModel.find({
-    _id: req.params.id
-  }, function(err, page) {
-    
-    if (err){ 
-      return res.json({error: "ID doesn't exist"})
-    }
-
-    if(page.length == 0){
-      res.json({status:"not found"});
-    }else{
-      res.json(page[0]);
-    }
-    
-
-  });
-}
-
-/**
- * Pages
- * @param req
- * @param res
- */
 
 function loadAll(req, res) {
-  PageModel.find({}, function(err, page) {
-    res.json(page);
-  });
+  Page.find({}).exec(function(error, posts) {
+    res.json(posts)
+  })
 }
 
-function add(req, res) {
+function load(req, res) {
+  Page.find({
+    _id: req.params.id
+  }).exec(function(err, posts) {
 
-  var page = new PageModel({
-    url: req.body.url,
-    title: req.body.title,
-    description: req.body.description,
-    headline: req.body.headline,
-    content: req.body.content,
-    type:req.body.type,
-    sections: req.body.sections,
-    image:req.body.image,
-    allow:req.body.allow
-});
+    if (err) {
+      return res.json({
+        error: "no results"
+      });
+    }
 
-  page.save(function(err) {
-    res.json({status: "ok"})
-  });
-
+    res.json(posts[0]);
+  })
 }
 
 
 function remove(req, res) {
-
-  PageModel.findOneAndRemove({
+  Page.findOneAndRemove({
     _id: req.params.id
   }, function(err, doc) {
-   
-    if (err){ 
-      return res.json({error: "ID doesn't exist"})
+
+    if (err) {
+      return res.json({
+        error: "ID doesn't exist"
+      })
     }
-    
-    res.json({ status: "ok" });
+
+    res.json({
+      status: "ok"
+    });
   });
 }
-
 
 function update(req, res) {
   var content = {};
-  req.body.url ? content.url = req.body.url : null
-  req.body.title ? content.title = req.body.title : null
-  req.body.description ? content.description = req.body.description : null
-  req.body.headline ? content.headline = req.body.headline : null
-  req.body.content ? content.content = req.body.content : null
-  req.body.type ? content.type = req.body.type : null
-  req.body.image ? content.image = req.body.image : null
+  req.body.title ? content.title = req.body.title : null;
+  req.body.description ? content.description = req.body.description : null;
+  req.body.headline ? content.headline = req.body.headline : null;
+  req.body.content ? content.content = req.body.content : null;
+  req.body.keywords ? content.keywords = req.body.keywords : null;
 
-  
- PageModel.findOneAndUpdate({ _id: req.params.id }, content, 
- {
-    upsert: true
- }, 
 
-  function(err, doc) {
-    if (err) return res.json({ status: "not ok" })
-    res.json({ status: "ok" })
-  });
+  Page.findOneAndUpdate({
+      _id: req.params.id
+    }, content, {
+      upsert: true
+    },
+
+    function(err, doc) {
+      if (err) return res.json({
+        status: "not ok"
+      })
+      res.json({
+        status: "ok"
+      })
+    });
 }
 
+function add(req, res) {
+
+
+  var page = new Page({
+    title: req.body.title,
+    description: req.body.description,
+    headline: req.body.headline,
+    content: req.body.content,
+    keywords: req.body.keywords
+
+  })
+
+  var section = new Section({
+    url: req.body.url,
+    type: "page",
+    page: page._id
+  })
+
+  page.save();
+  section.save();
+
+  res.json({status: "ok"})
+
+
+
+}
 
 function search(req, res) {
-  var search = req.query.q.split(":");
-  var query = search[0];
-  var type = search[1];
-
-PageModel.find({
-    [type]: [query]
-  }, function(err, page) {
-    
-    if (err){ 
-      return res.json({error: "ID doesn't exist"})
-    }
-
-    res.json({results: page.length, items:page});
-
-  });
-
-  
+  res.send("search")
 }
+
+
 
 
 module.exports = handler;

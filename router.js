@@ -1,34 +1,46 @@
 module.exports = function(app) {
 
-  Page = require("./src/Page.js");
-  Auth = require("./core/Auth/Authenticator");
-  User = require("./src/User");
-  Section = require("./src/Section");
 
+  Auth = require("./core/Auth/Authenticator");
+  
+  Section = require("./src/Section");
+Page = require("./src/Page");
 
   var handlers = {
     page: new Page(),
-    auth: new Auth(),
-    user: new User(),
+    //auth: new Auth(),
+    //user: new User(),
     section: new Section()
   };
 
-/**
- * Page routes
- */
-  app.get('/api/page/all', handlers.page.getAllPages);
 
-  app.get('/api/page/search/', handlers.page.searchPage);
 
-  app.get('/api/page/:id', handlers.page.getPage);
 
-  app.post('/api/page/', handlers.page.setPage);
+  app.get('/api/section/:id', handlers.section.get);
 
-  app.delete('/api/page/:id', handlers.page.removePage);
+  app.get('/api/section/', handlers.section.getAll);
 
-  app.put('/api/page/:id', handlers.page.updatePage);
+  app.post('/api/section/', handlers.section.set);
 
-  app.post('/api/user/', handlers.user.setUser);
+  app.delete('/api/section/:id', handlers.section.remove);
+
+  app.put('/api/section/:id', handlers.section.update);
+
+
+
+  app.get('/api/page/', handlers.page.getAll);
+
+  app.get('/api/search/page/', handlers.page.search);
+
+  app.get('/api/page/:id', handlers.page.get);
+
+  app.post('/api/page/', handlers.page.set);
+
+  app.delete('/api/page/:id', handlers.page.remove);
+
+  app.put('/api/page/:id', handlers.page.update);
+
+
 
 /**
  * Section routes
@@ -50,8 +62,8 @@ module.exports = function(app) {
  * Security
  */
 
-  app.get('/api/login/:mail', handlers.auth.login);
+ // app.get('/api/login/:mail', handlers.auth.login);
 
-  app.get('/api/verify/:apikey', handlers.auth.auth, handlers.auth.verifyUser);
+  //app.get('/api/verify/:apikey', handlers.auth.auth, handlers.auth.verifyUser);
 
 }
