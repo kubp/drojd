@@ -12,11 +12,9 @@ mongoose = require('mongoose')
 
 
 
-if (app.get('env') == 'production') {
-  mongoose.connect(config.db.production);
-} else {
-  mongoose.connect(config.db.development);
-}
+
+mongoose.connect(config.db);
+
 
 
 var bodyParser = require('body-parser');

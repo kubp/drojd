@@ -1,14 +1,14 @@
 module.exports = function(app) {
 
 
-  Auth = require("./core/Auth/Authenticator");
+  Auth = require("./src/Auth");
   
   Section = require("./src/Section");
 Page = require("./src/Page");
 
   var handlers = {
     page: new Page(),
-    //auth: new Auth(),
+    auth: new Auth(),
     //user: new User(),
     section: new Section()
   };
@@ -43,27 +43,11 @@ Page = require("./src/Page");
 
 
 /**
- * Section routes
- */
-/*
-  app.get('/api/section/all', handlers.section.getAllSections);
-
-  app.get('/api/section/', handlers.section.getSection);
-
-  app.post('/api/section/', handlers.section.setSection);
-
-  app.delete('/api/section/', handlers.section.removeSection);
-
-  app.put('/api/section/', handlers.section.updateSection);
-
-*/
-
-/**
  * Security
  */
 
- // app.get('/api/login/:mail', handlers.auth.login);
+  app.get('/api/login/:mail', handlers.auth.login);
 
-  //app.get('/api/verify/:apikey', handlers.auth.auth, handlers.auth.verifyUser);
+  app.get('/api/verify/:apikey', handlers.auth.auth, handlers.auth.verifyUser);
 
 }

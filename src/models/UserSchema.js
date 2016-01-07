@@ -1,7 +1,7 @@
  var UserSchema = new mongoose.Schema({
         mail: String,
         pass: String,
-        level: {type: Number, default: 1},
+        permission: {type: Number, default: 1},
         updated_at: {type: Date, default: Date.now}
     });
 
