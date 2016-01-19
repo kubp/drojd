@@ -9,7 +9,7 @@ var handler = function() {
   this.login = login;
   this.auth = auth;
   this.verifyUser = verify;
-
+  this.add = add;
 };
 
 
@@ -24,18 +24,18 @@ var UserModel = mongoose.model('User', User);
  */
 function login(req, res) {
 
-  if (typeof req.query.pass === "undefined" || typeof req.params.mail === "undefined" ) {
+  if (typeof req.body.pass === "undefined" || typeof req.body.mail === "undefined" ) {
     return res.status(401).json({ status: 401, message: "Unauthorized", "doc":"No password or mail given." });
   }
 
   var salt = bcrypt.genSaltSync(10);
-  var password = bcrypt.hashSync(req.query.pass, salt);
+  var password = bcrypt.hashSync(req.body.pass, salt);
 
 
-  UserModel.findOne({ mail: req.params.mail
+  UserModel.findOne({ mail: req.body.mail
   }, function(err, user) {
     
-    if (user && bcrypt.compareSync(req.query.pass, user.pass)) {
+    if (user && bcrypt.compareSync(req.body.pass, user.pass)) {
 
         
         var token = jwt.sign({user: user._id
@@ -47,7 +47,7 @@ function login(req, res) {
           status: 200,
           message: "Authorized",
           apikey: token,
-          userid: user._id
+          user_id: user._id
          });
       
     } else {
@@ -95,7 +95,16 @@ function verify(req, res) {
 
 }
 
-
+function add(req, res){
+  var salt = bcrypt.genSaltSync(10);
+  var password = bcrypt.hashSync("test", salt);
+  user=new UserModel({
+    mail:"test",
+    pass: password,
+    permission: 1
+  })
+  user.save();
+}
 
 
 module.exports = handler;

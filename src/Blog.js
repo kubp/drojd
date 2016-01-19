@@ -1,5 +1,5 @@
 var Section = require("./models/SectionSchema")
-var Page = require("./models/PageSchema")
+var Blog = require("./models/BlogSchema")
 
 var handler = function() {
 
@@ -8,20 +8,20 @@ var handler = function() {
   this.remove = remove;
   this.update = update;
   this.set = add;
-  this.search = search;
+
 
 };
 
 
 
 function loadAll(req, res) {
-  Page.find({}).exec(function(error, posts) {
+  Blog.find({}).exec(function(error, posts) {
     res.json(posts)
   })
 }
 
 function load(req, res) {
-  Page.find({
+  Blog.find({
     _id: req.params.id
   }).exec(function(err, posts) {
 
@@ -37,7 +37,7 @@ function load(req, res) {
 
 
 function remove(req, res) {
-  Page.findOneAndRemove({
+  Blog.findOneAndRemove({
     _id: req.params.id
   }, function(err, doc) {
 
@@ -60,10 +60,14 @@ function update(req, res) {
   req.body.headline ? content.headline = req.body.headline : null;
   req.body.raw_content ? content.raw_content= req.body.raw_content : null;
   req.body.md_content ? content.md_content= req.body.md_content : null;
-  req.body.keywords ? content.keywords = req.body.keywords : null;
+  req.body.perex ? content.perex = req.body.perex : null;
+  req.body.tags ? content.tags = req.body.tags : null;
+  req.body.author ? content.author = req.body.author : null;
+  req.body.section ? content.section = req.body.section : null;
+  req.body.date ? content.date = req.body.date : null;
   req.body.url ? content.url= req.body.url : null;
 
-  Page.findOneAndUpdate({
+  Blog.findOneAndUpdate({
       _id: req.params.id
     }, content, {
       upsert: true
@@ -82,25 +86,27 @@ function update(req, res) {
 function add(req, res) {
 
 
-  var page = new Page({
+  var blog = new Blog({
     title: req.body.title,
     description: req.body.description,
     headline: req.body.headline,
+    perex: req.body.perex,
     raw_content: req.body.raw_content,
     md_content: req.body.md_content,
-    keywords: req.body.keywords,
+    tags:req.body.tags,
+    author: req.body.author,
+    section:req.body.section,
     url: req.body.url
-
-  })
+})
 
   var section = new Section({
     url: req.body.url,
-    type: "page",
-    page: page._id,
-    section:req.body.section
+    type: "blog",
+    blog_section:req.body.section,
+    blog: blog._id
   })
 
-  page.save();
+  blog.save();
   section.save();
 
   res.json({status: "ok"})
@@ -109,13 +115,6 @@ function add(req, res) {
 
 }
 
-function search(req, res) {
-  Page.find( {"$text": {
-      "$search": req.query.search
-    }}).exec(function(error, posts) {
-    res.json(posts)
-  })
-}
 
 
 

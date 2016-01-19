@@ -7,37 +7,35 @@ var handler = function() {
   this.getAll = loadAll;
   this.remove = remove;
   this.update = update;
-  this.set = add;
+  this.search = search;
 
 };
 
+var b=require("./queryBuilder")
 
 
 function loadAll(req, res) {
-  if(typeof req.query.q === "undefined"){
-      var q = {};
-    }else{
-      var search = req.query.q.split(":");
-      var query = search[0];
-      var type = search[1];
-      var q = { [type]: [query]};
-    }
 
 
-  Section.find(q).select('-__v').lean().populate('page').exec(function(err, page) {
+  Section.find(
+          b.query(req.query.q), 
+          b.ignore(), 
+          b.paginator(req.query.page,req.query.per_page))
+         .lean()
+         .populate('page')
+         .populate('blogsection')
+         .populate('blog')
+         .exec(function(err, page) {
 
     if (err) {
-      return res.json({
-        error: "ID doesn't exist"
-      })
+      return res.json({})
     }
-
-    res.json({
-      results: page.length,
-      items: page
-    });
+    res.json(page);
 
   });
+
+
+
 }
 
 
@@ -52,10 +50,7 @@ function load(req, res) {
       })
     }
 
-    res.json({
-      results: page.length,
-      items: page
-    });
+    res.json(page[0]);
 
   });
 }
@@ -86,7 +81,7 @@ function update(req, res) {
   req.body.visible ? content.visible = req.body.visible : null;
   req.body.page ? content.page = req.body.section : null;
 
-  PageModel.findOneAndUpdate({
+  Section.findOneAndUpdate({
       _id: req.params.id
     }, content, {
       upsert: true
@@ -102,7 +97,7 @@ function update(req, res) {
     });
 }
 
-function add(req, res) {
+function search(req, res) {
   res.send("add")
 }
 
