@@ -25,13 +25,13 @@ function load(req, res) {
     _id: req.params.id
   }).exec(function(err, posts) {
 
-    if (err) {
-      return res.json({
-        error: "no results"
+    if (posts.length == 0) {
+      return res.status(404).json({
+        error: "Requested resource doesn't exist"
       });
     }
 
-    res.json(posts[0]);
+    res.json(posts);
   })
 }
 
@@ -42,13 +42,13 @@ function remove(req, res) {
   }, function(err, doc) {
 
     if (err) {
-      return res.json({
-        error: "ID doesn't exist"
+      return res.status(404).json({
+        error: "Requested resource doesn't exist"
       })
     }
 
-    res.json({
-      status: "ok"
+    res.status(200).json({
+      status: "Resource removed successfully"
     });
   });
 }
@@ -74,11 +74,15 @@ function update(req, res) {
     },
 
     function(err, doc) {
-      if (err) return res.json({
-        status: "not ok"
+      if (err) {
+        console.log(err)
+      return res.status(404).json({
+        error: "Requested resource doesn't exist"
       })
-      res.json({
-        status: "ok"
+    }
+
+    res.status(200).json({
+        status: "Resource updated successfully"
       })
     });
 }
@@ -109,7 +113,7 @@ function add(req, res) {
   blog.save();
   section.save();
 
-  res.json({status: "ok"})
+  res.status(200).json({status: "Resource created successfully"})
 
 
 

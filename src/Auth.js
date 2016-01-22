@@ -25,7 +25,7 @@ var UserModel = mongoose.model('User', User);
 function login(req, res) {
 
   if (typeof req.body.pass === "undefined" || typeof req.body.mail === "undefined" ) {
-    return res.status(401).json({ status: 401, message: "Unauthorized", "doc":"No password or mail given." });
+    return res.status(400).json({ status: 400, message: "Bad Request", "doc":"No password or mail given." });
   }
 
   var salt = bcrypt.genSaltSync(10);

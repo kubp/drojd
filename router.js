@@ -57,7 +57,7 @@ BlogSection = require("./src/BlogSection");
 
 /* Blog Section */
 
-  app.get('/api/blog_section/:id', handlers.blog_section.getAll);
+  app.get('/api/blog_section/:id', handlers.blog_section.get);
 
   app.post('/api/blog_section/', handlers.auth.auth, handlers.blog_section.set);
 

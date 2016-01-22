@@ -45,8 +45,8 @@ function load(req, res) {
   }).select('-__v').lean().populate('page').exec(function(err, page) {
 
     if (err) {
-      return res.json({
-        error: "ID doesn't exist"
+      return res.status(404).json({
+        error: "Requested resource doesn't exist"
       })
     }
 
@@ -62,13 +62,13 @@ function remove(req, res) {
   }, function(err, doc) {
 
     if (err) {
-      return res.json({
-        error: "ID doesn't exist"
+      return res.status(404).json({
+        error: "Requested resource doesn't exist"
       })
     }
 
-    res.json({
-      status: "ok"
+    res.status(200).json({
+      status: "Resource removed successfully"
     });
   });
 }
@@ -87,12 +87,16 @@ function update(req, res) {
       upsert: true
     },
 
-    function(err, doc) {
-      if (err) return res.json({
-        status: "not ok"
+     function(err, doc) {
+      if (err) {
+        console.log(err)
+      return res.status(404).json({
+        error: "Requested resource doesn't exist"
       })
-      res.json({
-        status: "ok"
+    }
+
+    res.status(200).json({
+        status: "Resource updated successfully"
       })
     });
 }
