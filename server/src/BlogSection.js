@@ -1,5 +1,5 @@
-var Section = require("./models/SectionSchema")
-var BlogSection= require("./models/BlogSectionSchema")
+var Section = require("../models/SectionSchema")
+var BlogSection= require("../models/BlogSectionSchema")
 
 var handler = function() {
 

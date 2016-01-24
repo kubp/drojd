@@ -7,7 +7,7 @@ var compress = require('compression'); //GZIP
 var cors = require('cors')
 var app = express();
 
-config = require("./config");
+config = require("../config");
 mongoose = require('mongoose')
 
 
@@ -70,6 +70,14 @@ app.use(function(req, res, next) {
 
 var routes = require("./router.js");
 router = new routes(app);
+
+
+/**
+ * Browser
+ */
+
+var client = require("./client.js");
+client = new client(app);
 
 
 

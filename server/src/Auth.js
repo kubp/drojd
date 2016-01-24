@@ -2,7 +2,7 @@ var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
-var User = require("./models/UserSchema")
+var User = require("../models/UserSchema")
 
 var handler = function() {
 
