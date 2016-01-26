@@ -13,7 +13,7 @@ var _webpack = require("webpack");
 
 var _webpack2 = _interopRequireDefault(_webpack);
 
-var _webpackConfigDev = require("../../webpack.config.dev");
+var _webpackConfigDev = require("../webpack.config.dev");
 
 var _webpackConfigDev2 = _interopRequireDefault(_webpackConfigDev);
 

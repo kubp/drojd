@@ -41,7 +41,11 @@
     "webpack-dev-server": "^1.9.0"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "watch-js": "./node_modules/.bin/babel browser/src -d browser/lib --experimental -w",
+    "dev-server": "node browser/lib/webpack",
+    "server": "nodemon server/app",
+    "start": "npm run watch-js & npm run dev-server & npm run server"
   },
   "repository": {
     "type": "git",
