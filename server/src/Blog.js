@@ -1,5 +1,5 @@
-var Section = require("./models/SectionSchema")
-var Blog = require("./models/BlogSchema")
+var Section = require("../models/SectionSchema")
+var Blog = require("../models/BlogSchema")
 
 var handler = function() {
 
@@ -21,7 +21,7 @@ function loadAll(req, res) {
 }
 
 function load(req, res) {
-  Blog.find({
+  Blog.findOne({
     _id: req.params.id
   }).exec(function(err, posts) {
 

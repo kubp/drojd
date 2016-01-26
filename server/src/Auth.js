@@ -2,12 +2,13 @@ var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
-var User = require("./models/UserSchema")
+var User = require("../models/UserSchema")
 
 var handler = function() {
 
   this.login = login;
   this.auth = auth;
+  this.authAdmin = authAdmin;
   this.verifyUser = verify;
   this.add = add;
 };
@@ -38,7 +39,7 @@ function login(req, res) {
     if (user && bcrypt.compareSync(req.body.pass, user.pass)) {
 
         
-        var token = jwt.sign({user: user._id
+        var token = jwt.sign({user: user._id, permission: user.permission
         }, config.secret, {
           expiresIn: config.jwtexpires
         });
@@ -87,6 +88,35 @@ function auth(req, res, next) {
   });
 
 }
+
+function authAdmin(req, res, next) {
+  var token = req.params.apikey || req.body.apikey || req.query.apikey || req.headers['x-access-token'];
+  jwt.verify(token, config.secret, function(err, decoded) {
+  
+  var decoded = jwt.decode(token);
+
+   if (err) {
+      return res.status(401).json({
+        status: 401,
+        message: "Unauthorized"
+      });
+
+    } else if(decoded.permission != 2){
+    
+      return res.status(403).json({
+        status: 403,
+        message: "Forbidden"});
+    
+    }else{
+      return next();
+    
+    }
+
+  });
+
+}
+
+
 
 
 function verify(req, res) {
