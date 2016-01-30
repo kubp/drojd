@@ -131,3 +131,5 @@ if (app.get('env') == 'production') {
 } else {
   console.log('Listening on port ' + port + " -" + '\x1b[32m', app.get("env"), '\x1b[0m');
 }
+
+module.exports.getApp = app;
