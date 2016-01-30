@@ -17,6 +17,7 @@ mongoose.connect(config.db);
 
 
 
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({
@@ -27,7 +28,7 @@ var winston = require('winston');
 
 
 winston.add(winston.transports.File, {
-  filename: 'logs/error.log'
+  filename: __dirname+'/logs/error.log'
 });
 winston.remove(winston.transports.Console);
 

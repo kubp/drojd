@@ -7,11 +7,12 @@ module.exports = function(app) {
   Blog = require("./src/Blog");
   BlogSection = require("./src/BlogSection");
   Main = require("./src/Main");
+  User = require("./src/User")
 
   var handlers = {
     page: new Page(),
     auth: new Auth(),
-    //user: new User(),
+    user: new User(),
     section: new Section(),
     blog: new Blog(),
     blog_section: new BlogSection(),
@@ -74,5 +75,17 @@ module.exports = function(app) {
   app.get(config.api_url+'/login/add', handlers.auth.add);
 
   app.get(config.api_url+'/verify/:apikey', handlers.auth.auth, handlers.auth.verifyUser);
+
+/* User */
+
+  app.get(config.api_url+'/user/', handlers.auth.authAdmin, handlers.user.getAll);
+
+  app.get(config.api_url+'/user/:id', handlers.auth.authAdmin, handlers.user.get);
+
+  app.post(config.api_url+'/user/', handlers.auth.authAdmin, handlers.user.set);
+
+  app.delete(config.api_url+'/user/:id', handlers.auth.authAdmin, handlers.user.remove);
+
+  app.put(config.api_url+'/user/:id', handlers.auth.authAdmin, handlers.user.update);
 
 }
