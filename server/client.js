@@ -5,7 +5,7 @@ var App = require("../browser/lib/components/Main")
 var Section = require("./models/SectionSchema")
 var Page = require("./models/PageSchema")
 
-  app.get("/",function(req,res){
+  app.get("/*",function(req,res){
   	 Section.find({}).populate("page").exec(function(error, posts) {
     
 
