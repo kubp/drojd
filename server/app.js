@@ -78,13 +78,12 @@ router = new routes(app);
  * Browser
  */
 
-var client = require("./client.js");
-client = new client(app);
-
-
-
 var Filer = require("./lib/filer.js");
 filer = new Filer(app);
+
+
+var client = require("./client.js");
+client = new client(app);
 
 
 

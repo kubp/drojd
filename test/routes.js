@@ -12,7 +12,7 @@ var app = require("../server/app").getApp;
 describe('Sections', function(){
 
 describe('GET /section/', function(){
-  it('right get data', function(done){
+  it('section data', function(done){
     request(app)
       .get('/api/section')
       .set('Accept', 'application/json')
@@ -35,7 +35,7 @@ describe('GET /section/', function(){
 
 
 describe('GET /section/ query', function(){
-  it('right search data', function(done){
+  it('search data', function(done){
     request(app)
       .get('/api/section?q=page:type')
       .set('Accept', 'application/json')
@@ -58,6 +58,48 @@ describe('GET /section/ query', function(){
 
 
 });
+
+
+
+});
+
+
+
+describe('Upload', function(){
+
+describe('GET /files/', function(){
+  it('is array', function(done){
+    request(app)
+      .get('/api/image/')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .expect('Content-Type', /json/)
+       .end(function (err, res) {
+        if(err){
+            throw err;
+        }
+          
+          res.body.should.be.a.Array()
+          done()
+    });
+  });
+
+    it('is error', function(done){
+    request(app)
+      .post('/api/image/')
+      .set('Accept', 'application/json')
+      .expect(403)
+      .expect('Content-Type', /json/)
+       .end(function (err, res) {
+        if(err){
+            throw err;
+        }
+          res.body.should.have.property("status")
+          done()
+    });
+  });
+   });
+
 
 
 

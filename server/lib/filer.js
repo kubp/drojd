@@ -8,10 +8,14 @@ module.exports = function(app) {
   var path = require('path');
 
   app.post('/api/image/', upload.single('file'), function (req, res, next) {
-
+    try{
     fs.rename(req.file.path, __dirname+'/../../uploads/images/'+req.file.originalname, function(err) {
-        if ( err ) console.log('ERROR: ' + err);
+        if ( err ) return res.status(403).json({status:"error"})
+        res.json({status:"ok"})
     });
+    }catch(e){
+      res.status(403).json({status:"error"})
+    }
 
   })
 
