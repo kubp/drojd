@@ -37,7 +37,8 @@ winston.remove(winston.transports.Console);
 /*
  * Static files
  */
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
+app.use(express.static(__dirname + '/../uploads'));
 app.use(compress());
 
 
@@ -76,6 +77,10 @@ router = new routes(app);
 /**
  * Browser
  */
+
+var Filer = require("./lib/filer.js");
+filer = new Filer(app);
+
 
 var client = require("./client.js");
 client = new client(app);

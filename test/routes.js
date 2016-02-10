@@ -12,7 +12,7 @@ var app = require("../server/app").getApp;
 describe('Sections', function(){
 
 describe('GET /section/', function(){
-  it('right get data', function(done){
+  it('section data', function(done){
     request(app)
       .get('/api/section')
       .set('Accept', 'application/json')
@@ -35,7 +35,7 @@ describe('GET /section/', function(){
 
 
 describe('GET /section/ query', function(){
-  it('right search data', function(done){
+  it('search data', function(done){
     request(app)
       .get('/api/section?q=page:type')
       .set('Accept', 'application/json')
