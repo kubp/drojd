@@ -60,9 +60,17 @@ app.use(function(req, res, next) {
   res.removeHeader("X-Powered-By");
   res.header('Access-Control-Allow-Origin', '*');
   next();
-
 });
 
+
+/*
+ * Logger
+ */
+var Logger = require("./lib/logger")
+app.use(function(req, res, next) {
+  Logger.log(req)
+  next()
+});
 
 
 /**
