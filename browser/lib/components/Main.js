@@ -34,6 +34,10 @@ var _Page = require("./Page");
 
 var _Page2 = _interopRequireDefault(_Page);
 
+var _error404 = require("./error404");
+
+var _error4042 = _interopRequireDefault(_error404);
+
 var Main = (function (_React$Component) {
   _inherits(Main, _React$Component);
 
@@ -41,12 +45,17 @@ var Main = (function (_React$Component) {
     _classCallCheck(this, Main);
 
     _get(Object.getPrototypeOf(Main.prototype), "constructor", this).call(this, props);
-    this.state = { data: this.props.data };
   }
 
   //<script src="/min.js"></script>
 
   _createClass(Main, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+
+      //this.setState({data:this.props.data});
+    }
+  }, {
     key: "makeTitle",
     value: function makeTitle(value) {
 
@@ -91,9 +100,9 @@ var Main = (function (_React$Component) {
           _react2["default"].createElement(
             "title",
             null,
-            this.makeTitle(this.props.data[0])
+            this.makeTitle(this.props.data)
           ),
-          _react2["default"].createElement("meta", { name: "description", content: this.makeDescription(this.props.data[0]) })
+          _react2["default"].createElement("meta", { name: "description", content: this.makeDescription(this.props.data) })
         ),
         _react2["default"].createElement(
           "body",
@@ -149,7 +158,7 @@ var Main = (function (_React$Component) {
             _react2["default"].createElement(
               "div",
               { className: "wrapper" },
-              _react2["default"].createElement(Content, { data: this.state.data[0] })
+              _react2["default"].createElement(Content, { data: this.props.data })
             )
           ),
           _react2["default"].createElement(
@@ -162,7 +171,7 @@ var Main = (function (_React$Component) {
               "Drojd CMS"
             )
           ),
-          _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: "window._sharedData = " + JSON.stringify(this.state.data) } }),
+          _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: "window._sharedData = " + JSON.stringify(this.props.data) } }),
           _react2["default"].createElement("script", { src: "http://localhost:8080/js/app.js", defer: "defer" }),
           _react2["default"].createElement("script", { src: "https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.1/SmoothScroll.js" })
         )
@@ -193,11 +202,7 @@ var Content = (function (_React$Component2) {
       } else if (this.props.data.type == "blog_section") {
         return _react2["default"].createElement(_BlogList2["default"], { data: this.props.data });
       } else {
-        return _react2["default"].createElement(
-          "h1",
-          null,
-          "404 oh"
-        );
+        return _react2["default"].createElement(_error4042["default"], null);
       }
     }
   }]);

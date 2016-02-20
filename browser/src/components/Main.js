@@ -5,13 +5,20 @@ import marked from "marked";
 import Blog from "./Blog";
 import BlogList from "./BlogList";
 import Page from "./Page";
+import Error404 from "./error404";
 
 class Main extends React.Component {
 constructor(props){
     super(props);
-    this.state = {data:this.props.data};
+
+
 
     
+}
+
+componentDidMount(){
+     
+//this.setState({data:this.props.data});
 }
 
 makeTitle(value){
@@ -39,8 +46,8 @@ makeDescription(value){
             <meta charSet="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
             <link rel="stylesheet" type="text/css" href="/main.css"/>
-            <title>{this.makeTitle(this.props.data[0])}</title>
-            <meta name="description" content={this.makeDescription(this.props.data[0])}/>
+            <title>{this.makeTitle(this.props.data)}</title>
+            <meta name="description" content={this.makeDescription(this.props.data)}/>
 
           </head>
           <body>
@@ -53,21 +60,21 @@ makeDescription(value){
 
               <div className="clear"></div>
               </header>
-
-
+               
+                  
               <main>
 
 
                <div className="wrapper">
-                 
+                  <Content data={this.props.data}/>
                   
-            <Content data={this.state.data[0]}/>
+           
             
               </div>
               </main>
 
           <footer>Achieved with <a href="cms">Drojd CMS</a></footer>
-          <script dangerouslySetInnerHTML={{__html: "window._sharedData = "+JSON.stringify(this.state.data)}} />
+          <script dangerouslySetInnerHTML={{__html: "window._sharedData = "+JSON.stringify(this.props.data)}} />
           <script src="http://localhost:8080/js/app.js" defer="defer"></script>
              <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.1/SmoothScroll.js"></script>
           </body>
@@ -99,7 +106,7 @@ constructor(props){
       return ( <BlogList data={this.props.data}/> )
 
     }else{
-        return ( <h1>404 oh</h1> )
+        return (<Error404/>)
     }
   }
 
