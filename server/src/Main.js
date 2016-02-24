@@ -4,9 +4,9 @@ var handler = function() {
 }
 
 function load(req, res){
-  var url = req.protocol + '://' + req.get('host') + req.originalUrl;
+  var url = req.protocol + '://' + req.get('host')+config.api_url +"/";
 
-   res.json({"section_url":url+"section", 
+   res.json({"section_url":url+"section",
              "page_url":url+"page",
              "blog_url":url+"blog",
              "blog_section_url":url+"blog_section",

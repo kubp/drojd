@@ -1,13 +1,14 @@
 module.exports = function(app) {
 
 
-  Auth = require("./src/Auth");
-  Section = require("./src/Section");
-  Page = require("./src/Page");
-  Blog = require("./src/Blog");
-  BlogSection = require("./src/BlogSection");
-  Main = require("./src/Main");
-  User = require("./src/User")
+  var Auth = require("./src/Auth");
+  var Section = require("./src/Section");
+  var Page = require("./src/Page");
+  var Blog = require("./src/Blog");
+  var BlogSection = require("./src/BlogSection");
+  var Main = require("./src/Main");
+  var User = require("./src/User")
+  var Stats = require("./lib/stats")
 
   var handlers = {
     page: new Page(),
@@ -16,7 +17,8 @@ module.exports = function(app) {
     section: new Section(),
     blog: new Blog(),
     blog_section: new BlogSection(),
-    main: new Main()
+    main: new Main(),
+    stats: new Stats()
   };
 
    app.get(config.api_url+'/', handlers.main.get);
@@ -87,5 +89,13 @@ module.exports = function(app) {
   app.delete(config.api_url+'/user/:id', handlers.auth.authAdmin, handlers.user.remove);
 
   app.put(config.api_url+'/user/:id', handlers.auth.authAdmin, handlers.user.update);
+
+  /* Stats */
+
+  app.get(config.api_url+'/stats/monthly', handlers.auth.auth, handlers.stats.getMonth);
+
+  app.get(config.api_url+'/stats/daily', handlers.auth.auth, handlers.stats.getDay);
+
+  app.get(config.api_url+'/stats/daily/detail', handlers.auth.auth, handlers.stats.getDayDetail);
 
 }
