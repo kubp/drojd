@@ -61,14 +61,17 @@ function update(req, res) {
   req.body.raw_content ? content.raw_content= req.body.raw_content : null;
   req.body.md_content ? content.md_content= req.body.md_content : null;
   req.body.perex ? content.perex = req.body.perex : null;
-  req.body.tags ? content.tags = req.body.tags.split(",") : null;
   req.body.author ? content.author = req.body.author : null;
   req.body.section ? content.section = req.body.section : null;
   req.body.date ? content.date = req.body.date : null;
   req.body.url ? content.url= req.body.url : null;
   req.body.visible ? content.visible= req.body.visible : null;
-
-
+  req.body.image ? content.image= req.body.image : null;
+  if(typeof req.body.tags === "object"){
+    req.body.tags ? content.tags = req.body.tags : null;
+  }else{
+    req.body.tags ? content.tags = req.body.tags.split(",") : null;
+  }
 
   Post.findOneAndUpdate({
       _id: req.params.id
@@ -104,7 +107,8 @@ function add(req, res) {
     author: req.body.author,
     section:req.body.section,
     url: req.body.url,
-    visible: req.body.visible
+    visible: req.body.visible,
+    image: req.body.image
 })
 
   var section = new Section({

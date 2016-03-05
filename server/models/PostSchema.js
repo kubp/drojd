@@ -10,6 +10,7 @@ var PostSchema = new mongoose.Schema({
     date: Date,
     section: String,
     url: String,
+    image: String,
     visible: {type: Number, default: 1}
 
 

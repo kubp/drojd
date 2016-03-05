@@ -42,6 +42,18 @@ var _Menu = require("./Menu");
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
+var _PageHead = require("./PageHead");
+
+var _PageHead2 = _interopRequireDefault(_PageHead);
+
+var _PostHead = require("./PostHead");
+
+var _PostHead2 = _interopRequireDefault(_PostHead);
+
+var _BlogHead = require("./BlogHead");
+
+var _BlogHead2 = _interopRequireDefault(_BlogHead);
+
 var Main = (function (_React$Component) {
   _inherits(Main, _React$Component);
 
@@ -54,54 +66,14 @@ var Main = (function (_React$Component) {
   //<script src="/min.js"></script>
 
   _createClass(Main, [{
-    key: "makeTitle",
-    value: function makeTitle(value) {
-
-      if (typeof value.blogsection != "undefined") {
-        return value.blogsection.title;
-      }
-      if (typeof value.post != "undefined") {
-        return value.post.title;
-      }
-      if (typeof value.page != "undefined") {
-        return value.page.title;
-      }
-      return "";
-    }
-  }, {
-    key: "makeDescription",
-    value: function makeDescription(value) {
-
-      if (typeof value.blogsection != "undefined") {
-        return value.blogsection.description;
-      }
-      if (typeof value.post != "undefined") {
-        return value.post.description;
-      }
-      if (typeof value.page != "undefined") {
-        return value.page.description;
-      }
-      return "";
-    }
-  }, {
     key: "render",
     value: function render() {
       return _react2["default"].createElement(
         "html",
         null,
-        _react2["default"].createElement(
-          "head",
-          null,
-          _react2["default"].createElement("meta", { charSet: "utf-8" }),
-          _react2["default"].createElement("meta", { name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0" }),
-          _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/main.css" }),
-          _react2["default"].createElement(
-            "title",
-            null,
-            this.makeTitle(this.props.data)
-          ),
-          _react2["default"].createElement("meta", { name: "description", content: this.makeDescription(this.props.data) })
-        ),
+        this.props.data.page ? _react2["default"].createElement(_PageHead2["default"], { data: this.props.data.page }) : null,
+        this.props.data.blogsection ? _react2["default"].createElement(_BlogHead2["default"], { data: this.props.data.blogsection }) : null,
+        this.props.data.post ? _react2["default"].createElement(_PostHead2["default"], { data: this.props.data.post }) : null,
         _react2["default"].createElement(
           "body",
           null,

@@ -14,32 +14,42 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var Simple = (function (_React$Component) {
-  _inherits(Simple, _React$Component);
+var PageHead = (function (_React$Component) {
+  _inherits(PageHead, _React$Component);
 
-  function Simple(props) {
-    _classCallCheck(this, Simple);
+  function PageHead(props) {
+    _classCallCheck(this, PageHead);
 
-    _get(Object.getPrototypeOf(Simple.prototype), "constructor", this).call(this, props);
+    _get(Object.getPrototypeOf(PageHead.prototype), "constructor", this).call(this, props);
+    console.log(this.props.data);
   }
 
-  _createClass(Simple, [{
+  _createClass(PageHead, [{
     key: "render",
     value: function render() {
       return _react2["default"].createElement(
-        "div",
+        "head",
         null,
-        _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/main.css" }),
+        _react2["default"].createElement("meta", { charSet: "utf-8" }),
+        _react2["default"].createElement("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }),
         _react2["default"].createElement(
-          "h1",
+          "title",
           null,
-          "The page you are looking for does not exist"
-        )
+          this.props.data.title
+        ),
+        _react2["default"].createElement("meta", { name: "description", content: this.props.data.description }),
+        _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/main.css" }),
+        _react2["default"].createElement("meta", { property: "og:type", content: "article" }),
+        _react2["default"].createElement("meta", { property: "og:title", content: this.props.data.title }),
+        _react2["default"].createElement("meta", { property: "og:description", content: this.props.data.description }),
+        _react2["default"].createElement("meta", { name: "twitter:card", content: "summary" }),
+        _react2["default"].createElement("meta", { name: "twitter:description", content: this.props.data.description }),
+        _react2["default"].createElement("meta", { name: "twitter:title", content: this.props.data.title })
       );
     }
   }]);
 
-  return Simple;
+  return PageHead;
 })(_react2["default"].Component);
 
-module.exports = Simple;
+module.exports = PageHead;

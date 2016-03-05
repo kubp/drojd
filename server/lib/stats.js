@@ -21,7 +21,7 @@ function getMonth(req, res) {
                 count: {$sum: 1}
             }
         }
-  ).exec(function(error, stats) {
+  ).sort({_id: 1}).exec(function(error, stats) {
 
     for(i=0; i < stats.length; i++){
       stats[i].month=stats[i]._id

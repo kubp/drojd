@@ -7,6 +7,9 @@ import BlogList from "./BlogList";
 import Page from "./Page";
 import Error404 from "./error404";
 import Menu from "./Menu"
+import PageHead from "./PageHead"
+import PostHead from "./PostHead"
+import BlogHead from "./BlogHead"
 
 class Main extends React.Component {
 constructor(props){
@@ -14,35 +17,18 @@ constructor(props){
 
 }
 
-makeTitle(value){
- 
-  if(typeof value.blogsection != "undefined"){ return value.blogsection.title }
- if(typeof value.post != "undefined"){ return value.post.title }
- if(typeof value.page != "undefined"){ return value.page.title }
-  return "";
-}
 
-makeDescription(value){
-
-  if(typeof value.blogsection != "undefined"){ return value.blogsection.description }
- if(typeof value.post != "undefined"){ return value.post.description }
- if(typeof value.page != "undefined"){ return value.page.description }
-  return "";
-}
 
 
 
   render() {
       return(
         <html>
-          <head>
-            <meta charSet="utf-8"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-            <link rel="stylesheet" type="text/css" href="/main.css"/>
-            <title>{this.makeTitle(this.props.data)}</title>
-            <meta name="description" content={this.makeDescription(this.props.data)}/>
+        
+           {this.props.data.page ? <PageHead data={this.props.data.page}/> : null}
+           {this.props.data.blogsection ? <BlogHead data={this.props.data.blogsection}/> : null}
+          {this.props.data.post ? <PostHead data={this.props.data.post}/> : null}
 
-          </head>
           <body>
             <header>
               {this.props.data.menu ? <Menu menu={this.props.data.menu}/> : null}

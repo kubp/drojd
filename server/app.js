@@ -77,15 +77,6 @@ app.use(function(req, res, next) {
   
 });
 
-/*
- * Logger
- */
-var Logger = require("./lib/logger")
-app.use(function(req, res, next) {
-  Logger.log(req)
-  next()
-});
-
 
 /**
  * Initializing router

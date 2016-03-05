@@ -6,7 +6,10 @@ class Simple extends React.Component {
   }
 
   render() {
-    return(<h1>The page you are looking for does not exist</h1>)
+    return(<div>
+    	 <link rel="stylesheet" type="text/css" href="/main.css"/>
+    	 <h1>The page you are looking for does not exist</h1>
+    	 </div>)
   }
 
 }

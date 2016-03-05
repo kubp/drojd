@@ -62,6 +62,7 @@ function update(req, res) {
   req.body.keywords ? content.keywords = req.body.keywords : null;
   req.body.url ? content.url= req.body.url : null;
   req.body.visible ? content.visible= req.body.visible : null;
+  req.body.image ? content.image= req.body.image : null;
 
   Page.findOneAndUpdate({
       _id: req.params.id
@@ -93,7 +94,8 @@ function add(req, res) {
     md_content: req.body.md_content,
     keywords: req.body.keywords,
     url: req.body.url,
-    visible: req.body.visible
+    visible: req.body.visible,
+    image: req.body.image
 
   })
 

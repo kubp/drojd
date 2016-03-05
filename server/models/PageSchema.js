@@ -6,6 +6,7 @@ var PageSchema = new mongoose.Schema({
     md_content: String,
     keywords: String,
     url: String,
+    image: String,
     visible: {type: Number, default: 1}
    },{ versionKey: false });
 
