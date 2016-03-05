@@ -1,5 +1,5 @@
 var Section = require("../models/SectionSchema")
-var Blog = require("../models/BlogSchema")
+var Post = require("../models/PostSchema")
 
 var handler = function() {
 
@@ -15,13 +15,13 @@ var handler = function() {
 
 
 function loadAll(req, res) {
-  Blog.find({}).exec(function(error, posts) {
+  Post.find({}).exec(function(error, posts) {
     res.json(posts)
   })
 }
 
 function load(req, res) {
-  Blog.findOne({
+  Post.findOne({
     _id: req.params.id
   }).exec(function(err, posts) {
 
@@ -37,7 +37,7 @@ function load(req, res) {
 
 
 function remove(req, res) {
-  Blog.findOneAndRemove({
+  Post.findOneAndRemove({
     _id: req.params.id
   }, function(err, doc) {
 
@@ -61,13 +61,16 @@ function update(req, res) {
   req.body.raw_content ? content.raw_content= req.body.raw_content : null;
   req.body.md_content ? content.md_content= req.body.md_content : null;
   req.body.perex ? content.perex = req.body.perex : null;
-  req.body.tags ? content.tags = req.body.tags : null;
+  req.body.tags ? content.tags = req.body.tags.split(",") : null;
   req.body.author ? content.author = req.body.author : null;
   req.body.section ? content.section = req.body.section : null;
   req.body.date ? content.date = req.body.date : null;
   req.body.url ? content.url= req.body.url : null;
+  req.body.visible ? content.visible= req.body.visible : null;
 
-  Blog.findOneAndUpdate({
+
+
+  Post.findOneAndUpdate({
       _id: req.params.id
     }, content, {
       upsert: true
@@ -90,27 +93,28 @@ function update(req, res) {
 function add(req, res) {
 
 
-  var blog = new Blog({
+  var post = new Post({
     title: req.body.title,
     description: req.body.description,
     headline: req.body.headline,
     perex: req.body.perex,
     raw_content: req.body.raw_content,
     md_content: req.body.md_content,
-    tags:req.body.tags,
+    tags: req.body.tags.split(","),
     author: req.body.author,
     section:req.body.section,
-    url: req.body.url
+    url: req.body.url,
+    visible: req.body.visible
 })
 
   var section = new Section({
     url: req.body.url,
-    type: "blog",
+    type: "post",
     blog_section:req.body.section,
-    blog: blog._id
+    post: post._id
   })
 
-  blog.save();
+  post.save();
   section.save();
 
   res.status(200).json({status: "Resource created successfully"})

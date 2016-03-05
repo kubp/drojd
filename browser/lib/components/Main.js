@@ -22,9 +22,9 @@ var _marked = require("marked");
 
 var _marked2 = _interopRequireDefault(_marked);
 
-var _Blog = require("./Blog");
+var _Post = require("./Post");
 
-var _Blog2 = _interopRequireDefault(_Blog);
+var _Post2 = _interopRequireDefault(_Post);
 
 var _BlogList = require("./BlogList");
 
@@ -38,6 +38,10 @@ var _error404 = require("./error404");
 
 var _error4042 = _interopRequireDefault(_error404);
 
+var _Menu = require("./Menu");
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
 var Main = (function (_React$Component) {
   _inherits(Main, _React$Component);
 
@@ -50,20 +54,14 @@ var Main = (function (_React$Component) {
   //<script src="/min.js"></script>
 
   _createClass(Main, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-
-      //this.setState({data:this.props.data});
-    }
-  }, {
     key: "makeTitle",
     value: function makeTitle(value) {
 
       if (typeof value.blogsection != "undefined") {
         return value.blogsection.title;
       }
-      if (typeof value.blog != "undefined") {
-        return value.blog.title;
+      if (typeof value.post != "undefined") {
+        return value.post.title;
       }
       if (typeof value.page != "undefined") {
         return value.page.title;
@@ -77,8 +75,8 @@ var Main = (function (_React$Component) {
       if (typeof value.blogsection != "undefined") {
         return value.blogsection.description;
       }
-      if (typeof value.blog != "undefined") {
-        return value.blog.description;
+      if (typeof value.post != "undefined") {
+        return value.post.description;
       }
       if (typeof value.page != "undefined") {
         return value.page.description;
@@ -110,46 +108,7 @@ var Main = (function (_React$Component) {
           _react2["default"].createElement(
             "header",
             null,
-            _react2["default"].createElement(
-              "ul",
-              null,
-              _react2["default"].createElement(
-                "li",
-                null,
-                _react2["default"].createElement(
-                  "a",
-                  { href: "/" },
-                  "Články"
-                )
-              ),
-              _react2["default"].createElement(
-                "li",
-                null,
-                _react2["default"].createElement(
-                  "a",
-                  { href: "/portfolio" },
-                  "Portfolio"
-                )
-              ),
-              _react2["default"].createElement(
-                "li",
-                null,
-                _react2["default"].createElement(
-                  "a",
-                  { href: "/o-mne" },
-                  "Omně"
-                )
-              ),
-              _react2["default"].createElement(
-                "li",
-                null,
-                _react2["default"].createElement(
-                  "a",
-                  { href: "/en" },
-                  "English"
-                )
-              )
-            ),
+            this.props.data.menu ? _react2["default"].createElement(_Menu2["default"], { menu: this.props.data.menu }) : null,
             _react2["default"].createElement("div", { className: "clear" })
           ),
           _react2["default"].createElement(
@@ -197,8 +156,8 @@ var Content = (function (_React$Component2) {
 
       if (this.props.data.type == "page") {
         return _react2["default"].createElement(_Page2["default"], { data: this.props.data });
-      } else if (this.props.data.type == "blog") {
-        return _react2["default"].createElement(_Blog2["default"], { data: this.props.data });
+      } else if (this.props.data.type == "post") {
+        return _react2["default"].createElement(_Post2["default"], { data: this.props.data });
       } else if (this.props.data.type == "blog_section") {
         return _react2["default"].createElement(_BlogList2["default"], { data: this.props.data });
       } else {

@@ -1,5 +1,5 @@
-var User = require("../models/UserSchema")
-var bcrypt = require('bcryptjs');
+var Comment = require("../models/CommentSchema")
+
 
 var handler = function() {
 
@@ -9,34 +9,44 @@ var handler = function() {
   this.update = update;
   this.set = add;
 
+
 };
 
 
 
-function loadAll(req, res) {
-  User.find({}).select("-pass").exec(function(error, posts) {
-    res.json(posts)
-  })
-}
+
 
 function load(req, res) {
-  User.find({
-    _id: req.params.id
-  }).select("-pass").exec(function(err, posts) {
+  Comment.find({
+    post_id: req.params.post
+  }).exec(function(err, posts) {
 
-    if (err) {
+    if (posts.length == 0) {
       return res.status(404).json({
-        error: "Requested resource doesn't exist"
-      })
+        error: "Requested resources doesn't exist"
+      });
     }
 
-    res.json(posts[0]);
+    res.json(posts);
   })
 }
 
 
+function loadAll(req, res) {
+  Comment.find({}).exec(function(err, posts) {
+
+    if (posts.length == 0) {
+      return res.status(404).json({
+        error: "Requested resources doesn't exist"
+      });
+    }
+
+    res.json(posts);
+  })
+}
+
 function remove(req, res) {
-  User.findOneAndRemove({
+  Comment.findOneAndRemove({
     _id: req.params.id
   }, function(err, doc) {
 
@@ -46,25 +56,21 @@ function remove(req, res) {
       })
     }
 
-     res.status(200).json({
+    res.status(200).json({
       status: "Resource removed successfully"
     });
   });
 }
 
 function update(req, res) {
-  var salt = bcrypt.genSaltSync(10);
-  var password = bcrypt.hashSync(req.body.pass, salt);
-
   var content = {};
+  req.body.post_id ? content.post_id = req.body.post_id : null;
+  req.body.author ? content.author = req.body.author : null;
   req.body.mail ? content.mail = req.body.mail : null;
-  req.body.pass ? content.pass= password : null;
-  req.body.name ? content.name = req.body.name : null;
-  req.body.profile_picture ? content.profile_picture = req.body.profile_picture : null;
+  req.body.content ? content.content = req.body.content : null;
   req.body.permission ? content.permission = req.body.permission : null;
 
-
-  User.findOneAndUpdate({
+  Comment.findOneAndUpdate({
       _id: req.params.id
     }, content, {
       upsert: true
@@ -86,20 +92,27 @@ function update(req, res) {
 
 function add(req, res) {
 
-var salt = bcrypt.genSaltSync(10);
-var password = bcrypt.hashSync(req.body.pass, salt);
-
-  var user = new User({
+ 
+  var comment = new Comment({
+    post_id: req.body.post_id,
+    author: req.body.author,
     mail: req.body.mail,
-    pass: password,
-    name: req.body.name,
     profile_picture: req.body.profile_picture,
+   // reply: req.body.reply,
+    content: req.body.content,
     permission: req.body.permission
-  })
 
-  user.save();
+    
+})
+
+  
+
+  
+  comment.save();
 
   res.status(200).json({status: "Resource created successfully"})
+
+
 
 }
 

@@ -14,30 +14,37 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var Page = (function (_React$Component) {
-  _inherits(Page, _React$Component);
+var Menu = (function (_React$Component) {
+  _inherits(Menu, _React$Component);
 
-  function Page(props) {
-    _classCallCheck(this, Page);
+  function Menu(props) {
+    _classCallCheck(this, Menu);
 
-    _get(Object.getPrototypeOf(Page.prototype), "constructor", this).call(this, props);
-    this.state = {
-      page: this.props.data.page
-    };
+    _get(Object.getPrototypeOf(Menu.prototype), "constructor", this).call(this, props);
   }
 
-  _createClass(Page, [{
+  _createClass(Menu, [{
     key: "render",
     value: function render() {
       return _react2["default"].createElement(
-        "div",
+        "ul",
         null,
-        _react2["default"].createElement("div", { dangerouslySetInnerHTML: { __html: this.state.page.raw_content } })
+        this.props.menu.map(function (item) {
+          return _react2["default"].createElement(
+            "li",
+            { key: item._id },
+            _react2["default"].createElement(
+              "a",
+              { href: item.href },
+              item.text
+            )
+          );
+        })
       );
     }
   }]);
 
-  return Page;
+  return Menu;
 })(_react2["default"].Component);
 
-module.exports = Page;
+module.exports = Menu;

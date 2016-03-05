@@ -7,9 +7,9 @@ var SectionSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Page'
     },
-    blog: {
+    post: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Blog'
+        ref: 'Post'
     },
     blogsection: {
         type: mongoose.Schema.Types.ObjectId,

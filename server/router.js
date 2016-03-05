@@ -4,21 +4,25 @@ module.exports = function(app) {
   var Auth = require("./src/Auth");
   var Section = require("./src/Section");
   var Page = require("./src/Page");
-  var Blog = require("./src/Blog");
+  var Post = require("./src/Post");
   var BlogSection = require("./src/BlogSection");
   var Main = require("./src/Main");
   var User = require("./src/User")
   var Stats = require("./lib/stats")
+  var Comment = require("./src/Comment")
+  var Menu = require("./src/Menu")
 
   var handlers = {
     page: new Page(),
     auth: new Auth(),
     user: new User(),
     section: new Section(),
-    blog: new Blog(),
+    post: new Post(),
     blog_section: new BlogSection(),
     main: new Main(),
-    stats: new Stats()
+    stats: new Stats(),
+    comment: new Comment(),
+    menu: new Menu()
   };
 
    app.get(config.api_url+'/', handlers.main.get);
@@ -49,15 +53,15 @@ module.exports = function(app) {
 
 /* Blog */
 
-  app.get(config.api_url+'/blog/', handlers.blog.getAll);
+  app.get(config.api_url+'/post/', handlers.post.getAll);
 
-  app.get(config.api_url+'/blog/:id', handlers.blog.get);
+  app.get(config.api_url+'/post/:id', handlers.post.get);
 
-  app.post(config.api_url+'/blog/', handlers.auth.auth, handlers.blog.set);
+  app.post(config.api_url+'/post/', handlers.auth.auth, handlers.post.set);
 
-  app.delete(config.api_url+'/blog/:id', handlers.auth.auth, handlers.blog.remove);
+  app.delete(config.api_url+'/post/:id', handlers.auth.auth, handlers.post.remove);
 
-  app.put(config.api_url+'/blog/:id', handlers.auth.auth, handlers.blog.update);
+  app.put(config.api_url+'/post/:id', handlers.auth.auth, handlers.post.update);
 
 
 /* Blog Section */
@@ -97,5 +101,30 @@ module.exports = function(app) {
   app.get(config.api_url+'/stats/daily', handlers.auth.auth, handlers.stats.getDay);
 
   app.get(config.api_url+'/stats/daily/detail', handlers.auth.auth, handlers.stats.getDayDetail);
+
+  app.get(config.api_url+'/stats/unique', handlers.auth.auth, handlers.stats.getUnique);
+
+  /* Comments */
+
+  app.get(config.api_url+'/comment/:post', handlers.comment.get);
+
+  app.get(config.api_url+'/comment/', handlers.comment.getAll);
+
+  app.post(config.api_url+'/comment', handlers.comment.set);
+
+  app.delete(config.api_url+'/comment/:id', handlers.comment.remove);
+
+  app.put(config.api_url+'/comment/:id', handlers.comment.update);
+
+  /* Menu */ 
+  app.get(config.api_url+'/menu', handlers.auth.auth, handlers.menu.loadAll);
+
+  app.get(config.api_url+'/menu/:id', handlers.auth.auth, handlers.menu.load);
+
+  app.post(config.api_url+'/menu', handlers.auth.auth, handlers.menu.add);
+
+  app.delete(config.api_url+'/menu/:id', handlers.auth.auth, handlers.menu.remove);
+
+  app.put(config.api_url+'/menu/:id', handlers.auth.auth, handlers.menu.update);
 
 }

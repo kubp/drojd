@@ -6,6 +6,8 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -18,6 +20,8 @@ var _axios = require("axios");
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var querystring = require('querystring');
+
 var Blog = (function (_React$Component) {
   _inherits(Blog, _React$Component);
 
@@ -26,16 +30,44 @@ var Blog = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Blog.prototype), "constructor", this).call(this, props);
     this.state = { post: this.props.data.post, comments: [{}] };
+    this.axiosSend = this.axiosSend.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    console.log(this.props.data.post._id);
   }
 
   _createClass(Blog, [{
     key: "componentDidMount",
     value: function componentDidMount() {
 
-      _axios2["default"].get('http://localhost:8090/api/comment/56d498a32d93cec84d18b5b4').then((function (response) {
-        this.setState({ comments: response.data });
-        console.log(response.data);
+      _axios2["default"].get('http://localhost:8090/api/comment/' + this.props.data.post._id + '').then((function (response) {
+        this.setState({ comments: response.data
+        });
       }).bind(this));
+    }
+  }, {
+    key: "axiosSend",
+    value: function axiosSend() {
+
+      var comments = this.state.comments;
+      comments.push({
+        author: this.state.comment_name,
+        content: this.state.comment_content,
+        created_at: new Date().toString() });
+      this.setState({ comments: comments });
+
+      _axios2["default"].post('  http://localhost:8090/api/comment', querystring.stringify({
+        post_id: this.props.data.post._id,
+        author: this.state.comment_name,
+        mail: this.state.comment_mail,
+        content: this.state.comment_content
+
+      }))["catch"](function (response) {});
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(evt) {
+      var name = evt.target.name;
+      this.setState(_defineProperty({}, evt.target.name, evt.target.value));
     }
   }, {
     key: "render",
@@ -65,31 +97,40 @@ var Blog = (function (_React$Component) {
           ),
           _react2["default"].createElement(
             "div",
-            null,
+            { className: "comment" },
             _react2["default"].createElement(
               "h3",
               null,
               "Komentáře"
             ),
-            _react2["default"].createElement("textarea", null),
-            _react2["default"].createElement("input", null),
-            _react2["default"].createElement("input", null),
+            _react2["default"].createElement("textarea", { placeholder: "Leave a comment", name: "comment_content", onChange: this.handleChange }),
+            _react2["default"].createElement("input", { placeholder: "Name", name: "comment_name", onChange: this.handleChange }),
+            _react2["default"].createElement("input", { placeholder: "Email", name: "comment_mail", onChange: this.handleChange }),
             _react2["default"].createElement(
               "button",
-              null,
-              "Odeslat"
+              { onClick: this.axiosSend },
+              "Send"
             ),
             _react2["default"].createElement(
               "div",
-              null,
+              { className: "comments" },
               this.state.comments.map(function (comment) {
                 return _react2["default"].createElement(
                   "div",
-                  { key: comment._id },
+                  { className: "post" },
                   _react2["default"].createElement(
-                    "span",
-                    null,
-                    comment.author
+                    "div",
+                    { className: "comment-detail" },
+                    _react2["default"].createElement(
+                      "div",
+                      null,
+                      comment.author
+                    ),
+                    _react2["default"].createElement(
+                      "span",
+                      null,
+                      comment.created_at
+                    )
                   ),
                   _react2["default"].createElement(
                     "p",

@@ -1,4 +1,4 @@
-var BlogSchema = new mongoose.Schema({
+var PostSchema = new mongoose.Schema({
     title: String,
     description: String,
     headline: String,
@@ -9,9 +9,10 @@ var BlogSchema = new mongoose.Schema({
     author: String,
     date: Date,
     section: String,
-    url: String
+    url: String,
+    visible: {type: Number, default: 1}
 
 
 },{ versionKey: false });
 
-module.exports = mongoose.model("Blog", BlogSchema);
+module.exports = mongoose.model("Post", PostSchema);

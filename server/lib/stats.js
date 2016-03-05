@@ -4,6 +4,7 @@ var handler = function() {
   this.getMonth = getMonth;
   this.getDay = getDay;
   this.getDayDetail = getDayDetail;
+  this.getUnique = getUnique;
 };
 
 
@@ -74,6 +75,23 @@ function getDayDetail(req, res) {
 
 }
 
+function getUnique(req, res){
+  Logger.aggregate(
+    {$group : {_id : "$ip"} }, 
+    {$group: {_id:1, count: {$sum : 1 }}}
+  ).exec(function(error, stats) {
+    delete stats[0]._id
+    res.json(stats[0])
+  })
 
+}
+
+
+
+function getUniqueIp(req, res){
+  Logger.distinct("ip").exec(function(error, stats) {
+    res.json(stats)
+  })
+}
 
 module.exports = handler;

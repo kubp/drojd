@@ -2,29 +2,22 @@ import React from "react";
 import axios from "axios";
 import marked from "marked";
 
-import Blog from "./Blog";
+import Post from "./Post";
 import BlogList from "./BlogList";
 import Page from "./Page";
 import Error404 from "./error404";
+import Menu from "./Menu"
 
 class Main extends React.Component {
 constructor(props){
     super(props);
 
-
-
-    
-}
-
-componentDidMount(){
-     
-//this.setState({data:this.props.data});
 }
 
 makeTitle(value){
  
   if(typeof value.blogsection != "undefined"){ return value.blogsection.title }
- if(typeof value.blog != "undefined"){ return value.blog.title }
+ if(typeof value.post != "undefined"){ return value.post.title }
  if(typeof value.page != "undefined"){ return value.page.title }
   return "";
 }
@@ -32,7 +25,7 @@ makeTitle(value){
 makeDescription(value){
 
   if(typeof value.blogsection != "undefined"){ return value.blogsection.description }
- if(typeof value.blog != "undefined"){ return value.blog.description }
+ if(typeof value.post != "undefined"){ return value.post.description }
  if(typeof value.page != "undefined"){ return value.page.description }
   return "";
 }
@@ -52,11 +45,8 @@ makeDescription(value){
           </head>
           <body>
             <header>
-              <ul><li><a href="/">Články</a></li>
-              <li><a href="/portfolio">Portfolio</a></li>
-              <li><a href="/o-mne">Omně</a></li>
-              <li><a href="/en">English</a></li>
-              </ul>
+              {this.props.data.menu ? <Menu menu={this.props.data.menu}/> : null}
+              
 
               <div className="clear"></div>
               </header>
@@ -99,8 +89,8 @@ constructor(props){
        
        if(this.props.data.type=="page"){
       return ( <Page data={this.props.data}/> )
-    }else if(this.props.data.type=="blog"){
-      return ( <Blog data={this.props.data}/> )
+    }else if(this.props.data.type=="post"){
+      return ( <Post data={this.props.data}/> )
 
     }else if(this.props.data.type=="blog_section"){
       return ( <BlogList data={this.props.data}/> )

@@ -11,12 +11,10 @@ config = require("../config");
 mongoose = require('mongoose')
 
 
-
-
 mongoose.connect(config.db);
 
-
-
+cache = require("./lib/cache")
+cache.init()
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json()); 
@@ -65,12 +63,18 @@ app.use(function(req, res, next) {
 
 /* Redirect trailing slashes */
 app.use(function(req, res, next) {
-  if (req.path.substr(-1) == '/' && req.path.length > 1) {
-    var query = req.url.slice(req.path.length);
-    res.redirect(301, req.path.slice(0, -1) + query);
-  } else {
+  if(req.path.split("/")[1]=="api"){
+  
+    if (req.path.substr(-1) == '/' && req.path.length > 1) {
+      var query = req.url.slice(req.path.length);
+      res.redirect(301, req.path.slice(0, -1) + query);
+    } else {
+      next();
+    }
+  }else{
     next();
   }
+  
 });
 
 /*

@@ -22,9 +22,10 @@ function loadAll(req, res) {
           b.ignore(), 
           b.paginator(req.query.page,req.query.per_page))
          .lean()
+
          .populate('page')
          .populate('blogsection')
-         .populate('blog')
+         .populate('post')
          .exec(function(err, page) {
 
     if (err) {
@@ -79,7 +80,7 @@ function update(req, res) {
   req.body.url ? content.url = req.body.url : null;
   req.body.section ? content.section = req.body.section : null;
   req.body.visible ? content.visible = req.body.visible : null;
-  req.body.page ? content.page = req.body.section : null;
+  req.body.page ? content.page = req.body.page : null;
 
   Section.findOneAndUpdate({
       _id: req.params.id

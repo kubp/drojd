@@ -14,7 +14,7 @@ module.exports = function(app) {
     try{
     fs.rename(req.file.path, __dirname+'/../../uploads/images/'+req.file.originalname, function(err) {
         if ( err ) return res.status(403).json({status:"error"})
-        res.json({status:"ok"})
+        res.json({status:"ok", file: req.file.originalname})
     });
     }catch(e){
       res.status(403).json({status:"error"})

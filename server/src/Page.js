@@ -57,11 +57,11 @@ function update(req, res) {
   var content = {};
   req.body.title ? content.title = req.body.title : null;
   req.body.description ? content.description = req.body.description : null;
-  req.body.headline ? content.headline = req.body.headline : null;
   req.body.raw_content ? content.raw_content= req.body.raw_content : null;
   req.body.md_content ? content.md_content= req.body.md_content : null;
   req.body.keywords ? content.keywords = req.body.keywords : null;
   req.body.url ? content.url= req.body.url : null;
+  req.body.visible ? content.visible= req.body.visible : null;
 
   Page.findOneAndUpdate({
       _id: req.params.id
@@ -89,11 +89,11 @@ function add(req, res) {
   var page = new Page({
     title: req.body.title,
     description: req.body.description,
-    headline: req.body.headline,
     raw_content: req.body.raw_content,
     md_content: req.body.md_content,
     keywords: req.body.keywords,
-    url: req.body.url
+    url: req.body.url,
+    visible: req.body.visible
 
   })
 
@@ -101,7 +101,8 @@ function add(req, res) {
     url: req.body.url,
     type: "page",
     page: page._id,
-    section:req.body.section
+    section:req.body.section,
+    visible: req.body.visible
   })
 
   page.save();
