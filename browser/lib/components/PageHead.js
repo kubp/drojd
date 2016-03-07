@@ -21,7 +21,6 @@ var PageHead = (function (_React$Component) {
     _classCallCheck(this, PageHead);
 
     _get(Object.getPrototypeOf(PageHead.prototype), "constructor", this).call(this, props);
-    console.log(this.props.data);
   }
 
   _createClass(PageHead, [{

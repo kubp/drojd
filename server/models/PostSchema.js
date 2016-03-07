@@ -11,6 +11,7 @@ var PostSchema = new mongoose.Schema({
     section: String,
     url: String,
     image: String,
+    created_at: {type: Date, default: Date.now},
     visible: {type: Number, default: 1}
 
 

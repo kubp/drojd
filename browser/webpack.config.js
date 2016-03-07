@@ -5,10 +5,10 @@ module.exports = {
   entry: [
    // 'webpack-dev-server/client?http://localhost:8080',
     //'webpack/hot/only-dev-server',
-    './src/client/entry',
+    __dirname+'/src/entry',
   ],
   output: {
-    path: __dirname + '/lib/public/',
+    path: __dirname + '/../public/',
     filename: 'min.js',
     //publicPath: 'http://localhost:8080/js/',
   },

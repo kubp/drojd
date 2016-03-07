@@ -8,12 +8,11 @@ constructor(props){
     this.state = {post:this.props.data.post, comments:[{}]};
   this.axiosSend = this.axiosSend.bind(this);
      this.handleChange = this.handleChange.bind(this);
-     console.log(this.props.data.post._id)
 }
 
 componentDidMount(){
 
-axios.get('http://localhost:8090/api/comment/'+this.props.data.post._id+'')
+axios.get('/api/comment/'+this.props.data.post._id+'')
   .then(function (response) {
   this.setState({comments: response.data
   })
@@ -33,7 +32,7 @@ comments.push({
 this.setState({comments:comments})
 
     axios.post(
-  '  http://localhost:8090/api/comment',
+  '/api/comment',
        querystring.stringify({
           post_id: this.props.data.post._id,
     author: this.state.comment_name,

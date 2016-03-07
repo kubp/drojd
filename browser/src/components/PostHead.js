@@ -2,8 +2,6 @@ import React from "react";
 class PageHead extends React.Component {
 constructor(props){
     super(props);
-   console.log(this.props.data)
-     //<meta property="article:tag" content="Freshdesk" />
 }
 
   render() {

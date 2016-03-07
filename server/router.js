@@ -11,6 +11,7 @@ module.exports = function(app) {
   var Stats = require("./lib/stats")
   var Comment = require("./src/Comment")
   var Menu = require("./src/Menu")
+  var Rss = require("./lib/rss")
 
   var handlers = {
     page: new Page(),
@@ -22,7 +23,8 @@ module.exports = function(app) {
     main: new Main(),
     stats: new Stats(),
     comment: new Comment(),
-    menu: new Menu()
+    menu: new Menu(),
+    rss: new Rss()
   };
 
    app.get(config.api_url+'/', handlers.main.get);
@@ -126,5 +128,9 @@ module.exports = function(app) {
   app.delete(config.api_url+'/menu/:id', handlers.auth.auth, handlers.menu.remove);
 
   app.put(config.api_url+'/menu/:id', handlers.auth.auth, handlers.menu.update);
+
+  app.get('/rss/*',  handlers.rss.rss);
+
+  app.get('/rss',  handlers.rss.main);
 
 }

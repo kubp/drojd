@@ -32,14 +32,13 @@ var Blog = (function (_React$Component) {
     this.state = { post: this.props.data.post, comments: [{}] };
     this.axiosSend = this.axiosSend.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    console.log(this.props.data.post._id);
   }
 
   _createClass(Blog, [{
     key: "componentDidMount",
     value: function componentDidMount() {
 
-      _axios2["default"].get('http://localhost:8090/api/comment/' + this.props.data.post._id + '').then((function (response) {
+      _axios2["default"].get('/api/comment/' + this.props.data.post._id + '').then((function (response) {
         this.setState({ comments: response.data
         });
       }).bind(this));
@@ -55,7 +54,7 @@ var Blog = (function (_React$Component) {
         created_at: new Date().toString() });
       this.setState({ comments: comments });
 
-      _axios2["default"].post('  http://localhost:8090/api/comment', querystring.stringify({
+      _axios2["default"].post('/api/comment', querystring.stringify({
         post_id: this.props.data.post._id,
         author: this.state.comment_name,
         mail: this.state.comment_mail,
