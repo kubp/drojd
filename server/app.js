@@ -13,70 +13,6 @@ mongoose = require('mongoose')
 
 mongoose.connect(config.db);
 
-
-var builder = require('xmlbuilder');
-app.get("/xx",function(req,res){
-
-var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'})
-.att('version', '2.0')
-.att('xmlns:atom', 'http://www.w3.org/2005/Atom')
-.att('xmlns:content', 'http://purl.org/rss/1.0/modules/content/')
-
-.ele('channel')
-    .ele('title').txt("Drojd").up()
-    
-    .ele("link").txt('drojd.cz').up()
-   
-    .ele("description").txt('Drojd blog ovsem').up()
-
-    .ele("atom:link").att('href', 'http://drojd.cz/rss').att('rel', 'self').att('type', 'application/rss+xml').up()
-    
-
-
-
-
-for(i=0;i<3;i++){
-
-xml=xml.ele('item').ele("title").txt('repo').up()
-   
-    .ele("link").txt('repo').up()
-
-     .ele("guid").txt('repo').up()
-  
-    .ele("description").txt('r<p>asdasdepo').up()
-
-    .ele("content:encoded").dat('r<p>asdasdepo').up()
-
-    .ele("pubDate").txt('Wed, 17 Feb 2016 00:00:00').up().up()
-}
-
-
-
-
-
-
-xml=xml.end({ pretty: true});
-    
-
-
-res.contentType("application/xml").send(xml)
-
-
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 cache = require("./lib/cache")
 cache.init()
 
@@ -161,6 +97,7 @@ filer = new Filer(app);
 
 var client = require("./client.js");
 client = new client(app);
+
 
 
 /*
