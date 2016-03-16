@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 var querystring = require('querystring');
+import Time from "./Time"
 
 class Blog extends React.Component {
 constructor(props){
@@ -17,7 +18,9 @@ axios.get('/api/comment/'+this.props.data.post._id+'')
   this.setState({comments: response.data
   })
 
-}.bind(this))
+}.bind(this)).catch(function (response) {
+  this.setState({comments: []})
+  }.bind(this));
 
 }
 
@@ -28,7 +31,7 @@ var comments = this.state.comments
 comments.push({
   author:this.state.comment_name,
   content:this.state.comment_content,
-  created_at:new Date().toString()})
+  created_at:new Date()})
 this.setState({comments:comments})
 
     axios.post(
@@ -75,15 +78,21 @@ this.setState({comments:comments})
   <input placeholder="Email" name="comment_mail" onChange={this.handleChange}/>
   <button onClick={this.axiosSend}>Send</button>
 
+{this.state.comments.length>0 ?
   <div className="comments">{this.state.comments.map((comment) =>
   <div className="post">
-  <div className="comment-detail"><div>{comment.author}</div><span>{comment.created_at}</span></div>
+  <div className="comment-detail"><div>{comment.author}</div><span><Time time={comment.created_at} /></span></div>
 
 
   <p>{comment.content}</p>
 </div>
    )}
 </div>
+
+  : null
+}
+
+
 
   </div>
 

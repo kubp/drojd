@@ -133,4 +133,6 @@ module.exports = function(app) {
 
   app.get('/rss',  handlers.rss.main);
 
+  app.get('/sitemap.xml',  handlers.rss.sitemap);
+
 }

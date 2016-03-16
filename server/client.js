@@ -31,7 +31,7 @@ Section.findOne({url:req.path, visible:1}).populate("page").populate("post").pop
       if(posts.post){
         if(posts.post.visible==0){
       var content = ReactDOM.renderToString(React.createElement(App, { data: {type:"404"}}));
-      return res.send("<!DOCTYPE html>"+ content +"")
+      return res.status(404).send("<!DOCTYPE html>"+ content +"")
         }
        
       }
@@ -41,7 +41,7 @@ Section.findOne({url:req.path, visible:1}).populate("page").populate("post").pop
     }
     }else{
       var content = ReactDOM.renderToString(React.createElement(App, { data: {type:"404"}}));
-      res.send("<!DOCTYPE html>"+ content +"")
+      res.status(404).send("<!DOCTYPE html>"+ content +"")
     }
   })
 

@@ -22,9 +22,9 @@ function load(req, res) {
   }).exec(function(err, posts) {
 
     if (posts.length == 0) {
-      return res.status(404).json({
-        error: "Requested resources doesn't exist"
-      });
+      return res.json(
+        []
+      );
     }
 
     res.json(posts);

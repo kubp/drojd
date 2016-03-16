@@ -20,6 +20,10 @@ var _axios = require("axios");
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _Time = require("./Time");
+
+var _Time2 = _interopRequireDefault(_Time);
+
 var querystring = require('querystring');
 
 var Blog = (function (_React$Component) {
@@ -41,6 +45,8 @@ var Blog = (function (_React$Component) {
       _axios2["default"].get('/api/comment/' + this.props.data.post._id + '').then((function (response) {
         this.setState({ comments: response.data
         });
+      }).bind(this))["catch"]((function (response) {
+        this.setState({ comments: [] });
       }).bind(this));
     }
   }, {
@@ -51,7 +57,7 @@ var Blog = (function (_React$Component) {
       comments.push({
         author: this.state.comment_name,
         content: this.state.comment_content,
-        created_at: new Date().toString() });
+        created_at: new Date() });
       this.setState({ comments: comments });
 
       _axios2["default"].post('/api/comment', querystring.stringify({
@@ -110,7 +116,7 @@ var Blog = (function (_React$Component) {
               { onClick: this.axiosSend },
               "Send"
             ),
-            _react2["default"].createElement(
+            this.state.comments.length > 0 ? _react2["default"].createElement(
               "div",
               { className: "comments" },
               this.state.comments.map(function (comment) {
@@ -128,7 +134,7 @@ var Blog = (function (_React$Component) {
                     _react2["default"].createElement(
                       "span",
                       null,
-                      comment.created_at
+                      _react2["default"].createElement(_Time2["default"], { time: comment.created_at })
                     )
                   ),
                   _react2["default"].createElement(
@@ -138,7 +144,7 @@ var Blog = (function (_React$Component) {
                   )
                 );
               })
-            )
+            ) : null
           )
         )
       );

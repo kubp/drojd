@@ -6,23 +6,21 @@ var builder = require('xmlbuilder');
 var handler = function() {
   this.rss = rss;
   this.main = main;
+  this.sitemap = sitemap;
 };
 
 
 function rss(req, res) {
-  var url = req.originalUrl.replace("/rss/","")
+  var url = req.originalUrl.replace("rss/","")
   var fullUrl = req.protocol + '://' + req.get('host');
 
 
-  Section.findOne({type:"blog_section",url:"/"+url}).populate("blogsection").exec(function(err, blog){
+  Section.findOne({type:"blog_section",url:url}).populate("blogsection").exec(function(err, blog){
+  if(!blog){
+    var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'}).ele("error").text("No RSS").end({ pretty: true});
+    return res.contentType("application/xml").send(xml)
+  }
   Post.find({section: blog.blogsection.section,visible: 1}).exec(function(err, sections){
-
-
-if(!blog){
-  return res.send("")
-}
-
-console.log(blog)
 
 
 var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'})
@@ -92,8 +90,38 @@ res.contentType("application/xml").send(xml)
 
 }
 
-function main(req, res) {
-  return res.send("main rss")
+
+  function main(req, res) {
+
+var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'})
+.ele("error").text("No RSS")
+.end({ pretty: true});
+
+res.contentType("application/xml").send(xml)
+
+}
+
+
+
+function sitemap(req, res){
+  var fullUrl = req.protocol + '://' + req.get('host'); 
+
+  Section.find({visible:1}).populate("post").exec(function(err, sections){
+
+    var xml = builder.create('urlset',  {version: '1.0', encoding: 'UTF-8'})
+    .att('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9')
+
+    for(i=0;i<sections.length;i++){
+      xml=xml.ele('url').ele("loc").text(fullUrl + sections[i].url).up().up()
+    }
+
+    xml=xml.end({ pretty: true});
+
+    res.contentType("application/xml").send(xml)
+
+  })
+
+
 }
 
 module.exports = handler;
