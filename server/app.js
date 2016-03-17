@@ -35,8 +35,7 @@ winston.remove(winston.transports.Console);
 /*
  * Static files
  */
-app.use(express.static(__dirname + '/../public'));
-app.use(express.static(__dirname + '/../uploads'));
+app.use(express.static(__dirname + '/../www'));
 app.use(compress());
 
 
