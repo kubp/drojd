@@ -37,7 +37,7 @@ var PageHead = (function (_React$Component) {
           this.props.data.title
         ),
         _react2["default"].createElement("meta", { name: "description", content: this.props.data.description }),
-        _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/main.css" }),
+        _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/assets/style.css" }),
         _react2["default"].createElement("meta", { property: "og:image", content: this.props.data.image }),
         _react2["default"].createElement("meta", { property: "twitter:image", content: this.props.data.image }),
         _react2["default"].createElement("meta", { property: "og:type", content: "article" }),
