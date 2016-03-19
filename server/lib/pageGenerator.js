@@ -1,19 +1,19 @@
-
-
 var request = require('request');
 var async = require('async');
 var fs = require('fs');
+var path = require("path")
 
-app.get("/generate", function(){
+var handler = function() {
+  this.generate = generate;
+};
 
- request({uri: 'http://localhost:8090/main.css'}, function(err, response, body){
-      fs.writeFile("./static/main.css", body, function(err) {
-    if(err) {
-        return console.log(err);
-    }})
 
-});
+function generate(req, res){
 
+  deleteFolderRecursive("./static/")
+  fs.mkdirSync("./static/");
+  copyFolderRecursiveSync("./www/images", "./static/")
+  copyFolderRecursiveSync("./www/assets", "./static/")
 async.waterfall([
   function(callback){
   request({uri: 'http://localhost:8090/api/section'}, function(err, response, body){
@@ -39,17 +39,12 @@ async.waterfall([
   },
   function(err, response,body,a,callback){
   var odkazy = err.match(/<a href="((\/[a-z-]+)+|([a-z-]+))"/g)
-  //console.log(odkazy)
-  console.log("---")
+
   for(i=0;i<odkazy.length;i++){
     var o=odkazy[i].match(/"([a-z\-\/]+)"/g)
-     //console.log(o[2])
-   
-     console.log(o[0])
+ 
      rep=o[0].match(/([a-z\-\/]+)/g)
-     //console.log(rep[0])
-
-    err=err.replace(o[0],'"'+rep[0]+'.html"')
+     err=err.replace(o[0],'"'+rep[0]+'.html"')
   
   }
 
@@ -61,7 +56,7 @@ async.waterfall([
     
     }
    
-    //console.log(res)
+
     
     for(i=0;i<res.length;i++){
         
@@ -72,7 +67,7 @@ async.waterfall([
 
 
     if(res.length==1){
-      //console.log("make file "+res[0])
+
       fs.writeFile("./static/"+res[0]+".html", err, function(err) {
     if(err) {
         return console.log(err);
@@ -85,8 +80,6 @@ async.waterfall([
         
         k=k+"/"+res[i];
 
-       // console.log(k)
-        //console.log("dir ./static"+k+"")
          try {
          fs.mkdirSync("./static"+k+"");
             } catch(e) {
@@ -94,7 +87,7 @@ async.waterfall([
           }
 
       }
-     // console.log("./static/"+k+"/"+res[res.length-1]+".html")
+
       fs.writeFile("./static/"+k+"/"+res[res.length-1]+".html", err, function(err) {
     if(err) {
         return console.log(err);
@@ -104,23 +97,62 @@ async.waterfall([
     }
 
 
-
-
-/*
-   fs.writeFile("./static/"+g+".html", err, function(err) {
-    if(err) {
-        return console.log(err);
-    }})
-*/
-
   }]
 )
 
-})
+}
 
 
+function copyFileSync( source, target ) {
 
+    var targetFile = target;
 
+    if ( fs.existsSync( target ) ) {
+        if ( fs.lstatSync( target ).isDirectory() ) {
+            targetFile = path.join( target, path.basename( source ) );
+        }
+    }
+
+    fs.writeFileSync(targetFile, fs.readFileSync(source));
+}
+
+function copyFolderRecursiveSync( source, target ) {
+    var files = [];
+    
+
+    var targetFolder = path.join( target, path.basename( source ) );
+    if ( !fs.existsSync( targetFolder ) ) {
+        fs.mkdirSync( targetFolder );
+    }
+
+    if ( fs.lstatSync( source ).isDirectory() ) {
+        files = fs.readdirSync( source );
+        files.forEach( function ( file ) {
+            var curSource = path.join( source, file );
+            if ( fs.lstatSync( curSource ).isDirectory() ) {
+                copyFolderRecursiveSync( curSource, targetFolder );
+            } else {
+                copyFileSync( curSource, targetFolder );
+            }
+        } );
+    }
+}
+
+var deleteFolderRecursive = function(path) {
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { 
+        deleteFolderRecursive(curPath);
+      } else { 
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
+};
+
+module.exports = handler;
 
 
 

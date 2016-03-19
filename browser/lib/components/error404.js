@@ -29,7 +29,7 @@ var Simple = (function (_React$Component) {
       return _react2["default"].createElement(
         "div",
         null,
-        _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/main.css" }),
+        _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/assets/style.css" }),
         _react2["default"].createElement(
           "h1",
           null,

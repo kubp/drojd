@@ -12,6 +12,7 @@ module.exports = function(app) {
   var Comment = require("./src/Comment")
   var Menu = require("./src/Menu")
   var Rss = require("./lib/rss")
+  var pageGenerator = require("./lib/pageGenerator")
 
   var handlers = {
     page: new Page(),
@@ -24,7 +25,8 @@ module.exports = function(app) {
     stats: new Stats(),
     comment: new Comment(),
     menu: new Menu(),
-    rss: new Rss()
+    rss: new Rss(),
+    generator: new pageGenerator()
   };
 
    app.get(config.api_url+'/', handlers.main.get);
@@ -134,5 +136,7 @@ module.exports = function(app) {
   app.get('/rss',  handlers.rss.main);
 
   app.get('/sitemap.xml',  handlers.rss.sitemap);
+
+  app.get('/generate',  handlers.generator.generate);
 
 }
