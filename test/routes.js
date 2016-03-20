@@ -6,7 +6,6 @@ var assert = require('assert');
 
 
 process.env.PORT = '8099'
-process.env.DB = "mongodb://localhost/drojd_test"
 var app = require("../server/app").getApp;
 
 
