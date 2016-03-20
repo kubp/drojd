@@ -8,9 +8,7 @@ query: function(query) {
 
 
   if (typeof query === "object") {
-
-   
-    var result = {};
+  var result = {};
     for (i = 0; i < query.length; i++) {
       var search = query[i].split(":");
       var q = search[0];
@@ -24,21 +22,10 @@ return result;
 
   } 
 
-
-
     var search = query.split(":");
     var query = search[0];
     var type = search[1];
     return {[type]: [query]}
-
-
-  
-
-
-//data={[{data:"as"},"-__v -visible",{ skip: 0, limit: 10 }]}
-
-
-//return (d, b)
 
 
 },
@@ -53,6 +40,17 @@ return result;
   paginator:function(page, per_page){
 	
 	return({ skip: page*per_page, limit: per_page });
+
+},
+ doc:function(req, doc){
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  
+  for(i=0; i<doc.length; i++){
+    doc[i].page_url=fullUrl+"/"+doc[i]._id
+  }
+  
+  
+  return doc
 
 }
 

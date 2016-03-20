@@ -4,7 +4,6 @@ import React from "react";
 class BlogList extends React.Component {
 constructor(props){
     super(props);
-    this.state = {blog:this.props.data.blogsection};
     
 }
 
@@ -35,8 +34,8 @@ constructor(props){
             <div className="col-1-3">
        <article>
     <h1>{this.props.data.headline}</h1>
-    <span>{this.props.data.author}</span><span className="info"></span>
-     <p dangerouslySetInnerHTML={{__html: this.props.data.perex}} />
+    <span>{this.props.data.post.author}</span><span className="info"></span>
+     <p dangerouslySetInnerHTML={{__html: this.props.data.post.perex}} />
       <a href={this.props.data.url}>Přečíst...</a>
 
   </article>

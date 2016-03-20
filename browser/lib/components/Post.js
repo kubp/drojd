@@ -33,7 +33,7 @@ var Blog = (function (_React$Component) {
     _classCallCheck(this, Blog);
 
     _get(Object.getPrototypeOf(Blog.prototype), "constructor", this).call(this, props);
-    this.state = { post: this.props.data.post, comments: [{}] };
+    this.state = { comments: [{}] };
     this.axiosSend = this.axiosSend.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -42,7 +42,7 @@ var Blog = (function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
 
-      _axios2["default"].get('/api/comment/' + this.props.data.post._id + '').then((function (response) {
+      _axios2["default"].get('/api/comment/' + this.props.data._id + '').then((function (response) {
         this.setState({ comments: response.data
         });
       }).bind(this))["catch"]((function (response) {
@@ -61,7 +61,7 @@ var Blog = (function (_React$Component) {
       this.setState({ comments: comments });
 
       _axios2["default"].post('/api/comment', querystring.stringify({
-        post_id: this.props.data.post._id,
+        post_id: this.props.data._id,
         author: this.state.comment_name,
         mail: this.state.comment_mail,
         content: this.state.comment_content
@@ -90,15 +90,15 @@ var Blog = (function (_React$Component) {
             _react2["default"].createElement(
               "h1",
               { className: "c" },
-              this.state.post.headline
+              this.props.data.headline
             ),
             _react2["default"].createElement(
               "span",
               null,
-              this.state.post.author
+              this.props.data.post.author
             ),
             _react2["default"].createElement("span", { className: "info" }),
-            _react2["default"].createElement("p", { dangerouslySetInnerHTML: { __html: this.state.post.raw_content } })
+            _react2["default"].createElement("p", { dangerouslySetInnerHTML: { __html: this.props.data.raw_content } })
           ),
           _react2["default"].createElement(
             "div",

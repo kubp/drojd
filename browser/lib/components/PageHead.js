@@ -40,10 +40,8 @@ var PageHead = (function (_React$Component) {
         _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/assets/style.css" }),
         _react2["default"].createElement("meta", { property: "og:image", content: this.props.data.image }),
         _react2["default"].createElement("meta", { property: "twitter:image", content: this.props.data.image }),
-        _react2["default"].createElement("meta", { property: "og:type", content: "article" }),
         _react2["default"].createElement("meta", { property: "og:title", content: this.props.data.title }),
         _react2["default"].createElement("meta", { property: "og:description", content: this.props.data.description }),
-        _react2["default"].createElement("meta", { name: "twitter:card", content: "summary" }),
         _react2["default"].createElement("meta", { name: "twitter:description", content: this.props.data.description }),
         _react2["default"].createElement("meta", { name: "twitter:title", content: this.props.data.title })
       );

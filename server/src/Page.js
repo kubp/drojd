@@ -1,4 +1,3 @@
-var Section = require("../models/SectionSchema")
 var Page = require("../models/PageSchema")
 
 var handler = function() {
@@ -12,12 +11,22 @@ var handler = function() {
 
 };
 
-
+var b=require("./queryBuilder")
 
 function loadAll(req, res) {
-  Page.find({}).exec(function(error, posts) {
-    res.json(posts)
-  })
+
+    Page.find(b.query(req.query.q), 
+          b.ignore(), 
+          b.paginator(req.query.page,req.query.per_page)).lean().then(function(docs) {
+
+
+    
+    docs=b.doc(req,docs)
+
+    res.json(docs)
+  }, function(err) {});
+
+ 
 }
 
 function load(req, res) {
@@ -55,14 +64,21 @@ function remove(req, res) {
 
 function update(req, res) {
   var content = {};
+  content.post ={};
   req.body.title ? content.title = req.body.title : null;
+  req.body.type ? content.type = req.body.type : null;
+  req.body.section ? content.section = req.body.section : null;
+  req.body.headline ? content.headline = req.body.headline : null;
   req.body.description ? content.description = req.body.description : null;
   req.body.raw_content ? content.raw_content= req.body.raw_content : null;
   req.body.md_content ? content.md_content= req.body.md_content : null;
-  req.body.keywords ? content.keywords = req.body.keywords : null;
   req.body.url ? content.url= req.body.url : null;
   req.body.visible ? content.visible= req.body.visible : null;
   req.body.image ? content.image= req.body.image : null;
+
+  req.body.perex ? content.post.perex= req.body.perex : null;
+  req.body.author ? content.post.author= req.body.author : null;
+  req.body.tags ? content.post.tags= req.body.tags : null;
 
   Page.findOneAndUpdate({
       _id: req.params.id
@@ -89,26 +105,28 @@ function add(req, res) {
 
   var page = new Page({
     title: req.body.title,
+    type: req.body.type,
+    section: req.body.section,
+    headline: req.body.headline,
     description: req.body.description,
     raw_content: req.body.raw_content,
     md_content: req.body.md_content,
-    keywords: req.body.keywords,
     url: req.body.url,
     visible: req.body.visible,
+    post:{
+      perex: req.body.perex,
+      author: req.body.author,
+      tags: req.body.tags,
+      author: req.body.author,
+      comments: req.body.comments
+
+    },
     image: req.body.image
-
   })
 
-  var section = new Section({
-    url: req.body.url,
-    type: "page",
-    page: page._id,
-    section:req.body.section,
-    visible: req.body.visible
-  })
 
   page.save();
-  section.save();
+
 
   res.status(200).json({status: "Resource created successfully"})
 
@@ -117,10 +135,12 @@ function add(req, res) {
 }
 
 function search(req, res) {
-  Page.find( {"$text": {
+  Page.find( {visible:1, "$text": {
       "$search": req.query.search
-    }}).exec(function(error, posts) {
+    }}, "-visible").exec(function(error, posts) {
     res.json(posts)
+
+    console.log(error)
   })
 }
 

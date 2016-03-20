@@ -21,7 +21,6 @@ var PageHead = (function (_React$Component) {
     _classCallCheck(this, PageHead);
 
     _get(Object.getPrototypeOf(PageHead.prototype), "constructor", this).call(this, props);
-    console.log(this.props.data);
   }
 
   _createClass(PageHead, [{
@@ -38,15 +37,13 @@ var PageHead = (function (_React$Component) {
           this.props.data.title
         ),
         _react2["default"].createElement("meta", { name: "description", content: this.props.data.description }),
-        _react2["default"].createElement("meta", { property: "og:image", content: "" }),
-        _react2["default"].createElement("meta", { property: "twitter:image:src", content: "" }),
-        _react2["default"].createElement("meta", { property: "og:type", content: "website" }),
-        _react2["default"].createElement("meta", { property: "og:title", content: this.props.data.description }),
+        _react2["default"].createElement("link", { rel: "stylesheet", type: "text/css", href: "/assets/style.css" }),
+        _react2["default"].createElement("meta", { property: "og:image", content: this.props.data.image }),
+        _react2["default"].createElement("meta", { property: "twitter:image", content: this.props.data.image }),
+        _react2["default"].createElement("meta", { property: "og:title", content: this.props.data.title }),
         _react2["default"].createElement("meta", { property: "og:description", content: this.props.data.description }),
-        _react2["default"].createElement("meta", { name: "twitter:card", content: "summary" }),
         _react2["default"].createElement("meta", { name: "twitter:description", content: this.props.data.description }),
-        _react2["default"].createElement("meta", { name: "twitter:title", content: this.props.data.description }),
-        _react2["default"].createElement("meta", { name: "twitter:creator", content: "" })
+        _react2["default"].createElement("meta", { name: "twitter:title", content: this.props.data.title })
       );
     }
   }]);

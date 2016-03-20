@@ -21,7 +21,6 @@ var BlogList = (function (_React$Component) {
     _classCallCheck(this, BlogList);
 
     _get(Object.getPrototypeOf(BlogList.prototype), "constructor", this).call(this, props);
-    this.state = { blog: this.props.data.blogsection };
   }
 
   _createClass(BlogList, [{
@@ -66,10 +65,10 @@ var Post = (function (_React$Component2) {
           _react2["default"].createElement(
             "span",
             null,
-            this.props.data.author
+            this.props.data.post.author
           ),
           _react2["default"].createElement("span", { className: "info" }),
-          _react2["default"].createElement("p", { dangerouslySetInnerHTML: { __html: this.props.data.perex } }),
+          _react2["default"].createElement("p", { dangerouslySetInnerHTML: { __html: this.props.data.post.perex } }),
           _react2["default"].createElement(
             "a",
             { href: this.props.data.url },

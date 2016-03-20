@@ -1,23 +1,34 @@
 /**
- * @api {get} /page/{q,limit,page} Read Page
+ * @api {get} /page{/search}?q={query}{&page,per_page} View Page
  * @apiVersion 1.0.0
  * @apiName GetPage
  * @apiGroup Page
- * @apiPermission admin
+ * @apiPermission none
  *
  * @apiDescription Desc
  *
- *   * @apiSuccessExample Page Response
- *     HTTP/1.1 200 OK
-*     {
-*       "_id": "567d56253826a5d70375c237",
-*       "title": "title",
-*       "description": "desc",
-*       "headline": "head",
-*       "content": "content"
-*      }
+ *@apiSuccessExample Page Response
+ *HTTP/1.1 200 OK
+ *[
+ *  {
+ *    "_id": "56ee8f670006866e2462a41c",
+ *    "title": "Lorem asdsda asdsad",
+ *    "type": "page",
+ *    "description": "adsd as adsadssad",
+ *    "raw_content":"<h1>raw</h1>",
+ *    "md_content": "# raw",
+ *    "url":"/raw",
+ *    "image": "",
+ *    "created_at": "2016-03-20T11:54:15.106Z",
+ *    "page_url": "http://localhost:8090/api/page/56ee8f670006866e2462a41c"
+ *  }
+ *]
  *
- *
+ * *@apiSuccessExample Page Not Found Response
+ *HTTP/1.1 404 Not Found
+ *{
+ *  error: "Requested resource doesn't exist"
+ *}
  *
  */
 
@@ -27,15 +38,25 @@
  * @apiVersion 1.0.0
  * @apiName PostPage
  * @apiGroup Page
- * @apiPermission none
+ * @apiPermission admin
  *
- * @apiDescription In this case "apiUse" is defined and used.
- * Define blocks with params that will be used in several functions, so you dont have to rewrite them.
+ * @apiDescription Create a page
+ * 
  *
+ * @apiParam {String} url url
+ * @apiParam {String} type type
  * @apiParam {String} title Title
- * @apiParam {String} descritpion Title
- * @apiParam {String} headline Title
- * @apiParam {String} content Title
+ * @apiParam {String} descritpion Description
+ * @apiParam {String} headline Headline
+ * @apiParam {String} md_content Markdown content
+ * @apiParam {String} raw_content Html content
+ *
+ * @apiParam {String} perex Perex
+ * @apiParam {String} author Author
+ * @apiParam {Array} tags Tags
+ * 
+ * @apiParam {String} image Image
+ * @apiParam {String} visible=1 TVisible
  *
   * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -53,45 +74,45 @@
  * @apiVersion 1.0.0
  * @apiName PutPage
  * @apiGroup Page
- * @apiPermission none
+ * @apiPermission admin
  *
  * @apiDescription This function has same errors like POST /user, but errors not defined again, they were included with "apiUse"
  *
+ * @apiParam {String} url url
+ * @apiParam {String} type type
  * @apiParam {String} title Title
- * @apiParam {String} descritpion Title
- * @apiParam {String} headline Title
- * @apiParam {String} content Title
+ * @apiParam {String} descritpion Description
+ * @apiParam {String} headline Headline
+ * @apiParam {String} md_content Markdown content
+ * @apiParam {String} raw_content Html content
  *
+ * @apiParam {String} perex Perex
+ * @apiParam {String} author Author
+ * @apiParam {Array} tags Tags
+ * 
+ * @apiParam {String} image Image
+ * @apiParam {String} visible=1 TVisible
  * 
  */
 
-/* Section */
-
-
-
-
-
 /**
- * @api {get} /section/{q,limit,page} Read Section
+ * @api {delete} /page/{id} Delete Page
  * @apiVersion 1.0.0
- * @apiName GetSection
- * @apiGroup Section
+ * @apiName RemovePage
+ * @apiGroup Page
  * @apiPermission admin
  *
  * @apiDescription Desc
  *
- *   * @apiSuccessExample Page Response
+ *   @apiSuccessExample Page Response
  *     HTTP/1.1 200 OK
-*     {
-*       "_id": "567d56253826a5d70375c237",
-*       "url": "/test/test",
-*       "type": "page",
-*          { optioonal }
-*      }
+ *{
+ *  status: "Resource removed successfully"
+ *}
+ *
+ *
+ *
  */
-
-
-
 
 
 
@@ -101,7 +122,7 @@
 
 
 /**
- * @api {get} /login/ Api Auth
+ * @api {post} /login/ Api Auth
  * @apiVersion 1.0.0
  * @apiName GetLogin
  * @apiGroup Login

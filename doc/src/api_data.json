@@ -1,6 +1,6 @@
 [
   {
-    "type": "get",
+    "type": "post",
     "url": "/login/",
     "title": "Api Auth",
     "version": "1.0.0",
@@ -46,7 +46,7 @@
         }
       ]
     },
-    "filename": "./doc/doc.js",
+    "filename": "./doc.js",
     "groupTitle": "Login"
   },
   {
@@ -76,19 +76,19 @@
         }
       ]
     },
-    "filename": "./doc/doc.js",
+    "filename": "./doc.js",
     "groupTitle": "Login"
   },
   {
     "type": "get",
-    "url": "/page/{q,limit,page}",
-    "title": "Read Page",
+    "url": "/page{/search}?q={query}{&page,per_page}",
+    "title": "View Page",
     "version": "1.0.0",
     "name": "GetPage",
     "group": "Page",
     "permission": [
       {
-        "name": "admin"
+        "name": "none"
       }
     ],
     "description": "<p>Desc</p>",
@@ -96,12 +96,17 @@
       "examples": [
         {
           "title": "Page Response",
-          "content": "HTTP/1.1 200 OK\n{\n  \"_id\": \"567d56253826a5d70375c237\",\n  \"title\": \"title\",\n  \"description\": \"desc\",\n  \"headline\": \"head\",\n  \"content\": \"content\"\n }",
+          "content": "HTTP/1.1 200 OK\n[\n {\n   \"_id\": \"56ee8f670006866e2462a41c\",\n   \"title\": \"Lorem asdsda asdsad\",\n   \"type\": \"page\",\n   \"description\": \"adsd as adsadssad\",\n   \"raw_content\":\"<h1>raw</h1>\",\n   \"md_content\": \"# raw\",\n   \"url\":\"/raw\",\n   \"image\": \"\",\n   \"created_at\": \"2016-03-20T11:54:15.106Z\",\n   \"page_url\": \"http://localhost:8090/api/page/56ee8f670006866e2462a41c\"\n }\n]",
+          "type": "json"
+        },
+        {
+          "title": "Page Not Found Response",
+          "content": "HTTP/1.1 404 Not Found\n{\n error: \"Requested resource doesn't exist\"\n}",
           "type": "json"
         }
       ]
     },
-    "filename": "./doc/doc.js",
+    "filename": "./doc.js",
     "groupTitle": "Page"
   },
   {
@@ -113,13 +118,27 @@
     "group": "Page",
     "permission": [
       {
-        "name": "none"
+        "name": "admin"
       }
     ],
-    "description": "<p>In this case &quot;apiUse&quot; is defined and used. Define blocks with params that will be used in several functions, so you dont have to rewrite them.</p>",
+    "description": "<p>Create a page</p>",
     "parameter": {
       "fields": {
         "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": "<p>url</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type</p>"
+          },
           {
             "group": "Parameter",
             "type": "String",
@@ -132,21 +151,64 @@
             "type": "String",
             "optional": false,
             "field": "descritpion",
-            "description": "<p>Title</p>"
+            "description": "<p>Description</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "headline",
-            "description": "<p>Title</p>"
+            "description": "<p>Headline</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "content",
-            "description": "<p>Title</p>"
+            "field": "md_content",
+            "description": "<p>Markdown content</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "raw_content",
+            "description": "<p>Html content</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "perex",
+            "description": "<p>Perex</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "author",
+            "description": "<p>Author</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "tags",
+            "description": "<p>Tags</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>Image</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "visible",
+            "defaultValue": "1",
+            "description": "<p>TVisible</p>"
           }
         ]
       }
@@ -160,7 +222,7 @@
         }
       ]
     },
-    "filename": "./doc/doc.js",
+    "filename": "./doc.js",
     "groupTitle": "Page"
   },
   {
@@ -172,13 +234,27 @@
     "group": "Page",
     "permission": [
       {
-        "name": "none"
+        "name": "admin"
       }
     ],
     "description": "<p>This function has same errors like POST /user, but errors not defined again, they were included with &quot;apiUse&quot;</p>",
     "parameter": {
       "fields": {
         "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "url",
+            "description": "<p>url</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "type",
+            "description": "<p>type</p>"
+          },
           {
             "group": "Parameter",
             "type": "String",
@@ -191,35 +267,78 @@
             "type": "String",
             "optional": false,
             "field": "descritpion",
-            "description": "<p>Title</p>"
+            "description": "<p>Description</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "headline",
-            "description": "<p>Title</p>"
+            "description": "<p>Headline</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "content",
-            "description": "<p>Title</p>"
+            "field": "md_content",
+            "description": "<p>Markdown content</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "raw_content",
+            "description": "<p>Html content</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "perex",
+            "description": "<p>Perex</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "author",
+            "description": "<p>Author</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Array",
+            "optional": false,
+            "field": "tags",
+            "description": "<p>Tags</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "image",
+            "description": "<p>Image</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "visible",
+            "defaultValue": "1",
+            "description": "<p>TVisible</p>"
           }
         ]
       }
     },
-    "filename": "./doc/doc.js",
+    "filename": "./doc.js",
     "groupTitle": "Page"
   },
   {
-    "type": "get",
-    "url": "/section/{q,limit,page}",
-    "title": "Read Section",
+    "type": "delete",
+    "url": "/page/{id}",
+    "title": "Delete Page",
     "version": "1.0.0",
-    "name": "GetSection",
-    "group": "Section",
+    "name": "RemovePage",
+    "group": "Page",
     "permission": [
       {
         "name": "admin"
@@ -230,13 +349,13 @@
       "examples": [
         {
           "title": "Page Response",
-          "content": "HTTP/1.1 200 OK\n{\n  \"_id\": \"567d56253826a5d70375c237\",\n  \"url\": \"/test/test\",\n  \"type\": \"page\",\n     { optioonal }\n }",
+          "content": "    HTTP/1.1 200 OK\n{\n status: \"Resource removed successfully\"\n}",
           "type": "json"
         }
       ]
     },
-    "filename": "./doc/doc.js",
-    "groupTitle": "Section"
+    "filename": "./doc.js",
+    "groupTitle": "Page"
   },
   {
     "success": {
@@ -261,7 +380,7 @@
     "type": "",
     "url": "",
     "version": "0.0.0",
-    "filename": "./doc/src/main.js",
+    "filename": "./src/main.js",
     "group": "_home_kuba_git_drojd_doc_src_main_js",
     "groupTitle": "_home_kuba_git_drojd_doc_src_main_js",
     "name": ""
@@ -289,7 +408,7 @@
     "type": "",
     "url": "",
     "version": "0.0.0",
-    "filename": "./doc/template/main.js",
+    "filename": "./template/main.js",
     "group": "_home_kuba_git_drojd_doc_template_main_js",
     "groupTitle": "_home_kuba_git_drojd_doc_template_main_js",
     "name": ""

@@ -2,10 +2,10 @@ module.exports = function(app) {
 
 
   var Auth = require("./src/Auth");
-  var Section = require("./src/Section");
+
   var Page = require("./src/Page");
-  var Post = require("./src/Post");
-  var BlogSection = require("./src/BlogSection");
+
+
   var Main = require("./src/Main");
   var User = require("./src/User")
   var Stats = require("./lib/stats")
@@ -18,9 +18,9 @@ module.exports = function(app) {
     page: new Page(),
     auth: new Auth(),
     user: new User(),
-    section: new Section(),
-    post: new Post(),
-    blog_section: new BlogSection(),
+
+
+
     main: new Main(),
     stats: new Stats(),
     comment: new Comment(),
@@ -31,52 +31,22 @@ module.exports = function(app) {
 
    app.get(config.api_url+'/', handlers.main.get);
 
-/* Section */
-
-  app.get(config.api_url+'/section/:id', handlers.section.get);
-
-  app.get(config.api_url+'/section/', handlers.section.getAll);
-
-  app.delete(config.api_url+'/section/:id', handlers.auth.auth,handlers.section.remove);
-
-  app.put(config.api_url+'/section/:id', handlers.auth.auth,handlers.section.update);
 
 /* Page */
 
   app.get(config.api_url+'/page/', handlers.page.getAll);
 
-  app.get(config.api_url+'/search/page/', handlers.page.search);
+  app.get(config.api_url+'/page/search/', handlers.page.search);
 
   app.get(config.api_url+'/page/:id', handlers.page.get);
 
-  app.post(config.api_url+'/page/', handlers.auth.auth, handlers.page.set);
+  app.post(config.api_url+'/page/',  handlers.page.set);
 
-  app.delete(config.api_url+'/page/:id', handlers.auth.auth, handlers.page.remove);
+  app.delete(config.api_url+'/page/:id', handlers.page.remove);
 
-  app.put(config.api_url+'/page/:id', handlers.auth.auth, handlers.page.update);
-
-/* Blog */
-
-  app.get(config.api_url+'/post/', handlers.post.getAll);
-
-  app.get(config.api_url+'/post/:id', handlers.post.get);
-
-  app.post(config.api_url+'/post/', handlers.auth.auth, handlers.post.set);
-
-  app.delete(config.api_url+'/post/:id', handlers.auth.auth, handlers.post.remove);
-
-  app.put(config.api_url+'/post/:id', handlers.auth.auth, handlers.post.update);
+  app.put(config.api_url+'/page/:id', handlers.page.update);
 
 
-/* Blog Section */
-
-  app.get(config.api_url+'/blog_section/:id', handlers.blog_section.get);
-
-  app.post(config.api_url+'/blog_section/', handlers.auth.auth, handlers.blog_section.set);
-
-  app.delete(config.api_url+'/blog_section/:id', handlers.auth.auth, handlers.blog_section.remove);
-
-  app.put(config.api_url+'/blog_section/:id', handlers.auth.auth, handlers.blog_section.update);
 
 /* Auth */
 

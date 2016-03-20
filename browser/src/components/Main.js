@@ -7,9 +7,8 @@ import BlogList from "./BlogList";
 import Page from "./Page";
 import Error404 from "./error404";
 import Menu from "./Menu"
-import PageHead from "./PageHead"
-import PostHead from "./PostHead"
-import BlogHead from "./BlogHead"
+import Head from "./Head"
+
 
 class Main extends React.Component {
 constructor(props){
@@ -25,9 +24,7 @@ constructor(props){
       return(
         <html>
         
-           {this.props.data.page ? <PageHead data={this.props.data.page}/> : null}
-           {this.props.data.blogsection ? <BlogHead data={this.props.data.blogsection}/> : null}
-          {this.props.data.post ? <PostHead data={this.props.data.post}/> : null}
+           {this.props.data ? <Head data={this.props.data}/> : null}
 
           <body>
             <header>
