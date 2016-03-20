@@ -42,17 +42,9 @@ var _Menu = require("./Menu");
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _PageHead = require("./PageHead");
+var _Head = require("./Head");
 
-var _PageHead2 = _interopRequireDefault(_PageHead);
-
-var _PostHead = require("./PostHead");
-
-var _PostHead2 = _interopRequireDefault(_PostHead);
-
-var _BlogHead = require("./BlogHead");
-
-var _BlogHead2 = _interopRequireDefault(_BlogHead);
+var _Head2 = _interopRequireDefault(_Head);
 
 var Main = (function (_React$Component) {
   _inherits(Main, _React$Component);
@@ -71,9 +63,7 @@ var Main = (function (_React$Component) {
       return _react2["default"].createElement(
         "html",
         null,
-        this.props.data.page ? _react2["default"].createElement(_PageHead2["default"], { data: this.props.data.page }) : null,
-        this.props.data.blogsection ? _react2["default"].createElement(_BlogHead2["default"], { data: this.props.data.blogsection }) : null,
-        this.props.data.post ? _react2["default"].createElement(_PostHead2["default"], { data: this.props.data.post }) : null,
+        this.props.data ? _react2["default"].createElement(_Head2["default"], { data: this.props.data }) : null,
         _react2["default"].createElement(
           "body",
           null,

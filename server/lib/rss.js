@@ -1,6 +1,4 @@
-var Post = require("../models/PostSchema")
-var BlogSection= require("../models/BlogSectionSchema")
-var Section = require("../models/SectionSchema")
+var Page = require("../models/PageSchema")
 var builder = require('xmlbuilder');
 
 var handler = function() {
@@ -14,13 +12,12 @@ function rss(req, res) {
   var url = req.originalUrl.replace("rss/","")
   var fullUrl = req.protocol + '://' + req.get('host');
 
-
-  Section.findOne({type:"blog_section",url:url}).populate("blogsection").exec(function(err, blog){
+  Page.findOne({type:"blog_section",url:url}).exec(function(err, blog){
   if(!blog){
     var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'}).ele("error").text("No RSS").end({ pretty: true});
     return res.contentType("application/xml").send(xml)
   }
-  Post.find({section: blog.blogsection.section,visible: 1}).exec(function(err, sections){
+  Page.find({section: blog.section,visible: 1}).exec(function(err, sections){
 
 
 var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'})
@@ -29,11 +26,11 @@ var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'})
 .att('xmlns:content', 'http://purl.org/rss/1.0/modules/content/')
 
 .ele('channel')
-    .ele('title').txt(blog.blogsection.title).up()
+    .ele('title').txt(blog.title).up()
     
     .ele("link").txt(fullUrl+blog.url).up()
    
-    .ele("description").txt(blog.blogsection.description).up()
+    .ele("description").txt(blog.description).up()
 
     .ele("atom:link").att('href', fullUrl+req.originalUrl).att('rel', 'self').att('type', 'application/rss+xml').up()
     
@@ -97,7 +94,7 @@ var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'})
 .ele("error").text("No RSS")
 .end({ pretty: true});
 
-res.contentType("application/xml").send(xml)
+res.status(404).contentType("application/xml").send(xml)
 
 }
 
@@ -106,7 +103,7 @@ res.contentType("application/xml").send(xml)
 function sitemap(req, res){
   var fullUrl = req.protocol + '://' + req.get('host'); 
 
-  Section.find({visible:1}).populate("post").exec(function(err, sections){
+  Page.find({visible:1}).exec(function(err, sections){
 
     var xml = builder.create('urlset',  {version: '1.0', encoding: 'UTF-8'})
     .att('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9')

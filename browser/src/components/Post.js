@@ -6,14 +6,14 @@ import Time from "./Time"
 class Blog extends React.Component {
 constructor(props){
     super(props);
-    this.state = {post:this.props.data.post, comments:[{}]};
+    this.state = { comments:[{}]};
   this.axiosSend = this.axiosSend.bind(this);
      this.handleChange = this.handleChange.bind(this);
 }
 
 componentDidMount(){
 
-axios.get('/api/comment/'+this.props.data.post._id+'')
+axios.get('/api/comment/'+this.props.data._id+'')
   .then(function (response) {
   this.setState({comments: response.data
   })
@@ -37,7 +37,7 @@ this.setState({comments:comments})
     axios.post(
   '/api/comment',
        querystring.stringify({
-          post_id: this.props.data.post._id,
+          post_id: this.props.data._id,
     author: this.state.comment_name,
     mail: this.state.comment_mail,
     content: this.state.comment_content
@@ -65,12 +65,11 @@ this.setState({comments:comments})
            <div className="col-1-4"/>
            <div className="col-1-2">
        <article>
-    <h1 className="c">{this.state.post.headline}</h1>
-    <span>{this.state.post.author}</span><span className="info"></span>
-    <p dangerouslySetInnerHTML={{__html: this.state.post.raw_content}} />
+    <h1 className="c">{this.props.data.headline}</h1>
+    <span>{this.props.data.post.author}</span><span className="info"></span>
+    <p dangerouslySetInnerHTML={{__html: this.props.data.raw_content}} />
 
   </article>
-
   <div className="comment">
   <h3>Komentáře</h3>
   <textarea placeholder="Leave a comment" name="comment_content" onChange={this.handleChange}></textarea>
@@ -97,7 +96,7 @@ this.setState({comments:comments})
   </div>
 
   </div>
-  </div>
+</div>
       )
   }
 

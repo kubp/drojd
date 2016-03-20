@@ -15,29 +15,26 @@ var _react = require("react");
 var _react2 = _interopRequireDefault(_react);
 
 var Page = (function (_React$Component) {
-  _inherits(Page, _React$Component);
+    _inherits(Page, _React$Component);
 
-  function Page(props) {
-    _classCallCheck(this, Page);
+    function Page(props) {
+        _classCallCheck(this, Page);
 
-    _get(Object.getPrototypeOf(Page.prototype), "constructor", this).call(this, props);
-    this.state = {
-      page: this.props.data.page
-    };
-  }
-
-  _createClass(Page, [{
-    key: "render",
-    value: function render() {
-      return _react2["default"].createElement(
-        "div",
-        null,
-        _react2["default"].createElement("div", { dangerouslySetInnerHTML: { __html: this.state.page.raw_content } })
-      );
+        _get(Object.getPrototypeOf(Page.prototype), "constructor", this).call(this, props);
     }
-  }]);
 
-  return Page;
+    _createClass(Page, [{
+        key: "render",
+        value: function render() {
+            return _react2["default"].createElement(
+                "div",
+                null,
+                _react2["default"].createElement("div", { dangerouslySetInnerHTML: { __html: this.props.data.raw_content } })
+            );
+        }
+    }]);
+
+    return Page;
 })(_react2["default"].Component);
 
 module.exports = Page;

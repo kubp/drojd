@@ -2,6 +2,7 @@ import React from "react";
 class PageHead extends React.Component {
 constructor(props){
     super(props);
+
 }
 
   render() {
@@ -13,11 +14,12 @@ constructor(props){
     <meta name="description" content={this.props.data.description}/>
   <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
 
- 
-    <meta property="og:type" content="article" />
+ <meta property="og:image" content={this.props.data.image}/>
+   <meta property="twitter:image" content={this.props.data.image}/>
+
     <meta property="og:title" content={this.props.data.title} />
     <meta property="og:description" content={this.props.data.description}/>
-    <meta name="twitter:card" content="summary"/>
+ 
     <meta name="twitter:description" content={this.props.data.description}/>
     <meta name="twitter:title" content={this.props.data.title}/>
 
