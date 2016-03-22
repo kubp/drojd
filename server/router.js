@@ -40,11 +40,11 @@ module.exports = function(app) {
 
   app.get(config.api_url+'/page/:id', handlers.page.get);
 
-  app.post(config.api_url+'/page/',  handlers.page.set);
+  app.post(config.api_url+'/page/', handlers.auth.auth, handlers.page.set);
 
-  app.delete(config.api_url+'/page/:id', handlers.page.remove);
+  app.delete(config.api_url+'/page/:id', handlers.auth.auth, handlers.page.remove);
 
-  app.put(config.api_url+'/page/:id', handlers.page.update);
+  app.put(config.api_url+'/page/:id', handlers.auth.auth, handlers.page.update);
 
 
 

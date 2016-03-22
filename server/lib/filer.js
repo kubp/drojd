@@ -1,5 +1,6 @@
 var Auth = require("./../src/Auth");
 var auth = new Auth();
+var path = require('path');
 
 module.exports = function(app) {
 
@@ -28,6 +29,44 @@ module.exports = function(app) {
     });
 
   });
+
+
+   app.get('/api/image/:image', function(req, res) {
+     try {
+
+          stats = fs.lstatSync(__dirname + '/../../www/images/'+req.params.image);
+
+          if (stats.isFile()) {
+            
+            res.sendFile(path.resolve(__dirname + '/../../www/images/'+req.params.image))
+            
+
+          }
+      }
+      catch (e) {
+          res.status(404).send("")      }
+
+
+  });
+
+
+     app.delete('/api/image/:image', auth.auth, function(req, res) {
+     try {
+
+          stats = fs.lstatSync(__dirname + '/../../www/images/'+req.params.image);
+         
+          if (stats.isFile()) {
+            fs.unlinkSync(__dirname + '/../../www/images/'+req.params.image)
+            res.send("ok") 
+
+          }
+      }
+      catch (e) {
+          res.status(404).send("boos")      }
+
+
+  });
+
 
 
 }
