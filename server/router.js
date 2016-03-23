@@ -107,6 +107,7 @@ module.exports = function(app) {
 
   app.get('/sitemap.xml',  handlers.rss.sitemap);
 
-  app.get('/generate',  handlers.generator.generate);
+  app.get(config.api_url+'/static/generate', handlers.auth.auth, handlers.generator.generate);
 
+  app.get(config.api_url+'/static/download', handlers.auth.auth, handlers.generator.makeZip);
 }

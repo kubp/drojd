@@ -77,19 +77,12 @@ this.setState({comments:comments})
   <input placeholder="Email" name="comment_mail" onChange={this.handleChange}/>
   <button onClick={this.axiosSend}>Send</button>
 
-{this.state.comments.length>0 ?
-  <div className="comments">{this.state.comments.map((comment) =>
-  <div className="post">
-  <div className="comment-detail"><div>{comment.author}</div><span><Time time={comment.created_at} /></span></div>
 
-
-  <p>{comment.content}</p>
+  <div className="comments">
+    {this.state.comments.map(function(result,i) {
+           return <Comment key={i} data={result}/>
+        })}
 </div>
-   )}
-</div>
-
-  : null
-}
 
 
 
@@ -102,6 +95,30 @@ this.setState({comments:comments})
 
  
 }
+
+
+
+class Comment extends React.Component {
+constructor(props){
+  super(props);
+}
+
+
+  render() {
+
+    return (
+            <div className="post">
+  <div className="comment-detail"><div>{this.props.data.author}</div><span><Time time={this.props.data.created_at} /></span></div>
+
+
+  <p>{this.props.data.content}</p>
+</div>
+       )
+  }
+
+ 
+}
+
 
 
 module.exports=Blog;

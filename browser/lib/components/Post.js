@@ -116,35 +116,13 @@ var Blog = (function (_React$Component) {
               { onClick: this.axiosSend },
               "Send"
             ),
-            this.state.comments.length > 0 ? _react2["default"].createElement(
+            _react2["default"].createElement(
               "div",
               { className: "comments" },
-              this.state.comments.map(function (comment) {
-                return _react2["default"].createElement(
-                  "div",
-                  { className: "post" },
-                  _react2["default"].createElement(
-                    "div",
-                    { className: "comment-detail" },
-                    _react2["default"].createElement(
-                      "div",
-                      null,
-                      comment.author
-                    ),
-                    _react2["default"].createElement(
-                      "span",
-                      null,
-                      _react2["default"].createElement(_Time2["default"], { time: comment.created_at })
-                    )
-                  ),
-                  _react2["default"].createElement(
-                    "p",
-                    null,
-                    comment.content
-                  )
-                );
+              this.state.comments.map(function (result, i) {
+                return _react2["default"].createElement(Comment, { key: i, data: result });
               })
-            ) : null
+            )
           )
         )
       );
@@ -152,6 +130,48 @@ var Blog = (function (_React$Component) {
   }]);
 
   return Blog;
+})(_react2["default"].Component);
+
+var Comment = (function (_React$Component2) {
+  _inherits(Comment, _React$Component2);
+
+  function Comment(props) {
+    _classCallCheck(this, Comment);
+
+    _get(Object.getPrototypeOf(Comment.prototype), "constructor", this).call(this, props);
+  }
+
+  _createClass(Comment, [{
+    key: "render",
+    value: function render() {
+
+      return _react2["default"].createElement(
+        "div",
+        { className: "post" },
+        _react2["default"].createElement(
+          "div",
+          { className: "comment-detail" },
+          _react2["default"].createElement(
+            "div",
+            null,
+            this.props.data.author
+          ),
+          _react2["default"].createElement(
+            "span",
+            null,
+            _react2["default"].createElement(_Time2["default"], { time: this.props.data.created_at })
+          )
+        ),
+        _react2["default"].createElement(
+          "p",
+          null,
+          this.props.data.content
+        )
+      );
+    }
+  }]);
+
+  return Comment;
 })(_react2["default"].Component);
 
 module.exports = Blog;

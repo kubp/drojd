@@ -2,21 +2,23 @@ var request = require('request');
 var async = require('async');
 var fs = require('fs');
 var path = require("path")
+var archiver = require('archiver');
 
 var handler = function() {
-  this.generate = generate;
+  this.generate = generate
+  this.makeZip = makeZip
 };
 
 
 function generate(req, res){
-
+  res.json({"status" : "in progress"})
   deleteFolderRecursive("./static/")
   fs.mkdirSync("./static/");
   copyFolderRecursiveSync("./www/images", "./static/")
   copyFolderRecursiveSync("./www/assets", "./static/")
 async.waterfall([
   function(callback){
-  request({uri: 'http://localhost:8090/api/section'}, function(err, response, body){
+  request({uri: config.url+config.api_url+'/page'}, function(err, response, body){
    var data =JSON.parse(body);
   var url =[];
   for(i=0; i<data.length;i++){
@@ -28,9 +30,8 @@ async.waterfall([
    
   },
   function(url,callback){
-
      for(i=0; i<url.length;i++){
-        request({uri: 'http://localhost:8090'+url[i]},function(err, r,b){
+        request({uri: config.url+url[i]},function(err, r,b){
       callback(null,b,this.uri.path);
     });
   }
@@ -91,7 +92,10 @@ async.waterfall([
       fs.writeFile("./static/"+k+"/"+res[res.length-1]+".html", err, function(err) {
     if(err) {
         return console.log(err);
-    }})
+    }else{
+        return "ok"
+    }
+  })
 
 
     }
@@ -100,6 +104,29 @@ async.waterfall([
   }]
 )
 
+}
+
+function makeZip(req,res){
+
+
+
+var output = fs.createWriteStream('static-content.zip');
+var archive = archiver('zip');
+
+output.on('close', function () {
+    res.setHeader('Content-disposition', 'attachment; filename=static-content.zip');
+    res.sendFile(path.resolve(__dirname + '/../../static-content.zip'))
+});
+
+archive.on('error', function(err){
+    throw err;
+});
+
+archive.pipe(output);
+archive.bulk([
+    { expand: true, cwd: './static/', src: ['**'], dest: './static/'}
+]);
+archive.finalize();
 }
 
 
