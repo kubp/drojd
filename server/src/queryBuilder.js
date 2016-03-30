@@ -33,7 +33,7 @@ return result;
 
   ignore:function(params){
 		params=params ? params : ""
-	return("-visible "+params);
+	return(params);
 
 },
 
@@ -42,8 +42,27 @@ return result;
 	return({ skip: page*per_page, limit: per_page });
 
 },
+
+  sort:function(sort){
+    if(typeof sort === "string"){
+
+    var hasOrder = sort.match('^([a-z-_]+):(1|-1)$')
+    if(hasOrder){
+      return({[hasOrder[1]] : hasOrder[2]})
+    }else{
+        return sort;
+    }
+    
+    
+    
+}
+
+
+},
+
+
  doc:function(req, doc){
-  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl.match('^[^?]*')[0];
   
   for(i=0; i<doc.length; i++){
     doc[i].page_url=fullUrl+"/"+doc[i]._id

@@ -6,8 +6,6 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -24,6 +22,10 @@ var _Time = require("./Time");
 
 var _Time2 = _interopRequireDefault(_Time);
 
+var _Comment = require("./Comment");
+
+var _Comment2 = _interopRequireDefault(_Comment);
+
 var querystring = require('querystring');
 
 var Blog = (function (_React$Component) {
@@ -33,9 +35,7 @@ var Blog = (function (_React$Component) {
     _classCallCheck(this, Blog);
 
     _get(Object.getPrototypeOf(Blog.prototype), "constructor", this).call(this, props);
-    this.state = { comments: [{}] };
-    this.axiosSend = this.axiosSend.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {};
   }
 
   _createClass(Blog, [{
@@ -48,31 +48,6 @@ var Blog = (function (_React$Component) {
       }).bind(this))["catch"]((function (response) {
         this.setState({ comments: [] });
       }).bind(this));
-    }
-  }, {
-    key: "axiosSend",
-    value: function axiosSend() {
-
-      var comments = this.state.comments;
-      comments.push({
-        author: this.state.comment_name,
-        content: this.state.comment_content,
-        created_at: new Date() });
-      this.setState({ comments: comments });
-
-      _axios2["default"].post('/api/comment', querystring.stringify({
-        post_id: this.props.data._id,
-        author: this.state.comment_name,
-        mail: this.state.comment_mail,
-        content: this.state.comment_content
-
-      }))["catch"](function (response) {});
-    }
-  }, {
-    key: "handleChange",
-    value: function handleChange(evt) {
-      var name = evt.target.name;
-      this.setState(_defineProperty({}, evt.target.name, evt.target.value));
     }
   }, {
     key: "render",
@@ -100,78 +75,13 @@ var Blog = (function (_React$Component) {
             _react2["default"].createElement("span", { className: "info" }),
             _react2["default"].createElement("p", { dangerouslySetInnerHTML: { __html: this.props.data.raw_content } })
           ),
-          _react2["default"].createElement(
-            "div",
-            { className: "comment" },
-            _react2["default"].createElement(
-              "h3",
-              null,
-              "Komentáře"
-            ),
-            _react2["default"].createElement("textarea", { placeholder: "Leave a comment", name: "comment_content", onChange: this.handleChange }),
-            _react2["default"].createElement("input", { placeholder: "Name", name: "comment_name", onChange: this.handleChange }),
-            _react2["default"].createElement("input", { placeholder: "Email", name: "comment_mail", onChange: this.handleChange }),
-            _react2["default"].createElement(
-              "button",
-              { onClick: this.axiosSend },
-              "Send"
-            ),
-            _react2["default"].createElement(
-              "div",
-              { className: "comments" },
-              this.state.comments.map(function (result, i) {
-                return _react2["default"].createElement(Comment, { key: i, data: result });
-              })
-            )
-          )
+          this.state.comments && this.props.data.post.comments ? _react2["default"].createElement(_Comment2["default"], { data: this.state.comments, id: this.props.data._id }) : null
         )
       );
     }
   }]);
 
   return Blog;
-})(_react2["default"].Component);
-
-var Comment = (function (_React$Component2) {
-  _inherits(Comment, _React$Component2);
-
-  function Comment(props) {
-    _classCallCheck(this, Comment);
-
-    _get(Object.getPrototypeOf(Comment.prototype), "constructor", this).call(this, props);
-  }
-
-  _createClass(Comment, [{
-    key: "render",
-    value: function render() {
-
-      return _react2["default"].createElement(
-        "div",
-        { className: "post" },
-        _react2["default"].createElement(
-          "div",
-          { className: "comment-detail" },
-          _react2["default"].createElement(
-            "div",
-            null,
-            this.props.data.author
-          ),
-          _react2["default"].createElement(
-            "span",
-            null,
-            _react2["default"].createElement(_Time2["default"], { time: this.props.data.created_at })
-          )
-        ),
-        _react2["default"].createElement(
-          "p",
-          null,
-          this.props.data.content
-        )
-      );
-    }
-  }]);
-
-  return Comment;
 })(_react2["default"].Component);
 
 module.exports = Blog;

@@ -17,7 +17,10 @@ function loadAll(req, res) {
 
     Page.find(b.query(req.query.q), 
           b.ignore(), 
-          b.paginator(req.query.page,req.query.per_page)).lean().then(function(docs) {
+          b.paginator(req.query.page,req.query.per_page)
+        
+//b.sort(req.query.sort)
+          ).sort(b.sort(req.query.sort)).lean().then(function(docs) {
 
 
     
@@ -79,6 +82,7 @@ function update(req, res) {
   req.body.perex ? content.post.perex= req.body.perex : null;
   req.body.author ? content.post.author= req.body.author : null;
   req.body.tags ? content.post.tags= req.body.tags : null;
+    req.body.comments ? content.post.comments= req.body.comments : null;
 
   Page.findOneAndUpdate({
       _id: req.params.id

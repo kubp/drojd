@@ -9,10 +9,10 @@ process.env.PORT = '8099'
 var app = require("../server/app").getApp;
 
 
-describe('Sections', function(){
+
 
 describe('GET /page/', function(){
-  it('section data', function(done){
+  it('view', function(done){
     request(app)
       .get('/api/page')
       .set('Accept', 'application/json')
@@ -31,11 +31,49 @@ describe('GET /page/', function(){
             done()
     });
   });
+
+    it('404', function(done){
+    request(app)
+      .get('/api/page/0')
+      .set('Accept', 'application/json')
+      .expect(404)
+      .expect('Content-Type', /json/)
+       .end(function (err, res) {
+        if(err){
+            throw err;
+        }
+          res.body.should.have.property("error")
+          done()
+    });
+  });
+
+
    });
 
 
-describe('GET Blog Section query', function(){
-  it('correct data', function(done){
+
+describe('POST /page/', function(){
+
+    it('Unauthorized', function(done){
+    request(app)
+      .post('/api/page')
+      .set('Accept', 'application/json')
+      .expect(401)
+      .expect('Content-Type', /json/)
+       .end(function (err, res) {
+        if(err){
+            throw err;
+        }
+          res.body.should.have.property("message")
+          done()
+    });
+  });
+});
+
+
+
+describe('GET BlogSection query', function(){
+  it('?q=blog_section:type', function(done){
     request(app)
       .get('/api/page?q=blog_section:type')
       .set('Accept', 'application/json')
@@ -59,7 +97,7 @@ describe('GET Blog Section query', function(){
 
 
 describe('GET Post query', function(){
-  it('correct data', function(done){
+  it('?q=post:type', function(done){
     request(app)
       .get('/api/page?q=post:type')
       .set('Accept', 'application/json')
@@ -81,7 +119,7 @@ describe('GET Post query', function(){
  });
 
 
-describe('GET Comments query', function(){
+describe('GET Comments', function(){
   it('correct data', function(done){
     request(app)
       .get('/api/comment')
@@ -103,6 +141,3 @@ describe('GET Comments query', function(){
     });
  });
 
-
-
-});

@@ -13,7 +13,7 @@ var Logger = require("./lib/logger")
 Logger.log(req)
 
 
-Page.findOne({url:req.path}).lean().exec().then(function(page) {
+Page.findOne({url:req.path, visible: 1}).lean().exec().then(function(page) {
 
 if(page){
   page.menu=cache.getCache()

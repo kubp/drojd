@@ -8,7 +8,7 @@ module.exports = {
     __dirname+'/src/entry',
   ],
   output: {
-    path: __dirname + '/../public/',
+    path: __dirname + '/../www/assets',
     filename: 'min.js',
     //publicPath: 'http://localhost:8080/js/',
   },

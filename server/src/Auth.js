@@ -10,7 +10,6 @@ var handler = function() {
   this.auth = auth;
   this.authAdmin = authAdmin;
   this.verifyUser = verify;
-  this.add = add;
 };
 
 
@@ -124,17 +123,5 @@ function verify(req, res) {
   res.status(200).json({status: 200, message: "Authorized"});
 
 }
-
-function add(req, res){
-  var salt = bcrypt.genSaltSync(10);
-  var password = bcrypt.hashSync("test", salt);
-  user=new UserModel({
-    mail:"test",
-    pass: password,
-    permission: 1
-  })
-  user.save();
-}
-
 
 module.exports = handler;

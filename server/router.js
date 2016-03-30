@@ -2,10 +2,7 @@ module.exports = function(app) {
 
 
   var Auth = require("./src/Auth");
-
   var Page = require("./src/Page");
-
-
   var Main = require("./src/Main");
   var User = require("./src/User")
   var Stats = require("./lib/stats")
@@ -13,14 +10,11 @@ module.exports = function(app) {
   var Menu = require("./src/Menu")
   var Rss = require("./lib/rss")
   var pageGenerator = require("./lib/pageGenerator")
-
+  
   var handlers = {
     page: new Page(),
     auth: new Auth(),
     user: new User(),
-
-
-
     main: new Main(),
     stats: new Stats(),
     comment: new Comment(),
@@ -29,8 +23,9 @@ module.exports = function(app) {
     generator: new pageGenerator()
   };
 
-   app.get(config.api_url+'/', handlers.main.get);
 
+
+  app.get(config.api_url+'/', handlers.main.get);
 
 /* Page */
 
@@ -51,8 +46,6 @@ module.exports = function(app) {
 /* Auth */
 
   app.post(config.api_url+'/login/', handlers.auth.login);
-
-  app.get(config.api_url+'/login/add', handlers.auth.add);
 
   app.get(config.api_url+'/verify/:apikey', handlers.auth.auth, handlers.auth.verifyUser);
 
