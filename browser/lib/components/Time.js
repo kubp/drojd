@@ -18,7 +18,7 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-//moment.locale("cs");
+_moment2["default"].locale("cs");
 
 var Time = (function (_React$Component) {
   _inherits(Time, _React$Component);
@@ -38,7 +38,7 @@ var Time = (function (_React$Component) {
   }, {
     key: "getFrom",
     value: function getFrom(e) {
-      return (0, _moment2["default"])().startOf('day').from(e);
+      return (0, _moment2["default"])().to(e);
     }
   }, {
     key: "render",

@@ -95,10 +95,12 @@ function add(req, res) {
  
   var comment = new Comment({
     post_id: req.body.post_id,
+    p_id: Math.random().toString(36).substring(12),
     author: req.body.author,
     mail: req.body.mail,
     profile_picture: req.body.profile_picture,
-   // reply: req.body.reply,
+    reply: req.body.reply,
+    reply_name: req.body.reply_name,
     content: req.body.content,
     permission: req.body.permission
 

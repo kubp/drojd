@@ -33,13 +33,24 @@ var Comments = (function (_React$Component) {
     _classCallCheck(this, Comments);
 
     _get(Object.getPrototypeOf(Comments.prototype), "constructor", this).call(this, props);
+
     this.axiosSend = this.axiosSend.bind(this);
     this.handleChange = this.handleChange.bind(this);
     console.log(this.props.data);
-    this.state = { comments: this.props.data };
+    this.state = { comments: this.props.data, reply: "", comment_content: "" };
+    this.reply = this.reply.bind(this);
   }
 
   _createClass(Comments, [{
+    key: "reply",
+    value: function reply(id, name) {
+      console.log(id);
+      this.setState({
+        reply_name: name,
+        reply: id,
+        comment_content: "@" + name + " " + this.state.comment_content.replace(/@([a-zA-Z\-])+/, "") });
+    }
+  }, {
     key: "axiosSend",
     value: function axiosSend() {
 
@@ -54,7 +65,9 @@ var Comments = (function (_React$Component) {
         post_id: this.props.id,
         author: this.state.comment_name,
         mail: this.state.comment_mail,
-        content: this.state.comment_content
+        content: this.state.comment_content,
+        reply: this.state.reply,
+        reply_name: this.state.reply_name
 
       }))["catch"](function (response) {});
     }
@@ -67,15 +80,16 @@ var Comments = (function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var that = this;
       return _react2["default"].createElement(
         "div",
-        { className: "comment" },
+        { className: "comment", id: "comment" },
         _react2["default"].createElement(
           "h3",
           null,
           "Komentáře"
         ),
-        _react2["default"].createElement("textarea", { placeholder: "Leave a comment", name: "comment_content", onChange: this.handleChange }),
+        _react2["default"].createElement("textarea", { placeholder: "Leave a comment", name: "comment_content", onChange: this.handleChange, value: this.state.comment_content }),
         _react2["default"].createElement("input", { placeholder: "Name", name: "comment_name", onChange: this.handleChange }),
         _react2["default"].createElement("input", { placeholder: "Email", name: "comment_mail", onChange: this.handleChange }),
         _react2["default"].createElement(
@@ -87,7 +101,7 @@ var Comments = (function (_React$Component) {
           "div",
           { className: "comments" },
           this.state.comments.map(function (result, i) {
-            return _react2["default"].createElement(Comment, { key: i, data: result });
+            return _react2["default"].createElement(Comment, { reply: that.reply.bind(null), key: i, data: result });
           })
         )
       );
@@ -112,7 +126,7 @@ var Comment = (function (_React$Component2) {
 
       return _react2["default"].createElement(
         "div",
-        { className: "post" },
+        { className: "post", id: this.props.data.p_id },
         _react2["default"].createElement(
           "div",
           { className: "comment-detail" },
@@ -125,12 +139,31 @@ var Comment = (function (_React$Component2) {
             "span",
             null,
             _react2["default"].createElement(_Time2["default"], { time: this.props.data.created_at })
+          ),
+          _react2["default"].createElement(
+            "span",
+            null,
+            _react2["default"].createElement(
+              "a",
+              { href: "#comment", onClick: this.props.reply.bind(null, this.props.data.p_id, this.props.data.author) },
+              "reply"
+            )
           )
         ),
-        _react2["default"].createElement(
+        this.props.data.reply == "" || !this.props.data.reply ? _react2["default"].createElement(
           "p",
           null,
           this.props.data.content
+        ) : _react2["default"].createElement(
+          "p",
+          null,
+          _react2["default"].createElement(
+            "a",
+            { href: "#" + this.props.data.reply },
+            "@",
+            this.props.data.reply_name
+          ),
+          this.props.data.content.replace(/@([a-zA-Z\-])+/, "")
         )
       );
     }

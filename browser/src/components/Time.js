@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment"
-//moment.locale("cs");
+moment.locale("cs");
 
 class Time extends React.Component {
 constructor(props){
@@ -14,7 +14,7 @@ componentDidReceiveProps(){
 
 
 getFrom(e){
-  return moment().startOf('day').from(e)
+  return moment().to(e)
 }
 
   render() {
