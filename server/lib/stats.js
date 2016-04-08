@@ -80,8 +80,11 @@ function getUnique(req, res){
     {$group : {_id : "$ip"} }, 
     {$group: {_id:1, count: {$sum : 1 }}}
   ).exec(function(error, stats) {
-    delete stats[0]._id
-    res.json(stats[0])
+    if(stats.length != 0){
+      delete stats[0]._id
+      res.json(stats[0])
+    }
+    
   })
 
 }

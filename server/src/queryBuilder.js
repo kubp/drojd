@@ -38,7 +38,8 @@ return result;
 },
 
   paginator:function(page, per_page){
-	
+	var page = parseInt(page)
+  var per_page = parseInt(per_page)
 	return({ skip: page*per_page, limit: per_page });
 
 },

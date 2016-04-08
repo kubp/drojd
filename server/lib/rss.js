@@ -17,7 +17,7 @@ function rss(req, res) {
     var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'}).ele("error").text("No RSS").end({ pretty: true});
     return res.contentType("application/xml").send(xml)
   }
-  Page.find({section: blog.section,visible: 1}).exec(function(err, sections){
+  Page.find({section: blog.section,visible: 1, type: "post"}).exec(function(err, sections){
 
 
 var xml = builder.create('rss',  {version: '1.0', encoding: 'UTF-8'})
@@ -63,7 +63,7 @@ xml=xml.ele('item').ele("title").txt(sections[i].title).up()
 
      .ele("guid").txt(fullUrl+sections[i].url).up()
   
-    .ele("description").txt(sections[i].description).up()
+    .ele("description").txt(sections[i].raw_content.replace(/(<([^>]+)>)/ig,"")).up()
 
     .ele("content:encoded").dat(sections[i].raw_content).up()
 
