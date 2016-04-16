@@ -1,26 +1,20 @@
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
-
 var User = require("../models/UserSchema")
 
 var handler = function() {
-
   this.login = login;
   this.auth = auth;
   this.authAdmin = authAdmin;
   this.verifyUser = verify;
 };
 
-
-
 var UserModel = mongoose.model('User', User);
 
 
 /**
- *
- * @param req
- * @param res
+ * Auth routes
  */
 function login(req, res) {
 
@@ -63,11 +57,8 @@ function login(req, res) {
 
 
 
-/**
- *
- * @param req
- * @param res
- * @param next
+/*
+ * Admin auth
  */
 function auth(req, res, next) {
   var token = req.params.apikey || req.body.apikey || req.query.apikey || req.headers['x-access-token'];
@@ -88,6 +79,9 @@ function auth(req, res, next) {
 
 }
 
+/*
+ * SuperAdmin auth
+ */
 function authAdmin(req, res, next) {
   var token = req.params.apikey || req.body.apikey || req.query.apikey || req.headers['x-access-token'];
   jwt.verify(token, config.secret, function(err, decoded) {

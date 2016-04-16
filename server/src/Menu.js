@@ -1,16 +1,11 @@
 var Menu = require("../models/MenuSchema")
 
-
 var handler = function() {
-
-
   this.load = load;
   this.loadAll = loadAll;
   this.remove = remove;
   this.update = update;
   this.add = add;
-
-
 };
 
 function update(req, res) {

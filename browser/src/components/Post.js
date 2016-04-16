@@ -13,14 +13,14 @@ constructor(props){
 
 componentDidMount(){
 
-axios.get('/api/comment/'+this.props.data._id+'')
-  .then(function (response) {
-  this.setState({comments: response.data
-  })
+  axios.get('/api/comment/'+this.props.data._id+'')
+    .then(function (response) {
+    this.setState({comments: response.data
+    })
 
-}.bind(this)).catch(function (response) {
-  this.setState({comments: []})
-  }.bind(this));
+  }.bind(this)).catch(function (response) {
+    this.setState({comments: []})
+    }.bind(this));
 
 }
 
@@ -30,21 +30,20 @@ axios.get('/api/comment/'+this.props.data._id+'')
   render() {
     return ( 
           <div className="row">
-           <div className="col-1-4"/>
-           <div className="col-1-2">
-       <article>
-    <h1 className="c">{this.props.data.headline}</h1>
-    <span>{this.props.data.post.author}</span><span className="info"></span>
-    <p dangerouslySetInnerHTML={{__html: this.props.data.raw_content}} />
+            <div className="col-1-4"/>
+              <div className="col-1-2">
+                <article>
+                  <h1 className="c">{this.props.data.headline}</h1>
+                  <span>{this.props.data.post.author}</span><span className="info"></span>
+                  <p dangerouslySetInnerHTML={{__html: this.props.data.raw_content}} />
+                </article>
 
-  </article>
+              {this.state.comments && this.props.data.post.comments ? 
+               <Comments data={this.state.comments} id={this.props.data._id}/>
+              : null}
 
-{this.state.comments && this.props.data.post.comments ? 
- <Comments data={this.state.comments} id={this.props.data._id}/>
-: null}
-
-  </div>
-</div>
+            </div>
+          </div>
       )
   }
 

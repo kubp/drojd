@@ -1,14 +1,12 @@
 var Page = require("../models/PageSchema")
 
 var handler = function() {
-
   this.get = load;
   this.getAll = loadAll;
   this.remove = remove;
   this.update = update;
   this.set = add;
   this.search = search;
-
 };
 
 var b=require("./queryBuilder")
@@ -18,13 +16,9 @@ function loadAll(req, res) {
     Page.find(b.query(req.query.q), 
           b.ignore(), 
           b.paginator(req.query.page,req.query.per_page)
-        
-//b.sort(req.query.sort)
           ).sort(b.sort(req.query.sort)).lean().then(function(docs) {
 
-
-    
-    docs=b.doc(req,docs)
+    docs = b.doc(req,docs)
 
     res.json(docs)
   }, function(err) {});

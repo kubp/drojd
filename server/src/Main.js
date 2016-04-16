@@ -1,5 +1,4 @@
 var handler = function() {
-
   this.get = load;
 }
 

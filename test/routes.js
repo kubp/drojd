@@ -4,12 +4,12 @@ var winston = require('winston');
 var should = require('should');
 var assert = require('assert');
 
+/*
+* Testing app
+*/
 
 process.env.PORT = '8099'
 var app = require("../server/app").getApp;
-
-
-
 
 describe('GET /page/', function(){
   it('view', function(done){

@@ -17,39 +17,25 @@ constructor(props){
 }
 
 
-
-
-
   render() {
       return(
         <html>
-        
-           {this.props.data ? <Head data={this.props.data}/> : null}
-
+          {this.props.data ? <Head data={this.props.data}/> : null}
           <body>
             <header>
               {this.props.data.menu ? <Menu menu={this.props.data.menu}/> : null}
-              
-
               <div className="clear"></div>
-              </header>
-               
-                  
-              <main>
-
-
-               <div className="wrapper">
-                  <Content data={this.props.data}/>
-                  
-           
-            
+            </header>
+            <main>
+              <div className="wrapper">
+                <Content data={this.props.data}/>
               </div>
-              </main>
+            </main>
 
-          <footer>Achieved with <a href="cms">Drojd CMS</a></footer>
-          <script dangerouslySetInnerHTML={{__html: "window._sharedData = "+JSON.stringify(this.props.data)}} />
-          <script src="http://localhost:8080/js/app.js" defer="defer"></script>
-             <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.1/SmoothScroll.js"></script>
+            <footer>Achieved with <a href="cms">Drojd CMS</a></footer>
+            <script dangerouslySetInnerHTML={{__html: "window._sharedData = "+JSON.stringify(this.props.data)}} />
+            <script src="http://localhost:8080/js/app.js" defer="defer"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.1/SmoothScroll.js"></script>
           </body>
         </html>
         )
@@ -60,15 +46,13 @@ constructor(props){
 }
 
 
- //<script src="/min.js"></script>
 
 class Content extends React.Component {
 constructor(props){
     super(props);
 }
 
-
-  render() {
+ render() {
        
        if(this.props.data.type=="page"){
       return ( <Page data={this.props.data}/> )

@@ -1,6 +1,3 @@
-// Webpack dev server
-// Ran in parallel with the Express server
-
 "use strict";
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -18,7 +15,6 @@ var _webpackConfigDev = require("../webpack.config.dev");
 var _webpackConfigDev2 = _interopRequireDefault(_webpackConfigDev);
 
 var server = new _webpackDevServer2["default"]((0, _webpack2["default"])(_webpackConfigDev2["default"]), {
-  // webpack-dev-server options
   publicPath: _webpackConfigDev2["default"].output.publicPath,
   hot: true,
   stats: { colors: true }

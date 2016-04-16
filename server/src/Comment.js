@@ -1,19 +1,12 @@
 var Comment = require("../models/CommentSchema")
 
-
 var handler = function() {
-
   this.get = load;
   this.getAll = loadAll;
   this.remove = remove;
   this.update = update;
   this.set = add;
-
-
 };
-
-
-
 
 
 function load(req, res) {
@@ -103,13 +96,8 @@ function add(req, res) {
     reply_name: req.body.reply_name,
     content: req.body.content,
     permission: req.body.permission
+  })
 
-    
-})
-
-  
-
-  
   comment.save();
 
   res.status(200).json({status: "Resource created successfully"})

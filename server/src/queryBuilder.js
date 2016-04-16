@@ -1,42 +1,53 @@
-
 module.exports = {
-query: function(query) {
+  
+  /**
+  * @param {object} query
+  * @return {object} type:query
+  */
+  query: function(query) {
 
-  if (typeof query === "undefined") {
-    return {};
-  }
-
-
-  if (typeof query === "object") {
-  var result = {};
-    for (i = 0; i < query.length; i++) {
-      var search = query[i].split(":");
-      var q = search[0];
-      var type = search[1];
-   
-      result[type] = [q]
-
+    if (typeof query === "undefined") {
+      return {};
     }
- console.log(result)
-return result;
 
-  } 
+    if (typeof query === "object") {
+      var result = {};
+        for (i = 0; i < query.length; i++) {
+          var search = query[i].split(":");
+          var q = search[0];
+          var type = search[1];
+          result[type] = [q]
+        }
+      
+        return result;
 
-    var search = query.split(":");
-    var query = search[0];
-    var type = search[1];
-    return {[type]: [query]}
+    } 
+
+      var search = query.split(":");
+      var query = search[0];
+      var type = search[1];
+      return {[type]: [query]}
 
 
 },
 
+ /**
+ * @param {string} params - Ignore
+ * @param {string} params ß- Ignore
+ * @return {string} 
+ */
 
   ignore:function(params){
-		params=params ? params : ""
-	return(params);
+    params=params ? params : ""
+    return(params);
 
 },
 
+ /**
+ * @param {number} page
+ * @param {number} per_page
+ * @return {object}
+ */
   paginator:function(page, per_page){
 	var page = parseInt(page)
   var per_page = parseInt(per_page)
@@ -44,6 +55,10 @@ return result;
 
 },
 
+ /**
+  * @param {object} sort
+  * @return {object} sort
+  */
   sort:function(sort){
     if(typeof sort === "string"){
 
@@ -53,24 +68,20 @@ return result;
     }else{
         return sort;
     }
-    
-    
-    
+
 }
-
-
 },
 
 
- doc:function(req, doc){
-  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl.match('^[^?]*')[0];
-  
-  for(i=0; i<doc.length; i++){
-    doc[i].page_url=fullUrl+"/"+doc[i]._id
-  }
-  
-  
-  return doc
+  doc:function(req, doc){
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl.match('^[^?]*')[0];
+    
+    for(i=0; i<doc.length; i++){
+      doc[i].page_url=fullUrl+"/"+doc[i]._id
+    }
+    
+    
+    return doc
 
 }
 

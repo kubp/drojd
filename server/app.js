@@ -8,9 +8,12 @@ var cors = require('cors')
 var app = express();
 
 config = require("../config");
+
+
+/*
+* Database connection
+*/
 mongoose = require('mongoose')
-
-
 mongoose.connect(config.db);
 
 cache = require("./lib/cache")
@@ -22,9 +25,11 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+
+/*
+* Set logger
+*/
 var winston = require('winston');
-
-
 winston.add(winston.transports.File, {
   filename: __dirname+'/logs/error.log'
 });

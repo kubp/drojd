@@ -55,8 +55,6 @@ var Main = (function (_React$Component) {
     _get(Object.getPrototypeOf(Main.prototype), "constructor", this).call(this, props);
   }
 
-  //<script src="/min.js"></script>
-
   _createClass(Main, [{
     key: "render",
     value: function render() {

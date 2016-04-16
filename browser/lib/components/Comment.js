@@ -36,7 +36,6 @@ var Comments = (function (_React$Component) {
 
     this.axiosSend = this.axiosSend.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    console.log(this.props.data);
     this.state = { comments: this.props.data, reply: "", comment_content: "" };
     this.reply = this.reply.bind(this);
   }
@@ -44,7 +43,6 @@ var Comments = (function (_React$Component) {
   _createClass(Comments, [{
     key: "reply",
     value: function reply(id, name) {
-      console.log(id);
       this.setState({
         reply_name: name,
         reply: id,
@@ -58,7 +56,8 @@ var Comments = (function (_React$Component) {
       comments.push({
         author: this.state.comment_name,
         content: this.state.comment_content,
-        created_at: new Date() });
+        created_at: new Date()
+      });
       this.setState({ comments: comments });
 
       _axios2["default"].post('/api/comment', querystring.stringify({
@@ -76,6 +75,7 @@ var Comments = (function (_React$Component) {
     value: function handleChange(evt) {
       var name = evt.target.name;
       this.setState(_defineProperty({}, evt.target.name, evt.target.value));
+      ß;
     }
   }, {
     key: "render",
