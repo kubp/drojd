@@ -33,7 +33,7 @@ constructor(props){
     return ( 
           <div className="col-1-3">
             <article>
-              {this.props.data.headline}</h1>
+              <h1>{this.props.data.headline}</h1>
                 <span>{this.props.data.post.author}</span><span className="info"></span>
                 <p dangerouslySetInnerHTML={{__html: this.props.data.post.perex}} />
                 <a href={this.props.data.url}>Přečíst...</a>

@@ -8,7 +8,7 @@ import Page from "./Page";
 import Error404 from "./error404";
 import Menu from "./Menu"
 import Head from "./Head"
-
+import config from "../../config.js"
 
 class Main extends React.Component {
 constructor(props){
@@ -35,6 +35,12 @@ constructor(props){
             <footer>Achieved with <a href="cms">Drojd CMS</a></footer>
             <script dangerouslySetInnerHTML={{__html: "window._sharedData = "+JSON.stringify(this.props.data)}} />
             <script src="http://localhost:8080/js/app.js" defer="defer"></script>
+            
+            {config.ga!=""?
+            <div><script dangerouslySetInnerHTML={{__html: " ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;ga('create','"config.ga"','auto');ga('send','pageview');"}}/>
+            <script src="https://www.google-analytics.com/analytics.js" async defer/></div>
+            : null}
+
             <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.1/SmoothScroll.js"></script>
           </body>
         </html>

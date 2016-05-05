@@ -17,7 +17,7 @@ Page.findOne({url:req.path, visible: 1}).lean().exec().then(function(page) {
 if(page){
   page.menu=cache.getCache()
   if(page.type == "blog_section"){
-    Page.find({type:"post", section:page.section}).lean().exec().then(function(section) {
+    Page.find({type:"post", section:page.section}).select("-raw_content -md_content").lean().exec().then(function(section) {
       page.posts=section;
       var content = ReactDOM.renderToString(React.createElement(App, { data: page}));
       return res.send("<!DOCTYPE html>"+ content +"")
