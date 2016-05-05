@@ -95,11 +95,11 @@ var Main = (function (_React$Component) {
             )
           ),
           _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: "window._sharedData = " + JSON.stringify(this.props.data) } }),
-          _react2["default"].createElement("script", { src: "http://localhost:8080/js/app.js", defer: "defer" }),
+          _react2["default"].createElement("script", { src: _configJs2["default"].script, defer: "defer" }),
           _configJs2["default"].ga != "" ? _react2["default"].createElement(
             "div",
             null,
-            _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: " ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;ga('create','UA-77335566-1','auto');ga('send','pageview');" } }),
+            _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: " ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;ga('create','" + _configJs2["default"].ga + "','auto');ga('send','pageview');" } }),
             _react2["default"].createElement("script", { src: "https://www.google-analytics.com/analytics.js", async: true, defer: true })
           ) : null,
           _react2["default"].createElement("script", { src: "https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.1/SmoothScroll.js" })

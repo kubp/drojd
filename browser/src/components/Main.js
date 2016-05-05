@@ -34,10 +34,10 @@ constructor(props){
 
             <footer>Achieved with <a href="cms">Drojd CMS</a></footer>
             <script dangerouslySetInnerHTML={{__html: "window._sharedData = "+JSON.stringify(this.props.data)}} />
-            <script src="http://localhost:8080/js/app.js" defer="defer"></script>
+            <script src={config.script} defer="defer"></script>
             
             {config.ga!=""?
-            <div><script dangerouslySetInnerHTML={{__html: " ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;ga('create','"config.ga"','auto');ga('send','pageview');"}}/>
+            <div><script dangerouslySetInnerHTML={{__html: " ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;ga('create','"+config.ga+"','auto');ga('send','pageview');"}}/>
             <script src="https://www.google-analytics.com/analytics.js" async defer/></div>
             : null}
 

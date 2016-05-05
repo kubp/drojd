@@ -1,7 +1,8 @@
 
 function getConfig(){
-
+  var config = {};
   config.ga = "";
+  config.script = "";
 
   return config
 }
