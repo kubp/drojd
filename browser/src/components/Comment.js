@@ -59,7 +59,7 @@ reply(id, name){
   handleChange(evt){
     var name=evt.target.name;
     this.setState({[evt.target.name] : evt.target.value})
-  ß}
+  }
 
 
   render() {

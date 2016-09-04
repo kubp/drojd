@@ -10,6 +10,8 @@ module.exports = function(app) {
   var Menu = require("./src/Menu")
   var Rss = require("./lib/rss")
   var pageGenerator = require("./lib/pageGenerator")
+  var Admin = require("./src/Admin")
+  var reactGenerator = require("./src/reactGenerator")
   
   var handlers = {
     page: new Page(),
@@ -20,10 +22,15 @@ module.exports = function(app) {
     comment: new Comment(),
     menu: new Menu(),
     rss: new Rss(),
-    generator: new pageGenerator()
+    generator: new pageGenerator(),
+    admin: new Admin(),
+    reactgen: new reactGenerator() 
   };
 
 
+  app.get('/cms-admin/*', handlers.admin.secure);
+
+  app.get('/cms-admin/', handlers.admin.secure);
 
   app.get(config.api_url+'/', handlers.main.get);
 
@@ -103,4 +110,21 @@ module.exports = function(app) {
   app.get(config.api_url+'/static/generate', handlers.auth.auth, handlers.generator.generate);
 
   app.get(config.api_url+'/static/download', handlers.auth.auth, handlers.generator.makeZip);
+
+  /* React Generator */
+
+  app.get(config.api_url+'/generator/live', handlers.auth.auth, handlers.reactgen.jsxToHtml);
+
+  app.get(config.api_url+'/generator/move', handlers.auth.auth, handlers.reactgen.move);
+
+  app.get(config.api_url+'/template', handlers.auth.auth, handlers.reactgen.get);
+
+  app.get(config.api_url+'/template/:id', handlers.auth.auth, handlers.reactgen.get);
+
+  app.delete(config.api_url+'/template/:id', handlers.auth.auth, handlers.reactgen.remove);
+
+  app.put(config.api_url+'/template/:id', handlers.auth.auth, handlers.reactgen.update);
+
+  app.post(config.api_url+'/template', handlers.auth.auth, handlers.reactgen.set);
+
 }

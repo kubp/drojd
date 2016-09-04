@@ -6,6 +6,7 @@ var PageSchema = new mongoose.Schema({
       headline: String,
       section: String,
       title: String,
+      layout: String,
      
       md_content: String, //markdown
       raw_content: String, //html content

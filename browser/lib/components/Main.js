@@ -65,7 +65,7 @@ var Main = (function (_React$Component) {
       return _react2["default"].createElement(
         "html",
         null,
-        this.props.data ? _react2["default"].createElement(_Head2["default"], { data: this.props.data }) : null,
+        _react2["default"].createElement(_Head2["default"], { data: this.props.data }),
         _react2["default"].createElement(
           "body",
           null,
@@ -84,25 +84,8 @@ var Main = (function (_React$Component) {
               _react2["default"].createElement(Content, { data: this.props.data })
             )
           ),
-          _react2["default"].createElement(
-            "footer",
-            null,
-            "Achieved with ",
-            _react2["default"].createElement(
-              "a",
-              { href: "cms" },
-              "Drojd CMS"
-            )
-          ),
           _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: "window._sharedData = " + JSON.stringify(this.props.data) } }),
-          _react2["default"].createElement("script", { src: _configJs2["default"].script, defer: "defer" }),
-          _configJs2["default"].ga != "" ? _react2["default"].createElement(
-            "div",
-            null,
-            _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: " ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;ga('create','" + _configJs2["default"].ga + "','auto');ga('send','pageview');" } }),
-            _react2["default"].createElement("script", { src: "https://www.google-analytics.com/analytics.js", async: true, defer: true })
-          ) : null,
-          _react2["default"].createElement("script", { src: "https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.1/SmoothScroll.js" })
+          _react2["default"].createElement("script", { src: _configJs2["default"].script, defer: "defer" })
         )
       );
     }

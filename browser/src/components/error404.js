@@ -7,7 +7,6 @@ class Simple extends React.Component {
 
   render() {
     return(<div>
-    	 <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
     	 <h1>The page you are looking for does not exist</h1>
     	 </div>)
   }

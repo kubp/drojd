@@ -73,10 +73,12 @@ function update(req, res) {
   req.body.visible ? content.visible= req.body.visible : null;
   req.body.image ? content.image= req.body.image : null;
 
+  req.body.layout ? content.layout= req.body.layout : null;
+
   req.body.perex ? content.post.perex= req.body.perex : null;
   req.body.author ? content.post.author= req.body.author : null;
   req.body.tags ? content.post.tags= req.body.tags : null;
-    req.body.comments ? content.post.comments= req.body.comments : null;
+  req.body.comments ? content.post.comments= req.body.comments : null;
 
   Page.findOneAndUpdate({
       _id: req.params.id
@@ -111,6 +113,7 @@ function add(req, res) {
     md_content: req.body.md_content,
     url: req.body.url,
     visible: req.body.visible,
+    layout: req.body.layout,
     post:{
       perex: req.body.perex,
       author: req.body.author,

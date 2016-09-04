@@ -14,9 +14,9 @@ constructor(props){
         <meta name="description" content={this.props.data.description}/>
         <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
 
-        <meta property="og:image" content={this.props.data.image}/>
-        <meta property="twitter:image" content={this.props.data.image}/>
-
+        {this.props.data.image ? <meta property="og:image" content={this.props.data.image}/>:null}
+        {this.props.data.image ? <meta property="twitter:image" content={this.props.data.image}/>: null}
+        
         <meta property="og:title" content={this.props.data.title} />
         <meta property="og:description" content={this.props.data.description}/>
      

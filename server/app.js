@@ -9,6 +9,7 @@ var app = express();
 
 config = require("../config");
 
+Cache = require("./cache.js")
 
 /*
 * Database connection
@@ -98,8 +99,12 @@ router = new routes(app);
 var Filer = require("./lib/filer.js");
 filer = new Filer(app);
 
+if (process.argv.indexOf("template")!= -1) {
+  var client = require("./client-template.js");
+}else{
+  var client = require("./client.js");
+}
 
-var client = require("./client.js");
 client = new client(app);
 
 

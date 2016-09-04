@@ -14,31 +14,47 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var Simple = (function (_React$Component) {
-  _inherits(Simple, _React$Component);
+var _Post = require("./Post");
 
-  function Simple(props) {
-    _classCallCheck(this, Simple);
+var _Post2 = _interopRequireDefault(_Post);
 
-    _get(Object.getPrototypeOf(Simple.prototype), "constructor", this).call(this, props);
+var _BlogList = require("./BlogList");
+
+var _BlogList2 = _interopRequireDefault(_BlogList);
+
+var _Page = require("./Page");
+
+var _Page2 = _interopRequireDefault(_Page);
+
+var _error404 = require("./error404");
+
+var _error4042 = _interopRequireDefault(_error404);
+
+var Content = (function (_React$Component) {
+  _inherits(Content, _React$Component);
+
+  function Content(props) {
+    _classCallCheck(this, Content);
+
+    _get(Object.getPrototypeOf(Content.prototype), "constructor", this).call(this, props);
   }
 
-  _createClass(Simple, [{
+  _createClass(Content, [{
     key: "render",
     value: function render() {
-      return _react2["default"].createElement(
-        "div",
-        null,
-        _react2["default"].createElement(
-          "h1",
-          null,
-          "The page you are looking for does not exist"
-        )
-      );
+      if (this.props.data.type == "page") {
+        return _react2["default"].createElement(_Page2["default"], { data: this.props.data });
+      } else if (this.props.data.type == "post") {
+        return _react2["default"].createElement(_Post2["default"], { data: this.props.data });
+      } else if (this.props.data.type == "blog_section") {
+        return _react2["default"].createElement(_BlogList2["default"], { data: this.props.data });
+      } else {
+        return _react2["default"].createElement(_error4042["default"], null);
+      }
     }
   }]);
 
-  return Simple;
+  return Content;
 })(_react2["default"].Component);
 
-module.exports = Simple;
+module.exports = Content;

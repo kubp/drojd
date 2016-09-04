@@ -14,31 +14,82 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var Simple = (function (_React$Component) {
-  _inherits(Simple, _React$Component);
+var _axios = require("axios");
 
-  function Simple(props) {
-    _classCallCheck(this, Simple);
+var _axios2 = _interopRequireDefault(_axios);
 
-    _get(Object.getPrototypeOf(Simple.prototype), "constructor", this).call(this, props);
+var _marked = require("marked");
+
+var _marked2 = _interopRequireDefault(_marked);
+
+var _componentsHead = require("./components/Head");
+
+var _componentsHead2 = _interopRequireDefault(_componentsHead);
+
+var _componentsError404 = require("./components/error404");
+
+var _componentsError4042 = _interopRequireDefault(_componentsError404);
+
+var _componentsContent = require("./components/Content");
+
+var _componentsContent2 = _interopRequireDefault(_componentsContent);
+
+//import config from "./../config.js"
+
+//GENERATED
+//GENERATED
+
+var Main = (function (_React$Component) {
+  _inherits(Main, _React$Component);
+
+  function Main(props) {
+    _classCallCheck(this, Main);
+
+    _get(Object.getPrototypeOf(Main.prototype), "constructor", this).call(this, props);
+    this.getTemplate = this.getTemplate.bind(this);
   }
 
-  _createClass(Simple, [{
+  _createClass(Main, [{
+    key: "getTemplate",
+    value: function getTemplate() {
+      var template = "";
+
+      template = _react2["default"].createElement(_componentsError4042["default"], null);
+
+      //GENERATED
+      //GENERATED
+
+      this.props.data.layout == "Page" ? template = _react2["default"].createElement(_componentsContent2["default"], { data: this.props.data }) : null;
+      this.props.data.layout == "Blog" ? template = _react2["default"].createElement(_componentsContent2["default"], { data: this.props.data }) : null;
+      this.props.data.layout == "BlogSection" ? template = _react2["default"].createElement(_componentsContent2["default"], { data: this.props.data }) : null;
+
+      if (this.props.data.type == "404") {
+        template = _react2["default"].createElement(_componentsError4042["default"], null);
+      }
+
+      return template;
+    }
+  }, {
     key: "render",
     value: function render() {
+
+      var template = this.getTemplate();
       return _react2["default"].createElement(
-        "div",
+        "html",
         null,
+        _react2["default"].createElement(_componentsHead2["default"], { data: this.props.data }),
         _react2["default"].createElement(
-          "h1",
+          "body",
           null,
-          "The page you are looking for does not exist"
+          template,
+          _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: "\n\n\n window._sharedData = " + JSON.stringify(this.props.data) } }),
+          _react2["default"].createElement("script", { src: "/assets/min.js", defer: "defer" })
         )
       );
     }
   }]);
 
-  return Simple;
+  return Main;
 })(_react2["default"].Component);
 
-module.exports = Simple;
+module.exports = Main;

@@ -10,8 +10,8 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _componentsMain = require("./components/Main");
+var _Main = require("./Main");
 
-var _componentsMain2 = _interopRequireDefault(_componentsMain);
+var _Main2 = _interopRequireDefault(_Main);
 
-_reactDom2["default"].render(_react2["default"].createElement(_componentsMain2["default"], { data: window._sharedData }), document);
+_reactDom2["default"].render(_react2["default"].createElement(_Main2["default"], { data: window._sharedData }), document);

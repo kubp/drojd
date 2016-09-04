@@ -40,6 +40,9 @@ async.waterfall([
   },
   function(err, response,body,a,callback){
   var odkazy = err.match(/<a href="((\/[a-z-]+)+|([a-z-]+))"/g)
+  if(!odkazy){
+    odkazy = [];
+  }
 
   for(i=0;i<odkazy.length;i++){
     var o=odkazy[i].match(/"([a-z\-\/]+)"/g)

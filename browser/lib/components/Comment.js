@@ -75,7 +75,6 @@ var Comments = (function (_React$Component) {
     value: function handleChange(evt) {
       var name = evt.target.name;
       this.setState(_defineProperty({}, evt.target.name, evt.target.value));
-      ß;
     }
   }, {
     key: "render",

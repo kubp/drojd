@@ -14,31 +14,41 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var Simple = (function (_React$Component) {
-  _inherits(Simple, _React$Component);
+var Page = (function (_React$Component) {
+  _inherits(Page, _React$Component);
 
-  function Simple(props) {
-    _classCallCheck(this, Simple);
+  function Page(props) {
+    _classCallCheck(this, Page);
 
-    _get(Object.getPrototypeOf(Simple.prototype), "constructor", this).call(this, props);
+    _get(Object.getPrototypeOf(Page.prototype), "constructor", this).call(this, props);
+    this.state = {
+      liked: 0
+    };
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  _createClass(Simple, [{
+  _createClass(Page, [{
+    key: "handleClick",
+    value: function handleClick() {
+      this.setState({ liked: ++this.state.liked });
+    }
+  }, {
     key: "render",
     value: function render() {
       return _react2["default"].createElement(
         "div",
         null,
         _react2["default"].createElement(
-          "h1",
-          null,
-          "The page you are looking for does not exist"
-        )
+          "button",
+          { onClick: this.handleClick },
+          "+1"
+        ),
+        this.state.liked.toString()
       );
     }
   }]);
 
-  return Simple;
+  return Page;
 })(_react2["default"].Component);
 
-module.exports = Simple;
+module.exports = Page;

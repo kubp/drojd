@@ -11,6 +11,8 @@ var Logger = require("./lib/logger")
 app.get(/^\/(?!api(\/|$)).*$/,function(req,res){
   //purgeCache("rekt")
 
+var rekt = require("rekt")
+
 Logger.log(req)
 
 // Check if URL exists
@@ -21,17 +23,17 @@ if(page){
   if(page.type == "blog_section"){
     Page.find({type:"post", section:page.section}).select("-raw_content -md_content").lean().exec().then(function(section) {
       page.posts=section;
-      var content = ReactDOM.renderToString(React.createElement(App, { data: page}));
+      var content = ReactDOM.renderToString(React.createElement(rekt(), { data: page}));
       return res.send("<!DOCTYPE html>"+ content +"")
 
   });
   
   }else{
-    var content = ReactDOM.renderToString(React.createElement(App, { data: page}));
+    var content = ReactDOM.renderToString(React.createElement(rekt(), { data: page}));
     return res.send("<!DOCTYPE html>"+ content +"")
 }
 }else{
-  var content = ReactDOM.renderToString(React.createElement(App, { data: {type:"404"}}));
+  var content = ReactDOM.renderToString(React.createElement(rekt(), { data: {type:"404"}}));
   return res.status(404).send("<!DOCTYPE html>"+ content +"")
 }
 
