@@ -140,8 +140,7 @@ function search(req, res) {
       "$search": req.query.search
     }}, "-visible").exec(function(error, posts) {
     res.json(posts)
-
-    console.log(error)
+    
   })
 }
 

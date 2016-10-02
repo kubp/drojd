@@ -4,7 +4,7 @@ import React from "react";
 import App from "./Main";
 
 
-ReactDOM.render( <App data={window._sharedData}/>
+ReactDOM.render( <App data={window._sharedData} config={window._config}/>
 , document);
   
 

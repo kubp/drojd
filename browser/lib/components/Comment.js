@@ -26,6 +26,8 @@ var _Time2 = _interopRequireDefault(_Time);
 
 var querystring = require('querystring');
 
+var revalidator = require('revalidator');
+
 var Comments = (function (_React$Component) {
   _inherits(Comments, _React$Component);
 
@@ -52,6 +54,45 @@ var Comments = (function (_React$Component) {
     key: "axiosSend",
     value: function axiosSend() {
 
+      var validationData = { author: this.state.comment_name,
+        mail: this.state.comment_mail,
+        content: this.state.comment_content };
+
+      var f = revalidator.validate(validationData, {
+        properties: {
+
+          content: {
+            description: 'asddas',
+            type: 'string',
+            maxLength: 600,
+            required: true,
+            allowEmpty: false
+
+          },
+          author: {
+            description: 'ajajaj',
+            type: 'string',
+            maxLength: 25,
+
+            required: true,
+            allowEmpty: false
+          },
+          mail: {
+            description: 'asddas',
+            type: 'string',
+            format: "email",
+            required: true
+          }
+        }
+      });
+
+      if (!f.valid) {
+        this.setState({ error_msg: f.errors[0].property + " " + f.errors[0].message });
+        return;
+      } else {
+        this.setState({ error_msg: "" });
+      }
+
       var comments = this.state.comments;
       comments.push({
         author: this.state.comment_name,
@@ -68,7 +109,13 @@ var Comments = (function (_React$Component) {
         reply: this.state.reply,
         reply_name: this.state.reply_name
 
-      }))["catch"](function (response) {});
+      })).then((function (response) {}).bind(this))["catch"]((function (response) {}).bind(this));
+
+      this.setState({ comment_name: "",
+        comment_mail: "",
+        comment_content: "",
+        reply: "",
+        reply_name: "" });
     }
   }, {
     key: "handleChange",
@@ -89,12 +136,17 @@ var Comments = (function (_React$Component) {
           "Komentáře"
         ),
         _react2["default"].createElement("textarea", { placeholder: "Leave a comment", name: "comment_content", onChange: this.handleChange, value: this.state.comment_content }),
-        _react2["default"].createElement("input", { placeholder: "Name", name: "comment_name", onChange: this.handleChange }),
-        _react2["default"].createElement("input", { placeholder: "Email", name: "comment_mail", onChange: this.handleChange }),
+        _react2["default"].createElement("input", { placeholder: "Name", name: "comment_name", onChange: this.handleChange, value: this.state.comment_name }),
+        _react2["default"].createElement("input", { placeholder: "Email", name: "comment_mail", onChange: this.handleChange, value: this.state.comment_mail }),
         _react2["default"].createElement(
           "button",
           { onClick: this.axiosSend },
           "Send"
+        ),
+        _react2["default"].createElement(
+          "p",
+          null,
+          this.state.error_msg
         ),
         _react2["default"].createElement(
           "div",

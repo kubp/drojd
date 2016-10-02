@@ -9,7 +9,6 @@ constructor(props){
 }
 
 componentDidReceiveProps(){
-      console.log(this.props.time)
 }
 
 

@@ -1,12 +1,10 @@
-
-
 import React from "react";
 import axios from "axios";
 import marked from "marked";
 import Head from "./components/Head"
 import Error404 from "./components/error404"
 import Content from "./components/Content";
-//import config from "./../config.js"
+
 
 //GENERATED
 //GENERATED 
@@ -40,6 +38,7 @@ if(this.props.data.type == "404"){
     return template;
   }
 
+
   render() {
 
     var template = this.getTemplate()
@@ -50,8 +49,12 @@ if(this.props.data.type == "404"){
             
             {template}
 
-            <script dangerouslySetInnerHTML={{__html: "\n\n\n window._sharedData = "+JSON.stringify(this.props.data)}} />
-            <script src="/assets/min.js" defer="defer"></script>
+            <script dangerouslySetInnerHTML = {
+              {__html: "\n window._sharedData = "+safeStringify(this.props.data)+
+              "\nwindow._config ="+ JSON.stringify(this.props.config)}
+            } />
+            
+            <script src={this.props.config.js_src} defer="defer"></script>
 
           </body>
         </html>
@@ -62,6 +65,8 @@ if(this.props.data.type == "404"){
 
 }
 
-
+function safeStringify(obj) {
+  return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--')
+}
 
 module.exports=Main;

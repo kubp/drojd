@@ -34,8 +34,6 @@ var _componentsContent = require("./components/Content");
 
 var _componentsContent2 = _interopRequireDefault(_componentsContent);
 
-//import config from "./../config.js"
-
 //GENERATED
 //GENERATED
 
@@ -82,8 +80,8 @@ var Main = (function (_React$Component) {
           "body",
           null,
           template,
-          _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: "\n\n\n window._sharedData = " + JSON.stringify(this.props.data) } }),
-          _react2["default"].createElement("script", { src: "/assets/min.js", defer: "defer" })
+          _react2["default"].createElement("script", { dangerouslySetInnerHTML: { __html: "\n window._sharedData = " + safeStringify(this.props.data) + "\nwindow._config =" + JSON.stringify(this.props.config) } }),
+          _react2["default"].createElement("script", { src: this.props.config.js_src, defer: "defer" })
         )
       );
     }
@@ -91,5 +89,9 @@ var Main = (function (_React$Component) {
 
   return Main;
 })(_react2["default"].Component);
+
+function safeStringify(obj) {
+  return JSON.stringify(obj).replace(/<\/script/g, '<\\/script').replace(/<!--/g, '<\\!--');
+}
 
 module.exports = Main;

@@ -32,9 +32,7 @@ var Time = (function (_React$Component) {
 
   _createClass(Time, [{
     key: "componentDidReceiveProps",
-    value: function componentDidReceiveProps() {
-      console.log(this.props.time);
-    }
+    value: function componentDidReceiveProps() {}
   }, {
     key: "getFrom",
     value: function getFrom(e) {

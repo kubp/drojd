@@ -98,17 +98,6 @@ makeTemplate(req.body.file, req.body.jsx)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 function reactify(text){
 var list = ["Menu","Content","Page","Post", "BlogList"]
 
@@ -224,36 +213,7 @@ fs.writeFile(__dirname + '/../../browser/src/Main.js', file_content, function (e
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function move(req, res){
-  var decache = require('decache');
-decache('rekt');
 
   purgeCache("rekt")
 var exec = require('child_process').exec;
@@ -298,7 +258,7 @@ webpack({
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loaders: ['babel-loader?experimental', "strip-loader?strip[]=debug,strip[]=console.log,strip[]=console.warn"], exclude: /node_modules/ }
+      { test: /\.jsx?$/, loaders: ['babel-loader?experimental'], exclude: /node_modules/ }
     ]
   }
 }

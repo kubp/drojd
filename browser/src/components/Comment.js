@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 var querystring = require('querystring');
 import Time from "./Time"
+var revalidator = require('revalidator');
 
 class Comments extends React.Component {
 constructor(props){
@@ -27,6 +28,47 @@ reply(id, name){
 
 
   axiosSend(){
+     
+      var validationData = { author: this.state.comment_name,
+                             mail: this.state.comment_mail,
+                             content: this.state.comment_content}
+
+      var f = revalidator.validate(validationData, {
+      properties: {
+        
+         content: {
+          description: 'asddas',
+            type: 'string',
+             maxLength: 600,
+            required: true,
+            allowEmpty: false
+            
+        },
+        author: {
+          description: 'ajajaj',
+            type: 'string',
+            maxLength: 25,
+    
+          required: true,
+          allowEmpty: false
+        },
+        mail: {
+          description: 'asddas',
+            type: 'string',
+            format: "email",
+            required: true,
+        }
+      }
+    });
+
+      
+      if(!f.valid){
+        this.setState({error_msg: f.errors[0].property +" "+ f.errors[0].message})
+        return;
+      }else{
+        this.setState({error_msg:""})
+      }
+
 
     var comments = this.state.comments
     comments.push({
@@ -48,9 +90,19 @@ reply(id, name){
       reply_name: this.state.reply_name
 
 
-    })).catch(function (response) {
-    });
+    })).then(function (response) {
+    
+     
+
+  }.bind(this)).catch(function (response) {
+    
+    }.bind(this));
   
+  this.setState({comment_name:"",
+                comment_mail:"",
+                comment_content:"",
+                reply:"",
+                reply_name:""})
   }
 
 
@@ -68,9 +120,10 @@ reply(id, name){
         <div className="comment" id="comment">
           <h3>Komentáře</h3>
           <textarea placeholder="Leave a comment" name="comment_content" onChange={this.handleChange} value={this.state.comment_content}></textarea>
-          <input placeholder="Name" name="comment_name" onChange={this.handleChange}/>
-          <input placeholder="Email" name="comment_mail" onChange={this.handleChange}/>
+          <input placeholder="Name" name="comment_name" onChange={this.handleChange} value={this.state.comment_name}/>
+          <input placeholder="Email" name="comment_mail" onChange={this.handleChange} value={this.state.comment_mail}/>
           <button onClick={this.axiosSend}>Send</button>
+          <p>{this.state.error_msg}</p>
 
            <div className="comments">
               {this.state.comments.map(function(result,i) {

@@ -26,7 +26,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loaders: ['babel-loader?experimental', "strip-loader?strip[]=debug,strip[]=console.log,strip[]=console.warn"], exclude: /node_modules/ }
+      { test: /\.jsx?$/, loaders: ['babel-loader?experimental'], exclude: /node_modules/ }
     ]
   }
 }

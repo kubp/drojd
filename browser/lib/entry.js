@@ -14,4 +14,4 @@ var _Main = require("./Main");
 
 var _Main2 = _interopRequireDefault(_Main);
 
-_reactDom2["default"].render(_react2["default"].createElement(_Main2["default"], { data: window._sharedData }), document);
+_reactDom2["default"].render(_react2["default"].createElement(_Main2["default"], { data: window._sharedData, config: window._config }), document);

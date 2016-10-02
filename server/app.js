@@ -15,6 +15,7 @@ Cache = require("./cache.js")
 * Database connection
 */
 mongoose = require('mongoose')
+mongoose.Promise = global.Promise;
 mongoose.connect(config.db);
 
 cache = require("./lib/cache")
@@ -99,12 +100,7 @@ router = new routes(app);
 var Filer = require("./lib/filer.js");
 filer = new Filer(app);
 
-if (process.argv.indexOf("template")!= -1) {
-  var client = require("./client-template.js");
-}else{
-  var client = require("./client.js");
-}
-
+ var client = require("./client.js");
 client = new client(app);
 
 
@@ -143,10 +139,15 @@ app.use(function(err, req, res, next) {
     });
   } else {
     console.log('\x1b[31m', err.stack, '\x1b[32m', fullUrl, '\x1b[0m');
+    
+    if(req.originalUrl.split("/")[1]=="api"){
+      res.status(500).json({status: 500, message: "Internal server error", error: errweb});
+    }else{
+      res.send("<pre>"+ errweb+"</pre>")
+    }
   }
 
 
-  res.status(500).json({status: 500, message: "Internal server error", error: errweb});
 });
 
 
